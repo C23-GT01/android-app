@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.rememberNavController
 import academy.bangkit.trackmate.navigation.Screen
+import android.util.Log
 
 @Composable
 fun ScreenB(navController: NavController) {
@@ -44,11 +45,11 @@ fun ScreenB(navController: NavController) {
             }
             Button(
                 onClick = {
-                    navController.navigate(Screen.App.A.route)
+                    Log.d("Button", "Clicked")
                 },
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
-                Text(text = "Screen A")
+                Text(text = "Log Button")
             }
         }
     }

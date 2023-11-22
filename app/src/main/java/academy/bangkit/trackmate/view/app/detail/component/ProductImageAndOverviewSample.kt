@@ -1,6 +1,7 @@
 package academy.bangkit.trackmate.view.app.detail.component
 
 import academy.bangkit.trackmate.R
+import academy.bangkit.trackmate.data.remote.response.Location
 import academy.bangkit.trackmate.data.remote.response.ProductMaterial
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import androidx.compose.foundation.Image
@@ -56,7 +57,7 @@ fun ProductImageAndOverview(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "Dirrana Necklace",
+            text = title,
             style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 18.sp),
             textAlign = TextAlign.Left,
             modifier = Modifier.fillMaxWidth(0.6f)
@@ -118,23 +119,26 @@ object ProductSample {
         ProductMaterial(
             "Batu Alam",
             "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEimU-cI7ieeLXk0I90RhV_DIZ1TUb5BhFW_0Z2F2bbdtLtw_tLAIFX2l8-J1HhQZTAm6MbprbG0rVKR7vv8puEL-tcIl3_dKx438-JSRl_MVvSsRbY-K9YFujBwIAz3W6pMWLQdgkD1ehLbfdwe5wJfoV0lRspJu1Ukwrz-kCZ58x2vWkFV1GzBuHolnUM/s1600/Rectangle%2011%281%29.png",
-            "Pacitan, Jawa Timur"
+            Location(0.0,0.0,""),
+            ""
         ),
         ProductMaterial(
             "Mutiara",
             "https://lzd-img-global.slatic.net/g/p/f69e3cec597835b6e3d08e0abff7cfa5.jpg_720x720q80.jpg",
-            "Sleman, Yogyakarta"
+            Location(0.0,0.0,""),
+            ""
         ),
         ProductMaterial(
             "Manik-manik",
             "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjbm6ROwsg-1uy1sPiFrdWk9kN9mhIcORdGYBAmczx41kJIIULnOUIOgWGV6NPou33K8nI6QGlAXzG_MhwqpU-AkHCRCFWMx_kluytZM9yKtkh7clx_ZU-jRKZZtQE1MFLrGXTr8dIIhH_ujPT1gbPpOsOVuKhIsPaSJmGYov_azZQKinCo2hid3Sk0jjo/s840/Zarla-bead-logos-3999x2999-20230523.jpeg",
-            "Bandung, Jawa Barat",
-            "Sukamundur"
+            Location(0.0,0.0,""),
+            ""
         ),
         ProductMaterial(
             "Lorem Ipsum",
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYZrJAWoX8O2kJ_G5ZMa285VciX8rXIcGSJg5Tkssn&s",
-            "Surabaya, Jawa Timur"
+            Location(0.0,0.0,""),
+            ""
         ),
     )
 }
