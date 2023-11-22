@@ -33,10 +33,12 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import academy.bangkit.trackmate.data.remote.response.ProductMaterial
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
+import academy.bangkit.trackmate.view.TrackMateLocation
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -65,17 +67,16 @@ fun ProductMaterialDetail(productMaterial: List<ProductMaterial>) {
                     ModalBottomSheet(onDismissRequest = { isCardClicked = !isCardClicked }) {
                         Column {
                             Text(
-                                text = item.material,
+                                text = item.name,
                                 fontWeight = FontWeight.SemiBold,
                                 modifier = Modifier.align(Alignment.CenterHorizontally),
                             )
-
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(start = 16.dp),
                             ) {
-                                if (item.manufacturer != null) {
+                                if (item.productBy != null) {
                                     Icon(
                                         imageVector = Icons.Default.ShoppingCart,
                                         contentDescription = "Location",
@@ -84,16 +85,19 @@ fun ProductMaterialDetail(productMaterial: List<ProductMaterial>) {
                                             .width(16.dp)
                                     )
                                     Text(
-                                        text = item.manufacturer,
+                                        text = item.productBy,
                                         modifier = Modifier.padding(start = 1.dp)
                                     )
                                 }
                             }
-
+                            val context = LocalContext.current
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(start = 16.dp, bottom = 8.dp),
+                                    .padding(start = 16.dp, bottom = 8.dp)
+                                    .clickable {
+                                        TrackMateLocation.sendToMapsActivity(context, item.location)
+                                    },
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.LocationOn,
@@ -104,7 +108,7 @@ fun ProductMaterialDetail(productMaterial: List<ProductMaterial>) {
                                         .align(Alignment.CenterVertically)
                                 )
                                 Text(
-                                    text = item.location,
+                                    text = item.location.name,
                                     modifier = Modifier
                                         .padding(start = 1.dp)
                                         .align(Alignment.CenterVertically)
@@ -112,7 +116,7 @@ fun ProductMaterialDetail(productMaterial: List<ProductMaterial>) {
                             }
                             AsyncImage(
                                 contentScale = ContentScale.FillBounds,
-                                model = item.picture,
+                                model = item.image,
                                 contentDescription = "Translated description of what the image contains",
                                 modifier = Modifier
                                     .width(150.dp)
@@ -121,7 +125,7 @@ fun ProductMaterialDetail(productMaterial: List<ProductMaterial>) {
                                     .align(Alignment.CenterHorizontally)
                             )
                             Text(
-                                text = "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                                text = item.description,
                                 modifier = Modifier.padding(
                                     start = 16.dp,
                                     end = 16.dp,
@@ -137,7 +141,7 @@ fun ProductMaterialDetail(productMaterial: List<ProductMaterial>) {
                 }
                 AsyncImage(
                     contentScale = ContentScale.Crop,
-                    model = item.picture,
+                    model = item.image,
                     contentDescription = "Translated description of what the image contains",
                     modifier = Modifier
                         .fillMaxWidth()
@@ -153,7 +157,7 @@ fun ProductMaterialDetail(productMaterial: List<ProductMaterial>) {
                     )
                 ) {
                     Text(
-                        text = item.material,
+                        text = item.name,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 12.sp,
                         lineHeight = 16.sp,
@@ -161,7 +165,7 @@ fun ProductMaterialDetail(productMaterial: List<ProductMaterial>) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                     ) {
-                        if (item.manufacturer != null) {
+                        if (item.productBy != null) {
                             Icon(
                                 imageVector = Icons.Default.ShoppingCart,
                                 contentDescription = "Location",
@@ -170,7 +174,7 @@ fun ProductMaterialDetail(productMaterial: List<ProductMaterial>) {
                                     .width(8.dp)
                             )
                             Text(
-                                text = item.manufacturer,
+                                text = item.productBy,
                                 fontSize = 10.sp,
                                 lineHeight = 10.sp,
                                 modifier = Modifier.padding(start = 1.dp)
@@ -189,7 +193,7 @@ fun ProductMaterialDetail(productMaterial: List<ProductMaterial>) {
                                 .width(8.dp)
                         )
                         Text(
-                            text = item.location,
+                            text = item.location.name,
                             fontSize = 10.sp,
                             lineHeight = 10.sp,
                             modifier = Modifier.padding(start = 1.dp)
