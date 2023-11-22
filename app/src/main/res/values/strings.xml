@@ -10,4 +10,6 @@
     <string name="show_password">Show Password</string>
     <string name="register">Register</string>
     <string name="go_to_Login">Already have an account? Login</string>
+    <string name="login">Login</string>
+    <string name="forgot_your_password">Forgot Your Password?</string>
 </resources>

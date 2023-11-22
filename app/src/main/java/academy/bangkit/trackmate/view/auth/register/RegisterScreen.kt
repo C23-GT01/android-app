@@ -44,14 +44,17 @@ fun RegisterScreen(navController: NavController) {
                 labelValue = stringResource(id = R.string.first_name),
                 painterResource = painterResource(R.drawable.baseline_person_outline_24)
             )
+            Spacer(modifier = Modifier.height(10.dp))
             TextFieldComponent(
                 labelValue = stringResource(id = R.string.last_name),
                 painterResource = painterResource(R.drawable.baseline_person_outline_24)
             )
+            Spacer(modifier = Modifier.height(10.dp))
             TextFieldComponent(
                 labelValue = stringResource(id = R.string.email),
                 painterResource = painterResource(R.drawable.baseline_email_24)
             )
+            Spacer(modifier = Modifier.height(10.dp))
             PasswordTextFieldComponent(
                 labelValue = stringResource(id = R.string.password),
                 painterResource = painterResource(id = R.drawable.baseline_lock_24)
@@ -59,8 +62,10 @@ fun RegisterScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(68.dp))
             ButtonComponent(value = stringResource(id = R.string.register))
 
-            Spacer(modifier = Modifier.height(270.dp))
-            ClickableLoginTextComponent(onTextSelected = {
+            Spacer(modifier = Modifier.height(250.dp))
+            ClickableLoginTextComponent(
+                onTextSelected =
+                {
 
             })
         }

@@ -46,6 +46,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -72,8 +73,7 @@ fun HeadingTextComponent(value: String) {
     Text(
         text = value,
         modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(),
+            .fillMaxWidth(),
         style = TextStyle(
             fontSize = 30.sp,
             fontWeight = FontWeight.Bold,
@@ -229,6 +229,22 @@ fun ClickableLoginTextComponent(onTextSelected: (String) -> Unit) {
                 }
             }
     })
+}
+
+@Composable
+fun UnderlinedTextComponent(value: String) {
+    Text(
+        text = value,
+        modifier = Modifier
+            .fillMaxWidth(),
+        style = TextStyle(
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Normal,
+            fontStyle = FontStyle.Normal
+        ), color = Color.Gray,
+        textAlign = TextAlign.Right,
+        textDecoration = TextDecoration.Underline
+    )
 }
 
 @Composable
