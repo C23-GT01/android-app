@@ -170,9 +170,9 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter) {
 }
 
 @Composable
-fun ButtonComponent(value: String) {
+fun ButtonComponent(value: String, action: ()->Unit) {
     Button(
-        onClick = { /*TODO*/ },
+        onClick = action,
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(48.dp),

@@ -1,6 +1,7 @@
 package academy.bangkit.trackmate.view.auth.login
 
 import academy.bangkit.trackmate.R
+import academy.bangkit.trackmate.data.pref.UserModel
 import academy.bangkit.trackmate.di.Injection
 import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.view.ViewModelFactory
@@ -62,7 +63,23 @@ fun LoginScreen(
             UnderlinedTextComponent(value = stringResource(id = R.string.forgot_your_password))
 
             Spacer(modifier = Modifier.height(50.dp))
-            ButtonComponent(value = stringResource(id = R.string.login))
+            ButtonComponent(
+                value = stringResource(id = R.string.login),
+                action = {
+                    viewModel.saveSession(
+                        UserModel(
+                            email = "abdullahfikrihandi@gmail.com",
+                            token = "tokenSampleYeah",
+                            isLogin = true
+                        )
+                    )
+                    navController.navigate(Screen.App.route) {
+                        popUpTo(Screen.Auth.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
 
             Spacer(modifier = Modifier.height(300.dp))
             ClickableLoginTextComponent(tryingToLogin = false, onTextSelected = {

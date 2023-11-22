@@ -8,6 +8,7 @@ import academy.bangkit.trackmate.view.auth.components.HeadingTextComponent
 import academy.bangkit.trackmate.view.auth.components.NormalTextComponent
 import academy.bangkit.trackmate.view.auth.components.PasswordTextFieldComponent
 import academy.bangkit.trackmate.view.auth.components.TextFieldComponent
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -61,14 +62,19 @@ fun RegisterScreen(navController: NavController) {
                 painterResource = painterResource(id = R.drawable.baseline_lock_24)
             )
             Spacer(modifier = Modifier.height(68.dp))
-            ButtonComponent(value = stringResource(id = R.string.register))
+            ButtonComponent(
+                value = stringResource(id = R.string.register),
+                action = {
+                    Log.d("Register", "Clicked")
+                }
+            )
 
             Spacer(modifier = Modifier.height(150.dp))
             ClickableLoginTextComponent(
                 onTextSelected =
                 {
                     navController.navigate(Screen.Auth.Login.route)
-            })
+                })
         }
     }
 }
