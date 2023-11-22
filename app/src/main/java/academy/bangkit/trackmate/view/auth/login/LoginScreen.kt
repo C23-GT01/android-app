@@ -4,6 +4,7 @@ import academy.bangkit.trackmate.R
 import academy.bangkit.trackmate.data.pref.UserModel
 import academy.bangkit.trackmate.di.Injection
 import academy.bangkit.trackmate.navigation.Screen
+import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import academy.bangkit.trackmate.view.ViewModelFactory
 import academy.bangkit.trackmate.view.auth.components.ButtonComponent
 import academy.bangkit.trackmate.view.auth.components.ClickableLoginTextComponent
@@ -92,14 +93,18 @@ fun LoginScreen(
 @Preview
 @Composable
 fun LoginScreenPrev() {
-    LoginScreen(
-        navController = rememberNavController(),
-        viewModel(
-            factory = ViewModelFactory(
-                Injection.provideUserRepository(
-                    LocalContext.current
+    TrackMateTheme {
+        Surface {
+            LoginScreen(
+                navController = rememberNavController(),
+                viewModel(
+                    factory = ViewModelFactory(
+                        Injection.provideUserRepository(
+                            LocalContext.current
+                        )
+                    )
                 )
             )
-        )
-    )
+        }
+    }
 }
