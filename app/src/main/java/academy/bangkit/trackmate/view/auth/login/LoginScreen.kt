@@ -2,8 +2,10 @@ package academy.bangkit.trackmate.view.auth.login
 
 import academy.bangkit.trackmate.R
 import academy.bangkit.trackmate.di.Injection
+import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.view.ViewModelFactory
 import academy.bangkit.trackmate.view.auth.components.ButtonComponent
+import academy.bangkit.trackmate.view.auth.components.ClickableLoginTextComponent
 import academy.bangkit.trackmate.view.auth.components.HeadingTextComponent
 import academy.bangkit.trackmate.view.auth.components.NormalTextComponent
 import academy.bangkit.trackmate.view.auth.components.PasswordTextFieldComponent
@@ -58,8 +60,14 @@ fun LoginScreen(
             )
             Spacer(modifier = Modifier.height(2.dp))
             UnderlinedTextComponent(value = stringResource(id = R.string.forgot_your_password))
+
             Spacer(modifier = Modifier.height(50.dp))
             ButtonComponent(value = stringResource(id = R.string.login))
+
+            Spacer(modifier = Modifier.height(300.dp))
+            ClickableLoginTextComponent(tryingToLogin = false, onTextSelected = {
+                navController.navigate(Screen.Auth.Register.route)
+            })
         }
     }
 }

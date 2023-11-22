@@ -1,6 +1,7 @@
 package academy.bangkit.trackmate.view.auth.register
 
 import academy.bangkit.trackmate.R
+import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.view.auth.components.ButtonComponent
 import academy.bangkit.trackmate.view.auth.components.ClickableLoginTextComponent
 import academy.bangkit.trackmate.view.auth.components.HeadingTextComponent
@@ -62,11 +63,11 @@ fun RegisterScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(68.dp))
             ButtonComponent(value = stringResource(id = R.string.register))
 
-            Spacer(modifier = Modifier.height(250.dp))
+            Spacer(modifier = Modifier.height(150.dp))
             ClickableLoginTextComponent(
                 onTextSelected =
                 {
-
+                    navController.navigate(Screen.Auth.Login.route)
             })
         }
     }

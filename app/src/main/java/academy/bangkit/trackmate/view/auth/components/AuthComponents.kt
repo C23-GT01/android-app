@@ -199,9 +199,9 @@ fun ButtonComponent(value: String) {
 }
 
 @Composable
-fun ClickableLoginTextComponent(onTextSelected: (String) -> Unit) {
-    val initialText = "Already have an account? "
-    val loginText = "Login"
+fun ClickableLoginTextComponent(tryingToLogin: Boolean = true, onTextSelected: (String) -> Unit) {
+    val initialText = if (tryingToLogin) "Already have an account? " else "Don't have an account yet? "
+    val loginText = if (tryingToLogin) "Login" else "Register"
 
     val annotatedString = buildAnnotatedString {
         append(initialText)
@@ -213,8 +213,7 @@ fun ClickableLoginTextComponent(onTextSelected: (String) -> Unit) {
 
     ClickableText(
         modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 40.dp),
+            .fillMaxWidth(),
         style = TextStyle(
             fontSize = 18.sp,
             fontWeight = FontWeight.Normal,
@@ -243,7 +242,7 @@ fun UnderlinedTextComponent(value: String) {
             fontStyle = FontStyle.Normal
         ), color = Color.Gray,
         textAlign = TextAlign.Right,
-        textDecoration = TextDecoration.Underline
+        textDecoration = TextDecoration.Underline,
     )
 }
 
