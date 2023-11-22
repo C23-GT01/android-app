@@ -25,7 +25,6 @@ import academy.bangkit.trackmate.view.auth.forgetpassword.ForgetPasswordScreen
 import academy.bangkit.trackmate.view.auth.login.LoginScreen
 import academy.bangkit.trackmate.view.auth.register.RegisterScreen
 import academy.bangkit.trackmate.view.app.home.HomeScreen
-import academy.bangkit.trackmate.view.app.ScreenA
 import academy.bangkit.trackmate.view.app.ScreenB
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -82,7 +81,6 @@ private fun TopBar(navController: NavHostController) {
 
     TopAppBar(
         title = {
-
             val title = when (currentRoute) {
                 Screen.App.Home.route -> "Halo Tracker!"
                 Screen.App.Scanner.route -> "Scan"
@@ -196,10 +194,6 @@ fun Host(
                     )
                 )
                 HomeScreen(navController, viewModel)
-            }
-
-            composable(route = Screen.App.A.route) {
-                ScreenA(navController)
             }
 
             composable(route = Screen.App.B.route) {

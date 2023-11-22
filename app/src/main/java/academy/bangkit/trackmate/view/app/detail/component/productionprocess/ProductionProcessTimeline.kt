@@ -43,7 +43,7 @@ data class LineParameters(
 
 @Composable
 fun TimelineNode(
-    lineParameters: LineParameters? = LineParameters(4.dp),
+    lineParameters: LineParameters? = null, //LineParameters(4.dp)
     circleParameters: CircleParameters = CircleParameters(5.dp, Purple80),
     position: TimelineNodePosition,
     contentStartOffset: Dp = 16.dp,
@@ -86,7 +86,7 @@ fun TimelineNode(
 }
 
 @Composable
-fun CardItem(title: String, imageUrl:String, modifier: Modifier) {
+fun CardItem(title: String, desc: String, imageUrl: String, modifier: Modifier) {
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -109,7 +109,7 @@ fun CardItem(title: String, imageUrl:String, modifier: Modifier) {
                     modifier = Modifier.padding(start = 8.dp, end = 8.dp)
                 )
                 Text(
-                    text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took.",
+                    text = desc,
                     fontWeight = FontWeight.Light,
                     modifier = Modifier.padding(start = 8.dp, end = 8.dp)
                 )

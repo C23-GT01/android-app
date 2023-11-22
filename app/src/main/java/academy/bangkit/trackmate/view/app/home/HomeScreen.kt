@@ -15,6 +15,9 @@ import androidx.navigation.NavController
 import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import academy.bangkit.trackmate.view.ViewModelFactory
+import academy.bangkit.trackmate.view.MapsActivity
+import academy.bangkit.trackmate.view.TrackMateLocation
+import android.content.Intent
 import androidx.compose.material3.Surface
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -29,6 +32,13 @@ fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
+        val context = LocalContext.current
+        val intentToMapsActivity = Intent(context, MapsActivity::class.java)
+        intentToMapsActivity
+            .putExtra(TrackMateLocation.LAT, -7.81374500)
+            .putExtra(TrackMateLocation.LON, 110.92389600)
+            .putExtra(TrackMateLocation.LOC_NAME, "Wonogiri")
+
         Column(
             modifier = Modifier
                 .align(Alignment.Center)
@@ -65,11 +75,11 @@ fun HomeScreen(
             }
             Button(
                 onClick = {
-                    navController.navigate(Screen.App.A.route)
+                    context.startActivity(intentToMapsActivity)
                 },
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
-                Text(text = "Screen A")
+                Text(text = "Map Sample")
             }
             Button(
                 onClick = {

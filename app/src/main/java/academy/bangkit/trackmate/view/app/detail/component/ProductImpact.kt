@@ -1,5 +1,6 @@
 package academy.bangkit.trackmate.view.app.detail.component
 
+import academy.bangkit.trackmate.data.remote.response.ImpactItem
 import academy.bangkit.trackmate.data.remote.response.ProductImpactOverview
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import androidx.compose.foundation.background
@@ -30,31 +31,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
 @Composable
-fun ProductImpactAndOverview() {
-    Title(title = "Impact")
-
-    val productImpactList = listOf(
-        academy.bangkit.trackmate.data.remote.response.ProductImpact(
-            picture = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh1ugwyLH-fzqmxoV8z6knguIiIv2_9DOS21pYXtsQw6NwXHILoIrZPp0XiYVBkcEY-NxqkZxSpZ2EpHuVTOtXTVW2IxQ8CLMvCax5doVB0N7Bm_YOrknlJykBD3gDTK9J44v5BgSMEy9Y2ZvFblPbY-wbsouJNRCowVNnJUULA7ML09-9cUii6js-_vfY/s1600/Banner.png",
-            description = "All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary"
-        ),
-        academy.bangkit.trackmate.data.remote.response.ProductImpact(
-            picture = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhh9-AUwPP1In39KxBwxF0__z3l68oOKncV8QOKtugv3H9HiNWa9ZHWUtY3a_BYD3HJl-2MQIeIwekf2TRfgfD46dBHEjzkIxLaX3_yHTQ4YW9wKL8xUxulIY6A7u9hV5W7EE7HvwI2mm8AACBtTLQ65VqyTDb79gemZhZ2YkwyGV-_UkCsVZqvaioYfqQ/s1600/Rectangle%2011%285%29.png",
-            description = "Making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable."
-        ),
-        academy.bangkit.trackmate.data.remote.response.ProductImpact(
-            picture = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgEN5Haa4bgF8YFRMBINc47wJHHmQKwLe3xrq4HKMVd_V2TRmngOZNlSkTy7L4saZA598XuiKdEEEDSnpruZTJEUUvXh-v1RF6acxyhn-D6JvJ_Z6pV-EfiA9CN-p3bQZ4njPAIDZlVQ_4w1O2EgfXZIX6-DqaDqYOEJ8ZdwQc_Phzdcq0lzguqzpMLgp8/s1600/Rectangle%2011%286%29.png",
-            description = "The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc"
-        ),
-        academy.bangkit.trackmate.data.remote.response.ProductImpact(
-            picture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYZrJAWoX8O2kJ_G5ZMa285VciX8rXIcGSJg5Tkssn&s",
-            description = "The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested"
-        ),
-        academy.bangkit.trackmate.data.remote.response.ProductImpact(
-            picture = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYZrJAWoX8O2kJ_G5ZMa285VciX8rXIcGSJg5Tkssn&s",
-            description = "The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested"
-        )
-    )
+fun ProductImpactAndOverview(productImpact: List<ImpactItem>) {
+    Title(title = "Product Impact")
 
     Row(
         modifier = Modifier
@@ -62,7 +40,7 @@ fun ProductImpactAndOverview() {
             .horizontalScroll(rememberScrollState())
             .padding(start = 16.dp, top = 16.dp),
     ) {
-        productImpactList.forEach { item ->
+        productImpact.forEach { item ->
             Card(
                 modifier = Modifier
                     .width(190.dp)
@@ -71,22 +49,31 @@ fun ProductImpactAndOverview() {
                 Column {
                     AsyncImage(
                         contentScale = ContentScale.Crop,
-                        model = item.picture,
+                        model = item.image,
                         contentDescription = "Translated description of what the image contains",
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(130.dp)
                             .background(Color.DarkGray)
                     )
-                    Text(
-                        text = item.description,
-                        modifier = Modifier.padding(top = 4.dp, bottom = 4.dp, start = 6.dp)
-                    )
+                    Column {
+                        Text(
+                            text = item.title,
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.padding(top = 4.dp, start = 6.dp)
+                        )
+                        Text(
+                            text = item.description,
+                            modifier = Modifier.padding(top = 4.dp, bottom = 4.dp, start = 6.dp)
+                        )
+                    }
                 }
             }
         }
     }
     Divider()
+
+    //overview
     Text(
         text = "Dengan membeli produk ini Anda telah...",
         fontWeight = FontWeight.SemiBold,
@@ -126,7 +113,7 @@ fun ProductWellBeingPreview() {
         Surface {
             LazyColumn {
                 item {
-                    ProductImpactAndOverview()
+//                    ProductImpactAndOverview()
                 }
             }
         }
