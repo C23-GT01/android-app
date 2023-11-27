@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">TrackMate</string>
+    <string name="trackmate">TrackMate</string>
+    <string name="create_account">Create An Account</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="hide_password">Hide Password</string>
+    <string name="show_password">Show Password</string>
+    <string name="register">Register</string>
+    <string name="go_to_Login">Already have an account? Login</string>
+    <string name="login">Login</string>
+    <string name="forgot_your_password">Forgot Your Password?</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>

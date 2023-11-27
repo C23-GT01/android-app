@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import academy.bangkit.trackmate.view.app.home.HomeViewModel
 import academy.bangkit.trackmate.view.auth.login.LoginViewModel
 import academy.bangkit.trackmate.data.UserRepository
+import academy.bangkit.trackmate.data.remote.repository.ProductRepository
 import academy.bangkit.trackmate.navigation.TrackMateAppViewModel
 import academy.bangkit.trackmate.view.app.detail.ProductViewModel
 
@@ -19,7 +20,7 @@ class ViewModelFactory(private val repository: UserRepository) :
         } else if (modelClass.isAssignableFrom(TrackMateAppViewModel::class.java)) {
             return TrackMateAppViewModel(repository) as T
         } else if (modelClass.isAssignableFrom(ProductViewModel::class.java)) {
-            return ProductViewModel() as T
+            return ProductViewModel(repository = ProductRepository()) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }
