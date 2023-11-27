@@ -49,6 +49,8 @@ import androidx.compose.ui.res.vectorResource
 fun TrackMateApp(viewModel: TrackMateAppViewModel) {
 
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
     viewModel.getSession().observeAsState().value?.let {
         if (!it.isLogin) {
@@ -60,7 +62,9 @@ fun TrackMateApp(viewModel: TrackMateAppViewModel) {
             // TODO: kalo user udah login arahkan ke aplikasi utama langsung
             Scaffold(
                 topBar = {
-                    TopBar(navController)
+                    if (currentRoute != Screen.App.Account.route) {
+                        TopBar(navController)
+                    }
                 },
                 bottomBar = {
                     BottomBar(navController)
