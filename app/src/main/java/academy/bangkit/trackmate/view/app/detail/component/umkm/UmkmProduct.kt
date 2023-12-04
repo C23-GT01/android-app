@@ -1,39 +1,33 @@
 package academy.bangkit.trackmate.view.app.detail.component.umkm
 
 import academy.bangkit.trackmate.R
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
+import academy.bangkit.trackmate.view.app.detail.component.Title
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clipToBounds
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.*
-import androidx.compose.ui.platform.*
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.*
-import androidx.compose.ui.text.input.*
-import androidx.compose.ui.text.style.*
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.*
+import androidx.compose.ui.unit.dp
 
 data class Product(val name: String, val price: String, val image: Int)
 
@@ -50,9 +44,9 @@ fun ProductCard(product: Product, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier
             .padding(8.dp)
-            .fillMaxWidth()
+            .width(150.dp)
             .height(200.dp)
-            .shadow(elevation = 5.dp, RoundedCornerShape(10.dp))
+            .shadow(elevation = 5.dp, shape = RoundedCornerShape(10.dp))
     ) {
         Column(
             modifier = Modifier
@@ -90,43 +84,24 @@ fun ProductCard(product: Product, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun TwoColumnProductList(products: List<Product>) {
-    val chunkedProducts = products.chunked(2)
+fun UmkmProduct() {
+    Title(title = "Product")
 
-    LazyColumn(
+    LazyRow(
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(16.dp)
+        contentPadding = PaddingValues(10.dp)
     ) {
-        items(chunkedProducts) { rowProducts ->
-            Row(
+        items(productList) { product ->
+            ProductCard(
+                product = product,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp)
-            ) {
-                for (product in rowProducts) {
-                    ProductCard(
-                        product = product,
-                        modifier = Modifier
-                            .weight(1f)
-                    )
-                }
-            }
+                    .padding(end = 16.dp)
+            )
         }
     }
 }
 
-@Composable
-fun UmkmProduct() {
-    MaterialTheme(
-        content = {
-            Surface(
-                color = Color.White
-            ) {
-                TwoColumnProductList(products = productList)
-            }
-        }
-    )
-}
+
 
 @Preview(showBackground = true)
 @Composable

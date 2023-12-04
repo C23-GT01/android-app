@@ -15,9 +15,11 @@ import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmImpactAndOve
 import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmLocation
 import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmProduct
 import academy.bangkit.trackmate.view.app.detail.product.ProductViewModel
+import android.content.ClipData.Item
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import okhttp3.internal.immutableListOf
+import okhttp3.internal.wait
 
 @Composable
 fun UmkmDetailScreen(
@@ -38,15 +41,12 @@ fun UmkmDetailScreen(
     LaunchedEffect(Unit) {
         viewModel.getProductDetail("xxx")
     }
-
-    Surface(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize()
-        ) {
+        item {
             UmkmImageAndName(title = title, imageUrl = imageUrl, description = description)
             Divider()
             UmkmProduct()
