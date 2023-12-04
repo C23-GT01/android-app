@@ -4,23 +4,26 @@ import com.google.gson.annotations.SerializedName
 
 data class ProductDetail(
 
-    @field:SerializedName("product")
-    val product: List<ProductItem>,
+//    @field:SerializedName("product")
+//    val product: List<ProductItem>,
+
+    @field:SerializedName("data")
+    val data: Data,
 
     @field:SerializedName("error")
     val error: Boolean,
 
     @field:SerializedName("message")
-    val message: String
+    val message: String,
+
+    @field:SerializedName("status")
+    val status: String
 )
 
-data class ContributionItem(
+data class Data(
 
-    @field:SerializedName("icon")
-    val icon: Int,
-
-    @field:SerializedName("deskripsi")
-    val description: String
+    @field:SerializedName("product")
+    val product: ProductItem
 )
 
 data class ProductItem(
@@ -29,7 +32,7 @@ data class ProductItem(
     val image: String,
 
     @field:SerializedName("contribution")
-    val contribution: List<ContributionItem>,
+    val contribution: List<Int>,
 
     @field:SerializedName("production")
     val production: List<ProductionItem>,
@@ -57,6 +60,12 @@ data class ProductItem(
 )
 
 data class UMKM(
+
+    @field:SerializedName("id")
+    val id: String,
+
+    @field:SerializedName("logo")
+    val logo: String,
 
     @field:SerializedName("employe")
     val employeeCount: Int,

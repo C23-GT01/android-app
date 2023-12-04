@@ -68,7 +68,7 @@ fun ProductDetailScreen(
                     //product success to display
                     LazyColumn {
                         item {
-                            val product = productDetail.product[0]
+                            val product = productDetail.data.product
 
                             Log.d(
                                 "Location",
@@ -83,7 +83,7 @@ fun ProductDetailScreen(
                             )
                             ProductMaterialDetail(product.resources)
                             ProductionProcess(product.production)
-                            ProductImpactAndOverview(product.impact)
+                            ProductImpactAndOverview(product.impact, product.contribution)
                             ProductBy(
                                 companyName = product.productBy.name,
                                 logoUrl = "https://joglo-ayutenan.com/wp-content/uploads/2021/05/logo-Joglo-Ayu-Tenan-MakerSpace.png",

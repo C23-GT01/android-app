@@ -1,6 +1,7 @@
 package academy.bangkit.trackmate.view.app.detail
 
 import academy.bangkit.trackmate.data.remote.repository.ProductRepository
+import academy.bangkit.trackmate.data.remote.response.Data
 import academy.bangkit.trackmate.data.remote.response.ProductDetail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,7 +24,12 @@ class ProductViewModel(private val repository: ProductRepository) : ViewModel() 
                 val productDetail = repository.getProduct(productId)
                 _product.value = productDetail
             } catch (e: UnknownHostException) {
-                ProductDetail(mutableListOf(), true, "Terjadi masalah dengan koneksi jaringan")
+                ProductDetail(
+                    Data(ProductError.error),
+                    true,
+                    "Terjadi masalah dengan koneksi jaringan",
+                    "unsuccess"
+                )
                 _product.value = productDetailError("Terjadi masalah dengan koneksi jaringan")
             } catch (e: Exception) {
                 _product.value = productDetailError(e.message ?: "Terjadi masalah")
@@ -34,6 +40,6 @@ class ProductViewModel(private val repository: ProductRepository) : ViewModel() 
     }
 
     private fun productDetailError(message: String): ProductDetail {
-        return ProductDetail(mutableListOf(), true, message)
+        return ProductDetail(Data(ProductError.error), true, message, "unsuccess")
     }
 }
