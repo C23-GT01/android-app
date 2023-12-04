@@ -2,7 +2,7 @@ package academy.bangkit.trackmate.view.app.detail
 
 import academy.bangkit.trackmate.data.remote.response.ImpactItem
 import academy.bangkit.trackmate.data.remote.response.Location
-import academy.bangkit.trackmate.data.remote.response.ProductDetail
+import academy.bangkit.trackmate.data.remote.response.DetailResponse
 import academy.bangkit.trackmate.data.remote.response.ProductItem
 import academy.bangkit.trackmate.data.remote.response.ProductMaterial
 import academy.bangkit.trackmate.data.remote.response.ProductionItem
@@ -52,7 +52,7 @@ fun ProductDetailScreen(
     viewModel: ProductViewModel
 ) {
 
-    val productDetailNullable by viewModel.product.observeAsState()
+    val response by viewModel.product.observeAsState()
     val isLoading by viewModel.isLoading.observeAsState(initial = false)
 
     LaunchedEffect(Unit) {
@@ -62,17 +62,17 @@ fun ProductDetailScreen(
     if (isLoading) {
         Box(modifier = Modifier.fillMaxSize()) { Loading() }
     } else {
-        val productDetail: ProductDetail
-        if (productDetailNullable != null) {
+        val detailResponse: DetailResponse
+        if (response != null) {
 
-            productDetail = productDetailNullable as ProductDetail
+            detailResponse = response as DetailResponse
 
-            if (!productDetail.error && productDetail.data != null) {
+            if (!detailResponse.error && detailResponse.data != null) {
 
-                ShowProduct(productDetail.data.product)
+                ShowProduct(detailResponse.data.product)
             } else {
                 //product failed to display
-                ErrorScreen(productDetail.message) {
+                ErrorScreen(detailResponse.message) {
                     viewModel.getProductDetail("xxx")
                 }
             }
@@ -118,7 +118,7 @@ private fun ShowProduct(product: ProductItem) {
 }
 
 @Composable
-private fun ErrorScreen(message: String, action: () -> Unit) {
+fun ErrorScreen(message: String, action: () -> Unit) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier

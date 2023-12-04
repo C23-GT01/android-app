@@ -1,8 +1,9 @@
 package academy.bangkit.trackmate.data.remote.response
 
+import androidx.compose.ui.graphics.vector.ImageVector
 import com.google.gson.annotations.SerializedName
 
-data class ProductDetail(
+data class DetailResponse(
 
     @field:SerializedName("data")
     val data: Data?,
@@ -108,4 +109,27 @@ data class Location(
 
     @field:SerializedName("name")
     val name: String
+)
+
+data class ProductImpactOverview(
+    val icons: ImageVector,
+    val description: String
+)
+
+data class ProductMaterial(
+
+    @field:SerializedName("image")
+    val image: String,
+
+    @field:SerializedName("name")
+    val name: String,
+
+    @field:SerializedName("location")
+    val location: Location,
+
+    @field:SerializedName("deskripsi")
+    val description: String,
+
+    @field:SerializedName("umkm")
+    val productBy: String? = null
 )
