@@ -1,9 +1,24 @@
 package academy.bangkit.trackmate.navigation
 
 import academy.bangkit.trackmate.R
+import academy.bangkit.trackmate.di.Injection
+import academy.bangkit.trackmate.view.ViewModelFactory
+import academy.bangkit.trackmate.view.app.ScreenB
+import academy.bangkit.trackmate.view.app.account.UserAccountScreen
+import academy.bangkit.trackmate.view.app.detail.ProductDetailScreen
+import academy.bangkit.trackmate.view.app.detail.ProductViewModel
+import academy.bangkit.trackmate.view.app.home.HomeScreen
+import academy.bangkit.trackmate.view.app.home.HomeViewModel
+import academy.bangkit.trackmate.view.app.scanner.ScannerScreen
+import academy.bangkit.trackmate.view.auth.forgetpassword.ForgetPasswordScreen
+import academy.bangkit.trackmate.view.auth.login.LoginScreen
+import academy.bangkit.trackmate.view.auth.login.LoginViewModel
+import academy.bangkit.trackmate.view.auth.register.RegisterScreen
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -13,37 +28,22 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
-import androidx.navigation.compose.rememberNavController
-import academy.bangkit.trackmate.di.Injection
-import academy.bangkit.trackmate.view.ViewModelFactory
-import academy.bangkit.trackmate.view.auth.forgetpassword.ForgetPasswordScreen
-import academy.bangkit.trackmate.view.auth.login.LoginScreen
-import academy.bangkit.trackmate.view.auth.register.RegisterScreen
-import academy.bangkit.trackmate.view.app.home.HomeScreen
-import academy.bangkit.trackmate.view.app.ScreenB
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.navigation
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import academy.bangkit.trackmate.view.app.account.UserAccountScreen
-import academy.bangkit.trackmate.view.app.detail.ProductDetailScreen
-import academy.bangkit.trackmate.view.app.detail.ProductViewModel
-import academy.bangkit.trackmate.view.app.home.HomeViewModel
-import academy.bangkit.trackmate.view.app.scanner.ScannerScreen
-import academy.bangkit.trackmate.view.auth.login.LoginViewModel
-import androidx.compose.material.icons.rounded.Home
-import androidx.compose.material.icons.rounded.Person
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 
 @Composable
 fun TrackMateApp(viewModel: TrackMateAppViewModel) {
@@ -62,7 +62,7 @@ fun TrackMateApp(viewModel: TrackMateAppViewModel) {
             // TODO: kalo user udah login arahkan ke aplikasi utama langsung
             Scaffold(
                 topBar = {
-                    if (currentRoute != Screen.App.Account.route) {
+                    if (currentRoute != Screen.App.Home.route) {
                         TopBar(navController)
                     }
                 },

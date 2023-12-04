@@ -148,7 +148,7 @@ private fun ErrorScreen(message: String, action: () -> Unit) {
     }
 }
 
-private fun formatToRupiah(amount: Int): String {
+fun formatToRupiah(amount: Int): String {
     val formatter = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
     if (formatter is DecimalFormat) {
         formatter.applyPattern("'Rp'#,##0")
