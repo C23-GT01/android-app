@@ -7,7 +7,7 @@ import academy.bangkit.trackmate.view.auth.login.LoginViewModel
 import academy.bangkit.trackmate.data.UserRepository
 import academy.bangkit.trackmate.data.remote.repository.ProductRepository
 import academy.bangkit.trackmate.navigation.TrackMateAppViewModel
-import academy.bangkit.trackmate.view.app.detail.ProductViewModel
+import academy.bangkit.trackmate.view.app.detail.product.ProductViewModel
 
 class ViewModelFactory(private val repository: UserRepository) :
     ViewModelProvider.NewInstanceFactory() {

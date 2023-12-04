@@ -1,8 +1,9 @@
-package academy.bangkit.trackmate.view.app.detail.component
+package academy.bangkit.trackmate.view.app.detail.component.product
 
 import academy.bangkit.trackmate.data.remote.response.Location
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import academy.bangkit.trackmate.view.TrackMateLocation
+import academy.bangkit.trackmate.view.app.detail.component.Title
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -35,7 +36,8 @@ fun ProductBy(
     logoUrl: String,
     employeeCount: Int,
     locationName: String,
-    latLng: LatLng
+    latLng: LatLng,
+    onClick: () -> Unit
 ) {
     Title("Produsen")
     Row(
@@ -43,6 +45,7 @@ fun ProductBy(
             .padding(start = 16.dp, top = 16.dp, bottom = 16.dp)
             .clickable {
                 Log.d("Click", "Move to Detail UMKM")
+                onClick()
             }
     ) {
         AsyncImage(

@@ -1,4 +1,4 @@
-package academy.bangkit.trackmate.view.app.detail
+package academy.bangkit.trackmate.view.app.detail.product
 
 import academy.bangkit.trackmate.data.remote.response.ImpactItem
 import academy.bangkit.trackmate.data.remote.response.Location
@@ -7,11 +7,12 @@ import academy.bangkit.trackmate.data.remote.response.ProductItem
 import academy.bangkit.trackmate.data.remote.response.ProductMaterial
 import academy.bangkit.trackmate.data.remote.response.ProductionItem
 import academy.bangkit.trackmate.data.remote.response.UMKM
+import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
-import academy.bangkit.trackmate.view.app.detail.component.ProductBy
-import academy.bangkit.trackmate.view.app.detail.component.ProductImageAndOverview
-import academy.bangkit.trackmate.view.app.detail.component.ProductImpactAndOverview
-import academy.bangkit.trackmate.view.app.detail.component.ProductMaterialDetail
+import academy.bangkit.trackmate.view.app.detail.component.product.ProductBy
+import academy.bangkit.trackmate.view.app.detail.component.product.ProductImageAndOverview
+import academy.bangkit.trackmate.view.app.detail.component.product.ProductImpactAndOverview
+import academy.bangkit.trackmate.view.app.detail.component.product.ProductMaterialDetail
 import academy.bangkit.trackmate.view.app.detail.component.productionprocess.ProductionProcess
 import android.util.Log
 import androidx.compose.foundation.layout.Box
@@ -39,6 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.maps.model.LatLng
 import okhttp3.internal.immutableListOf
 import java.text.DecimalFormat
@@ -56,6 +58,7 @@ fun ProductDetailScreen(
     val isLoading by viewModel.isLoading.observeAsState(initial = false)
 
     LaunchedEffect(Unit) {
+        Log.d("Check ID","Diterima $id")
         viewModel.getProductDetail("xxx")
     }
 
@@ -69,7 +72,7 @@ fun ProductDetailScreen(
 
             if (!detailResponse.error && detailResponse.data != null) {
 
-                ShowProduct(detailResponse.data.product)
+                ShowProduct(detailResponse.data.product, navController)
             } else {
                 //product failed to display
                 ErrorScreen(detailResponse.message) {
@@ -82,7 +85,7 @@ fun ProductDetailScreen(
 }
 
 @Composable
-private fun ShowProduct(product: ProductItem) {
+private fun ShowProduct(product: ProductItem, navController: NavController) {
     Box(modifier = Modifier.fillMaxSize()) {
         //product success to display
         LazyColumn {
@@ -111,7 +114,10 @@ private fun ShowProduct(product: ProductItem) {
                         product.productBy.location.lat,
                         product.productBy.location.lng
                     )
-                )
+                ){
+                    Log.d("Click","ProductBy")
+                    navController.navigate(Screen.App.UMKM.createRoute("idUmkm"))
+                }
             }
         }
     }
@@ -255,10 +261,9 @@ fun ProductDetailScreenPrev() {
                 "Nama UMKM",
                 Location(0.0, 0.0, "Wonogiri, Jawa Tengah")
             )
-
         )
         Surface {
-            ShowProduct(product = sampleProduct)
+            ShowProduct(product = sampleProduct, rememberNavController())
         }
     }
 }

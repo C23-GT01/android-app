@@ -5,11 +5,11 @@ import academy.bangkit.trackmate.di.Injection
 import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import academy.bangkit.trackmate.view.ViewModelFactory
-import academy.bangkit.trackmate.view.app.detail.ErrorScreen
-import academy.bangkit.trackmate.view.app.detail.Loading
 import academy.bangkit.trackmate.view.app.detail.component.Divider
 import academy.bangkit.trackmate.view.app.detail.component.Title
-import academy.bangkit.trackmate.view.app.detail.formatToRupiah
+import academy.bangkit.trackmate.view.app.detail.product.ErrorScreen
+import academy.bangkit.trackmate.view.app.detail.product.Loading
+import academy.bangkit.trackmate.view.app.detail.product.formatToRupiah
 import academy.bangkit.trackmate.view.app.home.component.Banner
 import academy.bangkit.trackmate.view.app.home.component.CategoryItem
 import academy.bangkit.trackmate.view.app.home.component.dummyCategory

@@ -1,8 +1,10 @@
-package academy.bangkit.trackmate.view.app.detail.component
+package academy.bangkit.trackmate.view.app.detail.component.product
 
 import academy.bangkit.trackmate.data.remote.response.ImpactItem
 import academy.bangkit.trackmate.data.remote.response.ProductImpactOverview
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
+import academy.bangkit.trackmate.view.app.detail.component.Divider
+import academy.bangkit.trackmate.view.app.detail.component.Title
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column

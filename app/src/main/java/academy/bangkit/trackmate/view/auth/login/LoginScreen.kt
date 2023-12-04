@@ -81,6 +81,17 @@ fun LoginScreen(
                     }
                 }
             )
+            Spacer(modifier = Modifier.height(20.dp))
+            ButtonComponent(
+                value = stringResource(id = R.string.guest),
+                action = {
+                    navController.navigate(Screen.App.route) {
+                        popUpTo(Screen.Auth.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
 
             Spacer(modifier = Modifier.height(300.dp))
             ClickableLoginTextComponent(tryingToLogin = false, onTextSelected = {
