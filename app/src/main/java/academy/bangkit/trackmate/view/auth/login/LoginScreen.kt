@@ -85,6 +85,13 @@ fun LoginScreen(
             ButtonComponent(
                 value = stringResource(id = R.string.guest),
                 action = {
+                    viewModel.saveSession(
+                        UserModel(
+                            email = "guest@mail.com",
+                            token = "",
+                            isLogin = true
+                        )
+                    )
                     navController.navigate(Screen.App.route) {
                         popUpTo(Screen.Auth.route) {
                             inclusive = true

@@ -44,6 +44,7 @@ import academy.bangkit.trackmate.view.app.account.UserAccountScreen
 import academy.bangkit.trackmate.view.app.account.menu.EditProfileScreen
 import academy.bangkit.trackmate.view.app.account.menu.MyReviewsScreen
 import academy.bangkit.trackmate.view.app.account.menu.PersonalInformationScreen
+import academy.bangkit.trackmate.view.app.account.menu.UserAccountViewModel
 import academy.bangkit.trackmate.view.app.detail.product.ProductDetailScreen
 import academy.bangkit.trackmate.view.app.detail.product.ProductViewModel
 import academy.bangkit.trackmate.view.app.detail.umkm.UmkmDetailScreen
@@ -226,7 +227,14 @@ fun Host(
             }
 
             composable(route = Screen.App.Account.route) {
-                UserAccountScreen(navController)
+                val viewModel = viewModel<UserAccountViewModel>(
+                    factory = ViewModelFactory(
+                        Injection.provideUserRepository(
+                            LocalContext.current
+                        )
+                    )
+                )
+                UserAccountScreen(navController, viewModel)
             }
 
             composable(
@@ -280,7 +288,7 @@ fun Host(
     }
 }
 
-private object Sample{
+private object Sample {
     val sampleProduct = ProductItem(
         image = "https://picsum.photos/200",
         contribution = immutableListOf(1, 2, 3),

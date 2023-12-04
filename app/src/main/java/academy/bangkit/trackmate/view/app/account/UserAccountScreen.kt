@@ -1,8 +1,11 @@
 package academy.bangkit.trackmate.view.app.account
 
 import academy.bangkit.trackmate.R
+import academy.bangkit.trackmate.di.Injection
 import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
+import academy.bangkit.trackmate.view.ViewModelFactory
+import academy.bangkit.trackmate.view.app.account.menu.UserAccountViewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -33,17 +36,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun UserAccountScreen(navController: NavController) {
+fun UserAccountScreen(
+    navController: NavController,
+    viewModel: UserAccountViewModel
+) {
 
     val scrollState = rememberScrollState()
     var showDialog by remember { mutableStateOf(false) }
@@ -256,12 +264,14 @@ fun UserAccountScreen(navController: NavController) {
                         onClick = {
                             showDialog = false
                             // Lakukan fungsi keluar di sini
+                            viewModel.logout()
                             navController.navigate(Screen.Auth.route)
-                            {
-                                popUpTo(Screen.App.Home.route) {
-                                    inclusive = true
-                                }
-                            }
+//                            {
+//                                popUpTo(Screen.App.Home.route)
+//                                {
+//                                    inclusive = true
+//                                }
+//                            }
                         }
                     ) {
                         Text("Yes")
@@ -279,9 +289,6 @@ fun UserAccountScreen(navController: NavController) {
             )
         }
     }
-//    BackHandler(true) {
-//        navController.navigate(Screen.App.Home.route)
-//    }
 }
 
 @Preview(showBackground = true)
@@ -289,7 +296,14 @@ fun UserAccountScreen(navController: NavController) {
 fun AccountPreview() {
     TrackMateTheme {
         Surface {
-            UserAccountScreen(navController = rememberNavController())
+            val viewModel = viewModel<UserAccountViewModel>(
+                factory = ViewModelFactory(
+                    Injection.provideUserRepository(
+                        LocalContext.current
+                    )
+                )
+            )
+            UserAccountScreen(navController = rememberNavController(), viewModel = viewModel)
         }
     }
 }
