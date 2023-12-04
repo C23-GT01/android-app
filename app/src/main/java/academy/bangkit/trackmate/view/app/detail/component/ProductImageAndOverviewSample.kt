@@ -142,9 +142,3 @@ object ProductSample {
         ),
     )
 }
-object ManufacturerSample {
-    const val companyName = "Joglo Ayu Tenan"
-    const val logoUrl = "https://joglo-ayutenan.com/wp-content/uploads/2021/05/logo-Joglo-Ayu-Tenan-MakerSpace.png"
-    const val employeeCount = 50
-    const val location = "Sleman, Yogyakarta"
-}

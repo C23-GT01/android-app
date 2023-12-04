@@ -1,6 +1,7 @@
 package academy.bangkit.trackmate.view.app.detail.component.productionprocess
 
 import academy.bangkit.trackmate.ui.theme.Purple80
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
@@ -101,6 +102,7 @@ fun CardItem(title: String, desc: String, imageUrl: String, modifier: Modifier) 
                     .width(130.dp)
                     .height(130.dp)
                     .clip(RoundedCornerShape(8.dp))
+                    .background(Color.DarkGray)
             )
             Column {
                 Text(

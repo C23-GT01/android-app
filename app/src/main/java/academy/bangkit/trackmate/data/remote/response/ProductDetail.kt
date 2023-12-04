@@ -4,11 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 data class ProductDetail(
 
-//    @field:SerializedName("product")
-//    val product: List<ProductItem>,
-
     @field:SerializedName("data")
-    val data: Data,
+    val data: Data?,
 
     @field:SerializedName("error")
     val error: Boolean,
