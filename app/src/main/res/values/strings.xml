@@ -13,4 +13,13 @@
     <string name="login">Login</string>
     <string name="forgot_your_password">Forgot Your Password?</string>
     <string name="title_activity_maps">MapsActivity</string>
+
+    <string name="category_all">Semua</string>
+    <string name="category_americano">Americano</string>
+    <string name="category_cappuccino">Cappuccino</string>
+    <string name="category_espresso">Espresso</string>
+    <string name="category_frappe">Frappe</string>
+    <string name="category_latte">Latte</string>
+    <string name="category_macchiato">Macchiato</string>
+    <string name="category_mocha">Mocha</string>
 </resources>
