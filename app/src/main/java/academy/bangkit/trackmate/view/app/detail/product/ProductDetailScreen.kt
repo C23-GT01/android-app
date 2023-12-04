@@ -1,4 +1,4 @@
-package academy.bangkit.trackmate.view.app.detail
+package academy.bangkit.trackmate.view.app.detail.product
 
 import academy.bangkit.trackmate.data.remote.response.ImpactItem
 import academy.bangkit.trackmate.data.remote.response.Location
@@ -8,10 +8,10 @@ import academy.bangkit.trackmate.data.remote.response.ProductMaterial
 import academy.bangkit.trackmate.data.remote.response.ProductionItem
 import academy.bangkit.trackmate.data.remote.response.UMKM
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
-import academy.bangkit.trackmate.view.app.detail.component.ProductBy
-import academy.bangkit.trackmate.view.app.detail.component.ProductImageAndOverview
-import academy.bangkit.trackmate.view.app.detail.component.ProductImpactAndOverview
-import academy.bangkit.trackmate.view.app.detail.component.ProductMaterialDetail
+import academy.bangkit.trackmate.view.app.detail.component.product.ProductBy
+import academy.bangkit.trackmate.view.app.detail.component.product.ProductImageAndOverview
+import academy.bangkit.trackmate.view.app.detail.component.product.ProductImpactAndOverview
+import academy.bangkit.trackmate.view.app.detail.component.product.ProductMaterialDetail
 import academy.bangkit.trackmate.view.app.detail.component.productionprocess.ProductionProcess
 import android.util.Log
 import androidx.compose.foundation.layout.Box
@@ -255,7 +255,6 @@ fun ProductDetailScreenPrev() {
                 "Nama UMKM",
                 Location(0.0, 0.0, "Wonogiri, Jawa Tengah")
             )
-
         )
         Surface {
             ShowProduct(product = sampleProduct)

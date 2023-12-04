@@ -22,4 +22,5 @@
     <string name="category_latte">Latte</string>
     <string name="category_macchiato">Macchiato</string>
     <string name="category_mocha">Mocha</string>
+    <string name="guest">Login as Guest</string>
 </resources>

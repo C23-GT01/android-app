@@ -6,7 +6,7 @@ import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import academy.bangkit.trackmate.view.ViewModelFactory
 import academy.bangkit.trackmate.view.app.detail.component.Divider
 import academy.bangkit.trackmate.view.app.detail.component.Title
-import academy.bangkit.trackmate.view.app.detail.formatToRupiah
+import academy.bangkit.trackmate.view.app.detail.product.formatToRupiah
 import academy.bangkit.trackmate.view.app.home.component.Banner
 import academy.bangkit.trackmate.view.app.home.component.CategoryItem
 import academy.bangkit.trackmate.view.app.home.component.dummyCategory

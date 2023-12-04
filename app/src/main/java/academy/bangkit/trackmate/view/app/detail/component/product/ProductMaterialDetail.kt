@@ -1,4 +1,4 @@
-package academy.bangkit.trackmate.view.app.detail.component
+package academy.bangkit.trackmate.view.app.detail.component.product
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,6 +34,8 @@ import coil.compose.AsyncImage
 import academy.bangkit.trackmate.data.remote.response.ProductMaterial
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import academy.bangkit.trackmate.view.TrackMateLocation
+import academy.bangkit.trackmate.view.app.detail.component.Divider
+import academy.bangkit.trackmate.view.app.detail.component.Title
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Surface

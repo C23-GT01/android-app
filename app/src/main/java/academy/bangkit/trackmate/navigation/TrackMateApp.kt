@@ -38,8 +38,8 @@ import academy.bangkit.trackmate.view.app.account.UserAccountScreen
 import academy.bangkit.trackmate.view.app.account.menu.EditProfileScreen
 import academy.bangkit.trackmate.view.app.account.menu.MyReviewsScreen
 import academy.bangkit.trackmate.view.app.account.menu.PersonalInformationScreen
-import academy.bangkit.trackmate.view.app.detail.ProductDetailScreen
-import academy.bangkit.trackmate.view.app.detail.ProductViewModel
+import academy.bangkit.trackmate.view.app.detail.product.ProductDetailScreen
+import academy.bangkit.trackmate.view.app.detail.product.ProductViewModel
 import academy.bangkit.trackmate.view.app.home.HomeViewModel
 import academy.bangkit.trackmate.view.app.scanner.ScannerScreen
 import academy.bangkit.trackmate.view.auth.login.LoginViewModel

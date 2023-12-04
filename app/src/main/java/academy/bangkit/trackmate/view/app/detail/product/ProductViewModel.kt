@@ -1,4 +1,4 @@
-package academy.bangkit.trackmate.view.app.detail
+package academy.bangkit.trackmate.view.app.detail.product
 
 import academy.bangkit.trackmate.data.remote.repository.ProductRepository
 import academy.bangkit.trackmate.data.remote.response.ProductDetail

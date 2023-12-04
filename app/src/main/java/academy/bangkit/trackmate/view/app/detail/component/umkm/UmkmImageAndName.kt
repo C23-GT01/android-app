@@ -1,4 +1,4 @@
-package academy.bangkit.trackmate.view.app.detail.component
+package academy.bangkit.trackmate.view.app.detail.component.umkm
 
 import academy.bangkit.trackmate.R
 import academy.bangkit.trackmate.data.remote.response.Location
@@ -6,18 +6,18 @@ import academy.bangkit.trackmate.data.remote.response.ProductMaterial
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -31,70 +31,65 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 
 @Composable
-fun ProductImageAndOverview(
+fun UmkmImageAndName(
     title: String,
     imageUrl: String,
-    price: String,
-    productOverview: String
+    description: String
 ) {
     Image(
         painter = rememberAsyncImagePainter(
             model = imageUrl,
-            placeholder = painterResource(id = R.drawable.headband) // for preview only
+            placeholder = painterResource(id = R.drawable.umkm) // for preview only
         ),
         contentDescription = title,
-        contentScale = ContentScale.Fit,
+        contentScale = ContentScale.FillWidth,
         modifier = Modifier
             .fillMaxWidth()
             .height(200.dp)
             .background(Color.White)
     )
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 16.dp, start = 16.dp, bottom = 8.dp, end = 16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = title,
-            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 18.sp),
-            textAlign = TextAlign.Left,
-            modifier = Modifier.fillMaxWidth(0.6f)
+    Row {
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "logoumkm",
+            modifier = Modifier
+                .height(140.dp)
+                .width(120.dp)
+                .padding(top = 16.dp, start = 16.dp)
         )
-        Text(
-            text = price,
-            fontWeight = FontWeight.SemiBold,
-            color = Color(0xff886345) // brown color
-        )
-    }
-    Text(
-        text = productOverview,
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
-    )
-    Divider()
-}
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp, start = 16.dp, bottom = 8.dp, end = 10.dp)
+        ) {
+            Text(
+                text = title,
+                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 18.sp),
+                textAlign = TextAlign.Left,
+                modifier = Modifier
+            )
+            Text(
+                text = description,
+                style = TextStyle(fontSize = 14.sp),
+                modifier = Modifier
+            )
+        }
 
-@Preview(showBackground = true, heightDp = 680)
+    }
+
+}
+@Preview
 @Composable
-fun OverviewAndMaterialPreview() {
+fun UmkmImageAndNamePreview(){
     TrackMateTheme {
         Surface {
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
+                modifier = Modifier.fillMaxSize()
             ) {
                 LazyColumn {
                     item {
                         ProductSample.apply {
-                            ProductImageAndOverview(
-                                title = title,
-                                imageUrl = imageUrl,
-                                price = price,
-                                productOverview = productOverview
-                            )
-                            ProductMaterialDetail(productMaterials)
-
+                            UmkmImageAndName(title = title, imageUrl = imageUrl, description = description)
                         }
                     }
                 }
@@ -103,17 +98,14 @@ fun OverviewAndMaterialPreview() {
     }
 }
 
-//data sample
-
 object ProductSample {
-    const val title = "Dirrana Necklace"
-    const val price = "Rp350.000"
+    const val title = "Joglo Ayu Tenan"
 
     const val imageUrl =
         "https://joglo-ayutenan.com/wp-content/uploads/2017/08/02.Dirrana-Necklace-1-600x600.jpg"
 
-    const val productOverview =
-        "In this collection of the “Kraton” series, we are inspired by the meaning of the heirloom of the Yogyakarta Kraton or in Javanese culture it is called “Ampilan Dalem”, which consists of eight, one of which is the manifestation of Sawung Dhalang (Kijang)."
+    const val description =
+        "In this collection of the “Kraton” series, we are inspired by the meaning of the heirloom of the Yogyakarta Kraton..."
 
     val productMaterials = listOf(
         ProductMaterial(
