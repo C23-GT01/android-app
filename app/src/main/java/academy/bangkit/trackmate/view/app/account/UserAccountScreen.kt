@@ -104,12 +104,16 @@ fun UserAccountScreen(navController: NavController) {
             color = Color.Black
         )
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                navController.navigate(Screen.App.Account.MyReview.route)
+                {
+                    popUpTo(Screen.App.Account.route)
+                }
+            },
             Modifier
                 .fillMaxWidth()
                 .padding(start = 32.dp, end = 32.dp, top = 10.dp, bottom = 10.dp)
-                .height(55.dp)
-            , shape = RoundedCornerShape(15)
+                .height(55.dp), shape = RoundedCornerShape(15)
         ) {
             Column(
                 modifier = Modifier.fillMaxHeight(),
@@ -139,7 +143,12 @@ fun UserAccountScreen(navController: NavController) {
             }
         }
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                navController.navigate(Screen.App.Account.EditProfile.route)
+                {
+                    popUpTo(Screen.App.Account.route)
+                }
+            },
             Modifier
                 .fillMaxWidth()
                 .padding(start = 32.dp, end = 32.dp, top = 10.dp, bottom = 10.dp)
@@ -174,7 +183,12 @@ fun UserAccountScreen(navController: NavController) {
             }
         }
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                navController.navigate(Screen.App.Account.PersonalInformation.route)
+                {
+                    popUpTo(Screen.App.Account.route)
+                }
+            },
             Modifier
                 .fillMaxWidth()
                 .padding(start = 32.dp, end = 32.dp, top = 10.dp, bottom = 10.dp)
@@ -242,7 +256,8 @@ fun UserAccountScreen(navController: NavController) {
                         onClick = {
                             showDialog = false
                             // Lakukan fungsi keluar di sini
-                            navController.navigate(Screen.Auth.route) {
+                            navController.navigate(Screen.Auth.route)
+                            {
                                 popUpTo(Screen.App.Home.route) {
                                     inclusive = true
                                 }
@@ -264,6 +279,9 @@ fun UserAccountScreen(navController: NavController) {
             )
         }
     }
+//    BackHandler(true) {
+//        navController.navigate(Screen.App.Home.route)
+//    }
 }
 
 @Preview(showBackground = true)

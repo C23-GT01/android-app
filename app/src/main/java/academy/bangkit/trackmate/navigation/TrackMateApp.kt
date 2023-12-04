@@ -35,6 +35,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import academy.bangkit.trackmate.view.app.account.UserAccountScreen
+import academy.bangkit.trackmate.view.app.account.menu.EditProfileScreen
+import academy.bangkit.trackmate.view.app.account.menu.MyReviewsScreen
+import academy.bangkit.trackmate.view.app.account.menu.PersonalInformationScreen
 import academy.bangkit.trackmate.view.app.detail.ProductDetailScreen
 import academy.bangkit.trackmate.view.app.detail.ProductViewModel
 import academy.bangkit.trackmate.view.app.home.HomeViewModel
@@ -62,7 +65,13 @@ fun TrackMateApp(viewModel: TrackMateAppViewModel) {
             // TODO: kalo user udah login arahkan ke aplikasi utama langsung
             Scaffold(
                 topBar = {
-                    if (currentRoute != Screen.App.Account.route) {
+                    if (currentRoute !in listOf(
+                            Screen.App.Account.route,
+                            Screen.App.Account.MyReview.route,
+                            Screen.App.Account.EditProfile.route,
+                            Screen.App.Account.PersonalInformation.route
+                        )
+                    ) {
                         TopBar(navController)
                     }
                 },
@@ -226,6 +235,18 @@ fun Host(
                 )
                 val id = it.arguments?.getString("id") ?: "-"
                 ProductDetailScreen(navController = navController, id = id, viewModel = viewModel)
+            }
+
+            composable(route = Screen.App.Account.MyReview.route) {
+                MyReviewsScreen()
+            }
+
+            composable(route = Screen.App.Account.EditProfile.route) {
+                EditProfileScreen()
+            }
+
+            composable(route = Screen.App.Account.PersonalInformation.route) {
+                PersonalInformationScreen(navController = navController)
             }
         }
     }

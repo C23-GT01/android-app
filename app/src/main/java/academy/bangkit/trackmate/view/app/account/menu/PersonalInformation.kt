@@ -1,6 +1,7 @@
 package academy.bangkit.trackmate.view.app.account.menu
 
 import academy.bangkit.trackmate.R
+import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -30,7 +31,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,13 +39,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun PersonalInformationScreen() {
-    var username by remember { mutableStateOf("Ngurah Agung") }
-    var email by remember { mutableStateOf("ngurahagung543@gmail.com") }
-    var fullname by remember { mutableStateOf("I Gusti Ngurah Agung Kade Dwi Arsana")}
-    var id by remember { mutableStateOf("186718013")}
+fun PersonalInformationScreen(navController: NavController) {
+    val username by remember { mutableStateOf("Ngurah Agung") }
+    val email by remember { mutableStateOf("ngurahagung543@gmail.com") }
+    val fullname by remember { mutableStateOf("I Gusti Ngurah Agung Kade Dwi Arsana")}
+    val id by remember { mutableStateOf("186718013")}
 
     val scrollState = rememberScrollState()
 
@@ -77,7 +79,12 @@ fun PersonalInformationScreen() {
 
         // Edit Button
         Button(
-            onClick = { /* Handle edit button click */ },
+            onClick = {
+                navController.navigate(Screen.App.Account.EditProfile.route)
+                {
+                    popUpTo(Screen.App.Account.PersonalInformation.route)
+                }
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp)
@@ -132,7 +139,7 @@ fun PersonalInfoRow(label: String, value: String, icon: ImageVector) {
 @Composable
 fun PersonalInformationPreview() {
     TrackMateTheme {
-        PersonalInformationScreen()
+        PersonalInformationScreen(rememberNavController())
     }
 }
 
