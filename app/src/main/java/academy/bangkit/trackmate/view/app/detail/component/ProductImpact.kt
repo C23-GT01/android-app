@@ -3,7 +3,6 @@ package academy.bangkit.trackmate.view.app.detail.component
 import academy.bangkit.trackmate.data.remote.response.ImpactItem
 import academy.bangkit.trackmate.data.remote.response.ProductImpactOverview
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
@@ -15,10 +14,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AccountBox
-import androidx.compose.material.icons.rounded.Build
+import androidx.compose.material.icons.automirrored.rounded.TrendingUp
+import androidx.compose.material.icons.rounded.Air
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.Warning
+import androidx.compose.material.icons.rounded.Eco
+import androidx.compose.material.icons.rounded.ElectricBolt
+import androidx.compose.material.icons.rounded.EmojiPeople
+import androidx.compose.material.icons.rounded.Recycling
+import androidx.compose.material.icons.rounded.RestoreFromTrash
+import androidx.compose.material.icons.rounded.ShareLocation
+import androidx.compose.material.icons.rounded.WaterDrop
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -33,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
 @Composable
-fun ProductImpactAndOverview(productImpact: List<ImpactItem>, contribution: List<Int>) {
+fun ProductImpactAndOverview(productImpact: List<ImpactItem>, contribution: List<Byte>) {
     Title(title = "Product Impact")
 
     Row(
@@ -74,14 +79,8 @@ fun ProductImpactAndOverview(productImpact: List<ImpactItem>, contribution: List
         }
     }
     Divider()
-
-    //overview
-    //contribution
-
-    Log.d("Product Contribution", contribution.toString())
-
     Text(
-        text = "Dengan membeli produk ini Anda telah...",
+        text = "Dengan membeli produk ini Anda telah mendukung...",
         fontWeight = FontWeight.SemiBold,
         modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
     )
@@ -89,19 +88,49 @@ fun ProductImpactAndOverview(productImpact: List<ImpactItem>, contribution: List
     contribution.forEach {
         val productImpactOverview1 =
             when (it) {
-                1 -> ProductImpactOverview(
-                    Icons.Rounded.AccountBox,
-                    "Telah menguntungkan produsen sebagai penjual produk ini"
+                1.toByte() -> ProductImpactOverview(
+                    Icons.Rounded.Air,
+                    "Minimalisasi Carboon Footprints"
                 )
 
-                2 -> ProductImpactOverview(
-                    Icons.Rounded.Build,
-                    "Telah menguntungkan penjuial sebagai pembeli"
+                2.toByte() -> ProductImpactOverview(
+                    Icons.Rounded.ElectricBolt,
+                    "Efisiensi Energi"
                 )
 
-                3 -> ProductImpactOverview(
-                    Icons.Rounded.Warning,
-                    "Telah menguntungkan kedua belah pihak"
+                3.toByte() -> ProductImpactOverview(
+                    Icons.Rounded.RestoreFromTrash,
+                    "Pengelolaan Limbah"
+                )
+
+                4.toByte() -> ProductImpactOverview(
+                    Icons.Rounded.ShareLocation,
+                    "Penggunaan Bahan Baku Lokal"
+                )
+
+                5.toByte() -> ProductImpactOverview(
+                    Icons.Rounded.WaterDrop,
+                    "Efisiensi Air"
+                )
+
+                6.toByte() -> ProductImpactOverview(
+                    Icons.Rounded.Recycling,
+                    "Daur Ulang Produk"
+                )
+
+                7.toByte() -> ProductImpactOverview(
+                    Icons.Rounded.EmojiPeople,
+                    "Kesejahteraan Pekerja"
+                )
+
+                8.toByte() -> ProductImpactOverview(
+                    Icons.Rounded.Eco,
+                    "Kesehatan dan Keamanan Lingkungan"
+                )
+
+                9.toByte() -> ProductImpactOverview(
+                    Icons.AutoMirrored.Rounded.TrendingUp,
+                    "Kemajuan UMKM Indonesia"
                 )
 
                 else -> {
@@ -114,22 +143,18 @@ fun ProductImpactAndOverview(productImpact: List<ImpactItem>, contribution: List
         Row(
             modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
         ) {
-            Icon(productImpactOverview1.icons, "Content desc")
+            Icon(
+                productImpactOverview1.icons,
+                "Content desc",
+                Modifier,
+                Color.DarkGray
+            )
             Text(
                 text = productImpactOverview1.description,
                 modifier = Modifier.padding(start = 8.dp)
             )
         }
     }
-
-//    productImpactOverview.forEach {
-//        Row(
-//            modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
-//        ) {
-//            Icon(it.icons, "Content desc")
-//            Text(text = it.description, modifier = Modifier.padding(start = 8.dp))
-//        }
-//    }
     Divider()
 }
 
@@ -140,7 +165,9 @@ fun ProductWellBeingPreview() {
         Surface {
             LazyColumn {
                 item {
-//                    ProductImpactAndOverview()
+                    ProductImpactAndOverview(
+                        mutableListOf(), mutableListOf(1, 2, 3, 4, 5, 6, 7, 8, 9)
+                    )
                 }
             }
         }

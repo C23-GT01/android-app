@@ -30,7 +30,7 @@ data class ProductItem(
     val image: String,
 
     @field:SerializedName("contribution")
-    val contribution: List<Int>,
+    val contribution: List<Byte>,
 
     @field:SerializedName("production")
     val production: List<ProductionItem>,
