@@ -36,7 +36,8 @@ fun ProductBy(
     logoUrl: String,
     employeeCount: Int,
     locationName: String,
-    latLng: LatLng
+    latLng: LatLng,
+    onClick: () -> Unit
 ) {
     Title("Produsen")
     Row(
@@ -44,6 +45,7 @@ fun ProductBy(
             .padding(start = 16.dp, top = 16.dp, bottom = 16.dp)
             .clickable {
                 Log.d("Click", "Move to Detail UMKM")
+                onClick()
             }
     ) {
         AsyncImage(

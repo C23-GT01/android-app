@@ -2,11 +2,12 @@ package academy.bangkit.trackmate.view.app.detail.product
 
 import academy.bangkit.trackmate.data.remote.response.ImpactItem
 import academy.bangkit.trackmate.data.remote.response.Location
-import academy.bangkit.trackmate.data.remote.response.ProductDetail
+import academy.bangkit.trackmate.data.remote.response.DetailResponse
 import academy.bangkit.trackmate.data.remote.response.ProductItem
 import academy.bangkit.trackmate.data.remote.response.ProductMaterial
 import academy.bangkit.trackmate.data.remote.response.ProductionItem
 import academy.bangkit.trackmate.data.remote.response.UMKM
+import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import academy.bangkit.trackmate.view.app.detail.component.product.ProductBy
 import academy.bangkit.trackmate.view.app.detail.component.product.ProductImageAndOverview
@@ -39,6 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.maps.model.LatLng
 import okhttp3.internal.immutableListOf
 import java.text.DecimalFormat
@@ -52,27 +54,28 @@ fun ProductDetailScreen(
     viewModel: ProductViewModel
 ) {
 
-    val productDetailNullable by viewModel.product.observeAsState()
+    val response by viewModel.product.observeAsState()
     val isLoading by viewModel.isLoading.observeAsState(initial = false)
 
     LaunchedEffect(Unit) {
+        Log.d("Check ID","Diterima $id")
         viewModel.getProductDetail("xxx")
     }
 
     if (isLoading) {
         Box(modifier = Modifier.fillMaxSize()) { Loading() }
     } else {
-        val productDetail: ProductDetail
-        if (productDetailNullable != null) {
+        val detailResponse: DetailResponse
+        if (response != null) {
 
-            productDetail = productDetailNullable as ProductDetail
+            detailResponse = response as DetailResponse
 
-            if (!productDetail.error && productDetail.data != null) {
+            if (!detailResponse.error && detailResponse.data != null) {
 
-                ShowProduct(productDetail.data.product)
+                ShowProduct(detailResponse.data.product, navController)
             } else {
                 //product failed to display
-                ErrorScreen(productDetail.message) {
+                ErrorScreen(detailResponse.message) {
                     viewModel.getProductDetail("xxx")
                 }
             }
@@ -82,7 +85,7 @@ fun ProductDetailScreen(
 }
 
 @Composable
-private fun ShowProduct(product: ProductItem) {
+private fun ShowProduct(product: ProductItem, navController: NavController) {
     Box(modifier = Modifier.fillMaxSize()) {
         //product success to display
         LazyColumn {
@@ -111,14 +114,17 @@ private fun ShowProduct(product: ProductItem) {
                         product.productBy.location.lat,
                         product.productBy.location.lng
                     )
-                )
+                ){
+                    Log.d("Click","ProductBy")
+                    navController.navigate(Screen.App.UMKM.createRoute("idUmkm"))
+                }
             }
         }
     }
 }
 
 @Composable
-private fun ErrorScreen(message: String, action: () -> Unit) {
+fun ErrorScreen(message: String, action: () -> Unit) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -257,7 +263,7 @@ fun ProductDetailScreenPrev() {
             )
         )
         Surface {
-            ShowProduct(product = sampleProduct)
+            ShowProduct(product = sampleProduct, rememberNavController())
         }
     }
 }

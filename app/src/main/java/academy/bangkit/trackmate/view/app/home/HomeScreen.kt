@@ -1,11 +1,14 @@
 package academy.bangkit.trackmate.view.app.home
 
+import academy.bangkit.trackmate.data.remote.response.HomeResponse
 import academy.bangkit.trackmate.di.Injection
 import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import academy.bangkit.trackmate.view.ViewModelFactory
 import academy.bangkit.trackmate.view.app.detail.component.Divider
 import academy.bangkit.trackmate.view.app.detail.component.Title
+import academy.bangkit.trackmate.view.app.detail.product.ErrorScreen
+import academy.bangkit.trackmate.view.app.detail.product.Loading
 import academy.bangkit.trackmate.view.app.detail.product.formatToRupiah
 import academy.bangkit.trackmate.view.app.home.component.Banner
 import academy.bangkit.trackmate.view.app.home.component.CategoryItem
@@ -32,8 +35,10 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -55,6 +60,14 @@ fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel
 ) {
+
+    val response by viewModel.product.observeAsState()
+    val isLoading by viewModel.isLoading.observeAsState(initial = false)
+
+    LaunchedEffect(Unit) {
+        viewModel.getAllProducts()
+    }
+
     val landscape = isLandscape(LocalConfiguration.current)
 
     Column {
@@ -84,62 +97,70 @@ fun HomeScreen(
             }
         }
 
-        LazyVerticalGrid(
-            state = listState,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 8.dp),
-            columns = GridCells.Adaptive(150.dp)
-        ) {
-            data class Contoh(val price: Int, val productName: String)
+        if (isLoading) {
+            Loading()
+        } else {
 
-            val list = mutableListOf(
-                Contoh(1000, "Satu Nama Barang Saya"),
-                Contoh(2000, "Dua"),
-                Contoh(3000, "Tiga"),
-                Contoh(1000, "Satu"),
-                Contoh(2000, "Dua"),
-                Contoh(3000, "Tiga"),
-                Contoh(1000, "Satu"),
-                Contoh(2000, "Dua"),
-                Contoh(3000, "Tiga"),
-                Contoh(1000, "Satu"),
-                Contoh(2000, "Dua"),
-                Contoh(3000, "Tiga")
-            )
-            items(list) { index ->
-                Card(
-                    modifier = Modifier
-                        .height(200.dp)
-                        .padding(4.dp)
-                        .clickable {
-                            Log.d("Click", "Item ${index.productName} ")
-                            navController.navigate(Screen.App.Detail.createRoute("xxx"))
-                        }
-                ) {
-                    AsyncImage(
-                        contentScale = ContentScale.Crop,
-                        model = "https://umsu.ac.id/health/wp-content/uploads/2023/10/Kartu-BPJS-Kesehatan-Rusak-Begini-Cara-Mengurusnya.jpg",
-                        contentDescription = "Translated description of what the image contains",
+            if (response != null) {
+                val homeResponse = response as HomeResponse
+                if (!homeResponse.error && homeResponse.data != null) {
+
+                    Log.d("Home", homeResponse.data.products.toString())
+
+                    LazyVerticalGrid(
+                        state = listState,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .height(130.dp)
-                            .background(Color.DarkGray)
-                    )
-                    Column {
-                        Text(
-                            text = index.productName,
-                            fontWeight = FontWeight.ExtraBold,
-                            fontSize = 16.sp,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
-                        )
-                        Text(
-                            text = formatToRupiah(index.price),
-                            modifier = Modifier.padding(horizontal = 8.dp)
-                        )
+                            .fillMaxSize()
+                            .padding(top = 8.dp),
+                        columns = GridCells.Adaptive(150.dp)
+                    ) {
+
+                        val products = homeResponse.data.products
+
+                        items(products) { index ->
+                            Card(
+                                modifier = Modifier
+                                    .height(200.dp)
+                                    .padding(4.dp)
+                                    .clickable {
+                                        Log.d("Click", "Item ${index.id} ")
+                                        navController.navigate(Screen.App.Detail.createRoute("xxx"))
+                                    }
+                            ) {
+                                AsyncImage(
+                                    contentScale = ContentScale.Crop,
+                                    model = index.image,
+                                    contentDescription = "Translated description of what the image contains",
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(130.dp)
+                                        .background(Color.DarkGray)
+                                )
+                                Column {
+                                    Text(
+                                        text = index.name,
+                                        fontWeight = FontWeight.ExtraBold,
+                                        fontSize = 16.sp,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                        modifier = Modifier.padding(
+                                            horizontal = 8.dp,
+                                            vertical = 2.dp
+                                        )
+                                    )
+                                    Text(
+                                        text = formatToRupiah(index.price),
+                                        modifier = Modifier.padding(horizontal = 8.dp)
+                                    )
+                                }
+                            }
+                        }
                     }
+                } else {
+                    ErrorScreen(
+                        message = homeResponse.message,
+                        action = {viewModel.getAllProducts()}
+                    )
                 }
             }
         }

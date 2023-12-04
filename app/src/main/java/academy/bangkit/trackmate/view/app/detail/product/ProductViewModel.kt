@@ -1,7 +1,7 @@
 package academy.bangkit.trackmate.view.app.detail.product
 
 import academy.bangkit.trackmate.data.remote.repository.ProductRepository
-import academy.bangkit.trackmate.data.remote.response.ProductDetail
+import academy.bangkit.trackmate.data.remote.response.DetailResponse
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,11 +11,12 @@ import java.net.UnknownHostException
 
 class ProductViewModel(private val repository: ProductRepository) : ViewModel() {
 
-    private val _product = MutableLiveData<ProductDetail>()
-    val product: LiveData<ProductDetail> = _product
+    private val _product = MutableLiveData<DetailResponse>()
+    val product: LiveData<DetailResponse> = _product
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
+
     fun getProductDetail(productId: String) {
         _isLoading.value = true
         viewModelScope.launch {
@@ -23,7 +24,7 @@ class ProductViewModel(private val repository: ProductRepository) : ViewModel() 
                 val productDetail = repository.getProduct(productId)
                 _product.value = productDetail
             } catch (e: UnknownHostException) {
-                ProductDetail(
+                DetailResponse(
                     null,
                     true,
                     "Terjadi masalah dengan koneksi jaringan",
@@ -38,7 +39,7 @@ class ProductViewModel(private val repository: ProductRepository) : ViewModel() 
         }
     }
 
-    private fun productDetailError(message: String): ProductDetail {
-        return ProductDetail(null, true, message, "unsuccess")
+    private fun productDetailError(message: String): DetailResponse {
+        return DetailResponse(null, true, message, "fail")
     }
 }

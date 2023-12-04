@@ -1,6 +1,5 @@
 package academy.bangkit.trackmate.view.app.detail.umkm
 
-import academy.bangkit.trackmate.data.remote.repository.ProductRepository
 import academy.bangkit.trackmate.data.remote.response.ImpactItem
 import academy.bangkit.trackmate.data.remote.response.Location
 import academy.bangkit.trackmate.data.remote.response.ProductItem
@@ -14,13 +13,10 @@ import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmImageAndName
 import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmImpactAndOverview
 import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmLocation
 import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmProduct
-import academy.bangkit.trackmate.view.app.detail.product.ProductViewModel
-import android.content.ClipData.Item
+import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -29,17 +25,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import okhttp3.internal.immutableListOf
-import okhttp3.internal.wait
 
 @Composable
 fun UmkmDetailScreen(
     navController: NavController,
     id: String,
-    viewModel: ProductViewModel,
     umkm: ProductItem
 ) {
     LaunchedEffect(Unit) {
-        viewModel.getProductDetail("xxx")
+//        viewModel.getProductDetail("xxx")
+        Log.d("Check ID","Diterima $id")
     }
     LazyColumn(
         modifier = Modifier
@@ -64,8 +59,6 @@ fun ProductDetailPreview() {
     TrackMateTheme {
         val navController = rememberNavController()
         val productId = "yourProductId"
-        val repository = ProductRepository()
-        val viewModel = ProductViewModel(repository = repository)
         val sampleProduct = ProductItem(
             image = "https://picsum.photos/200",
             contribution = immutableListOf(1, 2, 3),
@@ -141,7 +134,10 @@ fun ProductDetailPreview() {
             )
         )
 
-        UmkmDetailScreen(navController = navController, id = productId, viewModel = viewModel, umkm = sampleProduct)
+        UmkmDetailScreen(
+            navController = navController,
+            id = productId,
+            umkm = sampleProduct)
     }
 }
 

@@ -16,7 +16,7 @@ class ViewModelFactory(private val repository: UserRepository) :
         if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
             return LoginViewModel(repository) as T
         } else if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
-            return HomeViewModel(repository) as T
+            return HomeViewModel(repository = ProductRepository()) as T
         } else if (modelClass.isAssignableFrom(TrackMateAppViewModel::class.java)) {
             return TrackMateAppViewModel(repository) as T
         } else if (modelClass.isAssignableFrom(ProductViewModel::class.java)) {
