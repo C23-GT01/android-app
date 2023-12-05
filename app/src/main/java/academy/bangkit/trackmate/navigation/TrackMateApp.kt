@@ -1,45 +1,14 @@
 package academy.bangkit.trackmate.navigation
 
-import academy.bangkit.trackmate.R
 import academy.bangkit.trackmate.data.remote.response.ImpactItem
 import academy.bangkit.trackmate.data.remote.response.Location
 import academy.bangkit.trackmate.data.remote.response.ProductItem
 import academy.bangkit.trackmate.data.remote.response.ProductMaterial
 import academy.bangkit.trackmate.data.remote.response.ProductionItem
 import academy.bangkit.trackmate.data.remote.response.UMKM
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
-import androidx.navigation.compose.rememberNavController
 import academy.bangkit.trackmate.di.Injection
 import academy.bangkit.trackmate.view.ViewModelFactory
-import academy.bangkit.trackmate.view.auth.forgetpassword.ForgetPasswordScreen
-import academy.bangkit.trackmate.view.auth.login.LoginScreen
-import academy.bangkit.trackmate.view.auth.register.RegisterScreen
-import academy.bangkit.trackmate.view.app.home.HomeScreen
 import academy.bangkit.trackmate.view.app.ScreenB
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.navArgument
 import academy.bangkit.trackmate.view.app.account.UserAccountScreen
 import academy.bangkit.trackmate.view.app.account.menu.EditProfileScreen
 import academy.bangkit.trackmate.view.app.account.menu.MyReviewsScreen
@@ -48,13 +17,45 @@ import academy.bangkit.trackmate.view.app.account.menu.UserAccountViewModel
 import academy.bangkit.trackmate.view.app.detail.product.ProductDetailScreen
 import academy.bangkit.trackmate.view.app.detail.product.ProductViewModel
 import academy.bangkit.trackmate.view.app.detail.umkm.UmkmDetailScreen
+import academy.bangkit.trackmate.view.app.home.HomeScreen
 import academy.bangkit.trackmate.view.app.home.HomeViewModel
 import academy.bangkit.trackmate.view.app.scanner.ScannerScreen
+import academy.bangkit.trackmate.view.auth.forgetpassword.ForgetPasswordScreen
+import academy.bangkit.trackmate.view.auth.login.LoginScreen
 import academy.bangkit.trackmate.view.auth.login.LoginViewModel
+import academy.bangkit.trackmate.view.auth.register.RegisterScreen
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ArrowBackIosNew
+import androidx.compose.material.icons.rounded.CameraAlt
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.navigation
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import okhttp3.internal.immutableListOf
 
 @Composable
@@ -74,14 +75,14 @@ fun TrackMateApp(viewModel: TrackMateAppViewModel) {
             // TODO: kalo user udah login arahkan ke aplikasi utama langsung
             Scaffold(
                 topBar = {
-                    if (currentRoute !in listOf(
-                            Screen.App.Home.route,
-                            Screen.App.Account.route,
-                            Screen.App.Account.MyReview.route,
-                            Screen.App.Account.EditProfile.route,
-                            Screen.App.Account.PersonalInformation.route
-                        )
-                    ) {
+                    val disableTopBar = listOf(
+                        Screen.App.Home.route,
+                        Screen.App.Scanner.route,
+                        Screen.App.Account.route,
+                        Screen.App.Account.EditProfile.route,
+                    )
+
+                    if (currentRoute !in disableTopBar) {
                         TopBar(navController)
                     }
                 },
@@ -105,12 +106,21 @@ private fun TopBar(navController: NavHostController) {
     TopAppBar(
         title = {
             val title = when (currentRoute) {
-                Screen.App.Scanner.route -> "Scan"
                 Screen.App.Detail.route -> "Detail Produk"
                 Screen.App.UMKM.route -> "Detail UMKM"
+                Screen.App.Account.MyReview.route -> "Review Saya"
+                Screen.App.Account.PersonalInformation.route -> "Tentang Saya"
                 else -> "TrackMate"
             }
             Text(text = title)
+        },
+        navigationIcon = {
+            IconButton(onClick = { navController.navigateUp() }) {
+                Icon(
+                    imageVector = Icons.Rounded.ArrowBackIosNew,
+                    contentDescription = ""
+                )
+            }
         }
     )
 }
@@ -123,17 +133,17 @@ private fun BottomBar(navController: NavHostController) {
         val currentRoute = navBackStackEntry?.destination?.route
 
         val navigationItems = listOf(
-            NavigationItem(
+            BottomNavigationItem(
                 title = "Home",
                 icon = Icons.Rounded.Home,
                 screen = Screen.App.Home
             ),
-            NavigationItem(
+            BottomNavigationItem(
                 title = "Scan",
-                icon = ImageVector.vectorResource(id = R.drawable.scan),
+                icon = Icons.Rounded.CameraAlt,
                 screen = Screen.App.Scanner
             ),
-            NavigationItem(
+            BottomNavigationItem(
                 title = "Akun",
                 icon = Icons.Rounded.Person,
                 screen = Screen.App.Account
@@ -287,6 +297,12 @@ fun Host(
         }
     }
 }
+
+private data class BottomNavigationItem(
+    val title: String,
+    val icon: ImageVector,
+    val screen: Screen
+)
 
 private object Sample {
     val sampleProduct = ProductItem(

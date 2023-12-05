@@ -1,7 +1,5 @@
-package academy.bangkit.trackmate.data
+package academy.bangkit.trackmate.data.pref
 
-import academy.bangkit.trackmate.data.pref.UserModel
-import academy.bangkit.trackmate.data.pref.UserPreference
 import kotlinx.coroutines.flow.Flow
 
 class UserRepository private constructor(

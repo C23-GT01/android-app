@@ -92,7 +92,7 @@ fun ProductImpactAndOverview(productImpact: List<ImpactItem>, contribution: List
             when (it) {
                 1.toByte() -> ProductImpactOverview(
                     Icons.Rounded.Air,
-                    "Minimalisasi Carboon Footprints"
+                    "Minimalisasi Carbon Footprints"
                 )
 
                 2.toByte() -> ProductImpactOverview(
@@ -160,7 +160,7 @@ fun ProductImpactAndOverview(productImpact: List<ImpactItem>, contribution: List
     Divider()
 }
 
-@Preview(showBackground = true, heightDp = 700)
+@Preview(showBackground = true, heightDp = 480)
 @Composable
 fun ProductWellBeingPreview() {
     TrackMateTheme {

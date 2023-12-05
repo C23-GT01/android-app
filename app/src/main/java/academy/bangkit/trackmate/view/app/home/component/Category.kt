@@ -5,17 +5,16 @@ import androidx.annotation.StringRes
 import academy.bangkit.trackmate.R
 
 data class Category(
+    val id: Int,
     @DrawableRes val imageCategory: Int,
     @StringRes val textCategory: Int
 )
 
-val dummyCategory = listOf(
+val category = listOf(
     R.drawable.icon_category_all to R.string.category_all,
-    R.drawable.icon_category_americano to R.string.category_americano,
-    R.drawable.icon_category_cappuccino to R.string.category_cappuccino,
-    R.drawable.icon_category_espresso to R.string.category_espresso,
-    R.drawable.icon_category_frappe to R.string.category_frappe,
-    R.drawable.icon_category_latte to R.string.category_latte,
-    R.drawable.icon_category_macchiato to R.string.category_macchiato,
-    R.drawable.icon_category_mocha to R.string.category_mocha,
-).map { Category(it.first, it.second) }
+    R.drawable.icon_category_agriculture to R.string.category_agriculture,
+    R.drawable.icon_category_food to R.string.category_food,
+    R.drawable.icon_category_drink to R.string.category_drink,
+).mapIndexed { index, pair ->
+    Category(index + 1, pair.first, pair.second)
+}

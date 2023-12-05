@@ -1,6 +1,7 @@
 package academy.bangkit.trackmate.view.app.home.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.requiredSize
@@ -20,11 +21,14 @@ import androidx.compose.ui.unit.sp
 fun CategoryItem(
     size: Dp,
     category: Category,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier.clickable {
+            onClick()
+        },
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
             painter = painterResource(category.imageCategory),

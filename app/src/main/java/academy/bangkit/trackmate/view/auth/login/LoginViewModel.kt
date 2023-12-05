@@ -2,7 +2,7 @@ package academy.bangkit.trackmate.view.auth.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import academy.bangkit.trackmate.data.UserRepository
+import academy.bangkit.trackmate.data.pref.UserRepository
 import academy.bangkit.trackmate.data.pref.UserModel
 import kotlinx.coroutines.launch
 

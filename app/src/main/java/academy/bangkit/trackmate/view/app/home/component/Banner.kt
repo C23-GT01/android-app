@@ -20,10 +20,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun Banner(imageVisible: Boolean = true, modifier: Modifier = Modifier) {
@@ -32,35 +40,48 @@ fun Banner(imageVisible: Boolean = true, modifier: Modifier = Modifier) {
             Image(
                 painter = painterResource(R.drawable.banner),
                 contentDescription = "Banner Image",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.height(140.dp)
+                contentScale = ContentScale.FillWidth,
+                modifier = Modifier
+                    .height(100.dp)
+                    .fillMaxWidth()
             )
         }
-        Search()
+        //Search()
+        val offset = Offset(5.0f, 10.0f)
+        Text(
+            text = "Welcome to TrackMate",
+            color = Color.White,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            style = TextStyle(
+                fontSize = 24.sp,
+                shadow = Shadow(
+                    color = Color.Black, offset = offset, blurRadius = 3f
+                )
+            ),
+            modifier = Modifier.align(Alignment.Center)
+        )
+
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Search(modifier: Modifier = Modifier) {
-
+// This composable function manages the search functionality in the app. Currently, the backend
+// API for search queries is not implemented.
     var text by remember { mutableStateOf("") }
-
     var active by remember { mutableStateOf(false) }
 
     SearchBar(
         query = text,
-        onQueryChange = {
-            text = it
-        },
+        onQueryChange = { text = it },
         onSearch = {
             active = false
             Log.d("onSearch", it)
         },
         active = active,
-        onActiveChange = {
-            active = it
-        },
+        onActiveChange = { active = it },
         leadingIcon = {
             Icon(
                 imageVector = Icons.Default.Search,
@@ -76,7 +97,6 @@ fun Search(modifier: Modifier = Modifier) {
             containerColor = MaterialTheme.colorScheme.background
         ),
         modifier = modifier
-//            .padding(if (imageVisible) 8.dp else 2.dp)
             .fillMaxWidth()
             .heightIn(min = 48.dp)
     ) {

@@ -12,7 +12,7 @@ import academy.bangkit.trackmate.view.app.detail.product.Loading
 import academy.bangkit.trackmate.view.app.detail.product.formatToRupiah
 import academy.bangkit.trackmate.view.app.home.component.Banner
 import academy.bangkit.trackmate.view.app.home.component.CategoryItem
-import academy.bangkit.trackmate.view.app.home.component.dummyCategory
+import academy.bangkit.trackmate.view.app.home.component.category
 import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
@@ -180,9 +180,11 @@ fun FilterRow(
         contentPadding = PaddingValues(horizontal = 16.dp),
         modifier = modifier.padding(top = 16.dp)
     ) {
-        items(dummyCategory, key = { it.textCategory }) { category ->
+        items(category, key = { it.textCategory }) { category ->
             CategoryItem(
-                if (isLandscape(LocalConfiguration.current)) 40.dp else 60.dp, category
+                size = if (isLandscape(LocalConfiguration.current)) 40.dp else 60.dp,
+                category = category,
+                onClick = {Log.d("Tes Cick Icon","Item ${category.id} clicked")}
             )
         }
     }

@@ -2,7 +2,7 @@ package academy.bangkit.trackmate.navigation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import academy.bangkit.trackmate.data.UserRepository
+import academy.bangkit.trackmate.data.pref.UserRepository
 import academy.bangkit.trackmate.data.pref.UserModel
 import androidx.lifecycle.asLiveData
 

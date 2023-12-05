@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import academy.bangkit.trackmate.view.app.home.HomeViewModel
 import academy.bangkit.trackmate.view.auth.login.LoginViewModel
-import academy.bangkit.trackmate.data.UserRepository
+import academy.bangkit.trackmate.data.pref.UserRepository
 import academy.bangkit.trackmate.data.remote.repository.ProductRepository
 import academy.bangkit.trackmate.navigation.TrackMateAppViewModel
 import academy.bangkit.trackmate.view.app.account.menu.UserAccountViewModel
