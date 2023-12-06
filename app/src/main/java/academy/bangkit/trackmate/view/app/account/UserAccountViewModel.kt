@@ -1,4 +1,4 @@
-package academy.bangkit.trackmate.view.app.account.menu
+package academy.bangkit.trackmate.view.app.account
 
 import academy.bangkit.trackmate.data.pref.UserRepository
 import androidx.lifecycle.ViewModel

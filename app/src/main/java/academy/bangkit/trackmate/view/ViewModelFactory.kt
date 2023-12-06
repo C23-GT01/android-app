@@ -8,7 +8,7 @@ import academy.bangkit.trackmate.data.pref.UserRepository
 import academy.bangkit.trackmate.data.remote.repository.ProductRepository
 import academy.bangkit.trackmate.data.remote.repository.UMKMRepository
 import academy.bangkit.trackmate.navigation.TrackMateAppViewModel
-import academy.bangkit.trackmate.view.app.account.menu.UserAccountViewModel
+import academy.bangkit.trackmate.view.app.account.UserAccountViewModel
 import academy.bangkit.trackmate.view.app.detail.product.ProductViewModel
 import academy.bangkit.trackmate.view.app.detail.umkm.UmkmViewModel
 

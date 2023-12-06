@@ -1,19 +1,12 @@
 package academy.bangkit.trackmate.navigation
 
-import academy.bangkit.trackmate.data.remote.response.ImpactItem
-import academy.bangkit.trackmate.data.remote.response.Location
-import academy.bangkit.trackmate.data.remote.response.ProductItem
-import academy.bangkit.trackmate.data.remote.response.ProductMaterial
-import academy.bangkit.trackmate.data.remote.response.ProductionItem
-import academy.bangkit.trackmate.data.remote.response.UMKM
 import academy.bangkit.trackmate.di.Injection
 import academy.bangkit.trackmate.view.ViewModelFactory
-import academy.bangkit.trackmate.view.app.ScreenB
 import academy.bangkit.trackmate.view.app.account.UserAccountScreen
+import academy.bangkit.trackmate.view.app.account.UserAccountViewModel
 import academy.bangkit.trackmate.view.app.account.menu.EditProfileScreen
 import academy.bangkit.trackmate.view.app.account.menu.MyReviewsScreen
 import academy.bangkit.trackmate.view.app.account.menu.PersonalInformationScreen
-import academy.bangkit.trackmate.view.app.account.menu.UserAccountViewModel
 import academy.bangkit.trackmate.view.app.detail.product.ProductDetailScreen
 import academy.bangkit.trackmate.view.app.detail.product.ProductViewModel
 import academy.bangkit.trackmate.view.app.detail.umkm.UmkmDetailScreen
@@ -57,7 +50,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import okhttp3.internal.immutableListOf
 
 @Composable
 fun TrackMateApp(viewModel: TrackMateAppViewModel) {
@@ -229,10 +221,6 @@ fun Host(
                 HomeScreen(navController, viewModel)
             }
 
-            composable(route = Screen.App.B.route) {
-                ScreenB(navController)
-            }
-
             composable(route = Screen.App.Scanner.route) {
                 ScannerScreen(navController)
             }
@@ -304,80 +292,3 @@ private data class BottomNavigationItem(
     val icon: ImageVector,
     val screen: Screen
 )
-
-private object Sample {
-    val sampleProduct = ProductItem(
-        image = "https://picsum.photos/200",
-        contribution = immutableListOf(1, 2, 3),
-        production = immutableListOf(
-            ProductionItem("https://picsum.photos/100", "Title 1", "Description 1"),
-            ProductionItem("https://picsum.photos/200", "Title 2", "Description 2"),
-            ProductionItem("https://picsum.photos/300", "Title 3", "Description 3"),
-            ProductionItem("https://picsum.photos/400", "Title 4", "Description 4"),
-        ),
-        price = 100000,
-        impact = immutableListOf(
-            ImpactItem(
-                "https://picsum.photos/500",
-                "Impact Title 1",
-                "Description of Impact 1"
-            ),
-            ImpactItem(
-                "https://picsum.photos/600",
-                "Impact Title 2",
-                "Description of Impact 2"
-            ),
-            ImpactItem(
-                "https://picsum.photos/700",
-                "Impact Title 3",
-                "Description of Impact 3"
-            ),
-            ImpactItem(
-                "https://picsum.photos/800",
-                "Impact Title 4",
-                "Description of Impact 4"
-            ),
-            ImpactItem(
-                "https://picsum.photos/900",
-                "Impact Title 5",
-                "Description of Impact 5"
-            ),
-        ),
-        name = "Product Name",
-        description = "Description of Product",
-        resources = immutableListOf(
-            ProductMaterial(
-                "https://picsum.photos/201",
-                "Material 1",
-                Location(0.0, 0.0, "Wonogiri, Jawa Tengah"),
-                "Description of this resource."
-            ),
-            ProductMaterial(
-                "https://picsum.photos/202",
-                "Material 1",
-                Location(0.0, 0.0, "Wonogiri, Jawa Tengah"),
-                "Description of this resource."
-            ),
-            ProductMaterial(
-                "https://picsum.photos/203",
-                "Material 1",
-                Location(0.0, 0.0, "Wonogiri, Jawa Tengah"),
-                "Description of this resource."
-            ),
-            ProductMaterial(
-                "https://picsum.photos/204",
-                "Material 1",
-                Location(0.0, 0.0, "Wonogiri, Jawa Tengah"),
-                "Description of this resource."
-            ),
-        ),
-        id = "sampleIdOfProduct",
-        productBy = UMKM(
-            "sampleIdOfUMKM",
-            "https://picsum.photos/200",
-            21,
-            "Nama UMKM",
-            Location(0.0, 0.0, "Wonogiri, Jawa Tengah")
-        )
-    )
-}

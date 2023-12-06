@@ -9,10 +9,10 @@ import academy.bangkit.trackmate.view.app.detail.component.Divider
 import academy.bangkit.trackmate.view.app.detail.component.Title
 import academy.bangkit.trackmate.view.app.detail.product.ErrorScreen
 import academy.bangkit.trackmate.view.app.detail.product.Loading
-import academy.bangkit.trackmate.view.app.detail.product.formatToRupiah
 import academy.bangkit.trackmate.view.app.home.component.Banner
 import academy.bangkit.trackmate.view.app.home.component.CategoryItem
 import academy.bangkit.trackmate.view.app.home.component.category
+import academy.bangkit.trackmate.view.formatToRupiah
 import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility

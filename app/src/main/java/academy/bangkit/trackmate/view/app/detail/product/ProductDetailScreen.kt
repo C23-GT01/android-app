@@ -1,8 +1,8 @@
 package academy.bangkit.trackmate.view.app.detail.product
 
+import academy.bangkit.trackmate.data.remote.response.DetailResponse
 import academy.bangkit.trackmate.data.remote.response.ImpactItem
 import academy.bangkit.trackmate.data.remote.response.Location
-import academy.bangkit.trackmate.data.remote.response.DetailResponse
 import academy.bangkit.trackmate.data.remote.response.ProductItem
 import academy.bangkit.trackmate.data.remote.response.ProductMaterial
 import academy.bangkit.trackmate.data.remote.response.ProductionItem
@@ -14,6 +14,7 @@ import academy.bangkit.trackmate.view.app.detail.component.product.ProductImageA
 import academy.bangkit.trackmate.view.app.detail.component.product.ProductImpactAndOverview
 import academy.bangkit.trackmate.view.app.detail.component.product.ProductMaterialDetail
 import academy.bangkit.trackmate.view.app.detail.component.productionprocess.ProductionProcess
+import academy.bangkit.trackmate.view.formatToRupiah
 import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,9 +44,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.maps.model.LatLng
 import okhttp3.internal.immutableListOf
-import java.text.DecimalFormat
-import java.text.NumberFormat
-import java.util.Locale
 
 @Composable
 fun ProductDetailScreen(
@@ -164,14 +162,6 @@ fun ErrorScreen(message: String, action: () -> Unit) {
     }
 }
 
-fun formatToRupiah(amount: Int): String {
-    val formatter = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
-    if (formatter is DecimalFormat) {
-        formatter.applyPattern("'Rp'#,##0")
-    }
-    return formatter.format(amount.toLong())
-}
-
 @Composable
 fun Loading() {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -268,7 +258,7 @@ fun ProductDetailScreenPrev() {
     }
 }
 
-@Preview
+@Preview(heightDp = 200)
 @Composable
 fun ErrorScreenPreview() {
     TrackMateTheme {
