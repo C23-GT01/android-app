@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
 @Composable
-fun UmkmImpactAndOverview(umkmImpact: List<ImpactItem>, contribution: List<Byte>) {
+fun UmkmImpact(umkmImpact: List<ImpactItem>) {
     Title(title = "UMKM Impact")
 
     Row(
@@ -63,48 +63,5 @@ fun UmkmImpactAndOverview(umkmImpact: List<ImpactItem>, contribution: List<Byte>
             }
         }
     }
-//    Divider()
-//
-//    Text(
-//        text = "Dengan membeli pada UMKM ini Anda telah...",
-//        fontWeight = FontWeight.SemiBold,
-//        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
-//    )
-//
-//    contribution.forEach {
-//        val productImpactOverview1 =
-//            when (it) {
-//                1.toByte() -> ProductImpactOverview(
-//                    Icons.Rounded.AccountBox,
-//                    "Telah menguntungkan produsen sebagai penjual produk ini"
-//                )
-//
-//                2.toByte() -> ProductImpactOverview(
-//                    Icons.Rounded.Build,
-//                    "Telah menguntungkan penjuial sebagai pembeli"
-//                )
-//
-//                3.toByte() -> ProductImpactOverview(
-//                    Icons.Rounded.Warning,
-//                    "Telah menguntungkan kedua belah pihak"
-//                )
-//
-//                else -> {
-//                    ProductImpactOverview(
-//                        Icons.Rounded.Close,
-//                        "-"
-//                    )
-//                }
-//            }
-//        Row(
-//            modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
-//        ) {
-//            Icon(productImpactOverview1.icons, "Content desc")
-//            Text(
-//                text = productImpactOverview1.description,
-//                modifier = Modifier.padding(start = 8.dp)
-//            )
-//        }
-//    }
     Divider()
 }

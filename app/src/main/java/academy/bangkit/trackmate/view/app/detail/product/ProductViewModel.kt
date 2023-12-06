@@ -25,10 +25,10 @@ class ProductViewModel(private val repository: ProductRepository) : ViewModel() 
                 _product.value = productDetail
             } catch (e: UnknownHostException) {
                 DetailResponse(
-                    null,
-                    true,
-                    "Terjadi masalah dengan koneksi jaringan",
-                    "unsuccess"
+                    error = true,
+                    status = "fail",
+                    message = "Terjadi masalah dengan koneksi jaringan",
+                    data = null
                 )
                 _product.value = productDetailError("Terjadi masalah dengan koneksi jaringan")
             } catch (e: Exception) {

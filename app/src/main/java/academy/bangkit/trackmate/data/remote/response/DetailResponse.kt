@@ -3,6 +3,8 @@ package academy.bangkit.trackmate.data.remote.response
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.google.gson.annotations.SerializedName
 
+// https://github.com/C23-GT01/backend-api#Get-Detail-Product
+
 data class DetailResponse(
 
     @field:SerializedName("data")

@@ -24,30 +24,22 @@ class HomeViewModel(private val repository: ProductRepository) : ViewModel() {
                 val productDetail = repository.getAllProducts()
                 _product.value = productDetail
             } catch (e: UnknownHostException) {
-                HomeResponse(
-                    null,
-                    0,
-                    true,
-                    "Terjadi masalah dengan koneksi jaringan",
-                    "fail"
-                )
-                _product.value = productDetailError("Terjadi masalah dengan koneksi jaringan")
+                _product.value = detailError("Terjadi masalah dengan koneksi jaringan")
             } catch (e: Exception) {
-                _product.value = productDetailError(e.message ?: "Terjadi masalah")
+                _product.value = detailError(e.message ?: "Terjadi masalah")
             } finally {
                 _isLoading.value = false
             }
         }
     }
 
-    private fun productDetailError(message: String): HomeResponse {
-        return HomeResponse(null, 0, true, message, "fail")
+    private fun detailError(message: String): HomeResponse {
+        return HomeResponse(
+            error = true,
+            status = "fail",
+            message = message,
+            count = 0,
+            data = null
+        )
     }
-
-//    UserRepository
-//    fun logout() {
-//        viewModelScope.launch {
-//            repository.logout()
-//        }
-//    }
 }

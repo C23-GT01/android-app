@@ -159,7 +159,7 @@ fun HomeScreen(
                 } else {
                     ErrorScreen(
                         message = homeResponse.message,
-                        action = {viewModel.getAllProducts()}
+                        action = { viewModel.getAllProducts() }
                     )
                 }
             }
@@ -184,7 +184,7 @@ fun FilterRow(
             CategoryItem(
                 size = if (isLandscape(LocalConfiguration.current)) 40.dp else 60.dp,
                 category = category,
-                onClick = {Log.d("Tes Cick Icon","Item ${category.id} clicked")}
+                onClick = { Log.d("Tes Cick Icon", "Item ${category.id} clicked") }
             )
         }
     }

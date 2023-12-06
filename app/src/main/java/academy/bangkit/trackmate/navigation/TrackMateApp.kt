@@ -17,6 +17,7 @@ import academy.bangkit.trackmate.view.app.account.menu.UserAccountViewModel
 import academy.bangkit.trackmate.view.app.detail.product.ProductDetailScreen
 import academy.bangkit.trackmate.view.app.detail.product.ProductViewModel
 import academy.bangkit.trackmate.view.app.detail.umkm.UmkmDetailScreen
+import academy.bangkit.trackmate.view.app.detail.umkm.UmkmViewModel
 import academy.bangkit.trackmate.view.app.home.HomeScreen
 import academy.bangkit.trackmate.view.app.home.HomeViewModel
 import academy.bangkit.trackmate.view.app.scanner.ScannerScreen
@@ -280,18 +281,18 @@ fun Host(
                     navArgument("id") { type = NavType.StringType }
                 )
             ) {
-//                val viewModel = viewModel<ProductViewModel>(
-//                    factory = ViewModelFactory(
-//                        Injection.provideUserRepository(
-//                            LocalContext.current
-//                        )
-//                    )
-//                )
+                val viewModel = viewModel<UmkmViewModel>(
+                    factory = ViewModelFactory(
+                        Injection.provideUserRepository(
+                            LocalContext.current
+                        )
+                    )
+                )
                 val id = it.arguments?.getString("id") ?: "-"
                 UmkmDetailScreen(
                     navController = navController,
                     id = id,
-                    umkm = Sample.sampleProduct
+                    viewModel = viewModel
                 )
             }
         }
