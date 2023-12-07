@@ -52,7 +52,6 @@ fun UserAccountScreen(
 ) {
 
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-
     var showDialog by remember { mutableStateOf(false) }
 
     Box {
@@ -71,7 +70,6 @@ fun UserAccountScreen(
                     modifier = Modifier
                         .size(200.dp)
                         .clip(MaterialTheme.shapes.medium)
-                        .clickable { /* Handle image selection */ }
                         .padding(16.dp)
                         .constrainAs(profile) {
                             top.linkTo(topImg.bottom)
@@ -136,7 +134,7 @@ fun UserAccountScreen(
                     showDialog = false
                 },
                 title = {
-                    Text(text = "Log Out")
+                    Text(text = "Logout")
                 },
                 text = {
                     Text(text = "Yakin mau keluar?")

@@ -3,6 +3,7 @@ package academy.bangkit.trackmate.view
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalContext
@@ -35,4 +36,8 @@ fun formatToRupiah(amount: Int): String {
         formatter.applyPattern("'Rp'#,##0")
     }
     return formatter.format(amount.toLong())
+}
+
+fun showToast(context: Context, message: String) {
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }

@@ -2,6 +2,7 @@ package academy.bangkit.trackmate.navigation
 
 import academy.bangkit.trackmate.di.Injection
 import academy.bangkit.trackmate.view.ViewModelFactory
+import academy.bangkit.trackmate.view.app.account.GuestAccountScreen
 import academy.bangkit.trackmate.view.app.account.UserAccountScreen
 import academy.bangkit.trackmate.view.app.account.UserAccountViewModel
 import academy.bangkit.trackmate.view.app.account.menu.EditProfileScreen
@@ -60,9 +61,8 @@ fun TrackMateApp(viewModel: TrackMateAppViewModel) {
 
     viewModel.getSession().observeAsState().value?.let {
         if (!it.isLogin) {
-
             // TODO: kalo user belom login arahkan ke authentication screen
-            Host(navController, Screen.Auth.route)
+            Host(false, navController, Screen.Auth.route)
 
         } else {
             // TODO: kalo user udah login arahkan ke aplikasi utama langsung
@@ -83,7 +83,8 @@ fun TrackMateApp(viewModel: TrackMateAppViewModel) {
                     BottomBar(navController)
                 }
             ) { innerPadding ->
-                Host(navController, Screen.App.route, innerPadding)
+                val isLoggedInAsGuest = it.token == "Guest"
+                Host(isLoggedInAsGuest, navController, Screen.App.route, innerPadding)
             }
         }
     }
@@ -171,10 +172,12 @@ private fun BottomBar(navController: NavHostController) {
 
 @Composable
 fun Host(
+    isLoggedInAsGuest: Boolean,
     navController: NavHostController,
     startDestination: String,
     innerPadding: PaddingValues = PaddingValues(0.dp)
 ) {
+    val factory = ViewModelFactory(Injection.provideUserRepository(LocalContext.current))
     NavHost(
         navController = navController,
         startDestination = startDestination,
@@ -186,13 +189,7 @@ fun Host(
             route = Screen.Auth.route
         ) {
             composable(route = Screen.Auth.Login.route) {
-                val viewModel = viewModel<LoginViewModel>(
-                    factory = ViewModelFactory(
-                        Injection.provideUserRepository(
-                            LocalContext.current
-                        )
-                    )
-                )
+                val viewModel = viewModel<LoginViewModel>(factory = factory)
                 LoginScreen(navController = navController, viewModel)
             }
 
@@ -211,13 +208,7 @@ fun Host(
             route = Screen.App.route
         ) {
             composable(route = Screen.App.Home.route) {
-                val viewModel = viewModel<HomeViewModel>(
-                    factory = ViewModelFactory(
-                        Injection.provideUserRepository(
-                            LocalContext.current
-                        )
-                    )
-                )
+                val viewModel = viewModel<HomeViewModel>(factory = factory)
                 HomeScreen(navController, viewModel)
             }
 
@@ -226,14 +217,12 @@ fun Host(
             }
 
             composable(route = Screen.App.Account.route) {
-                val viewModel = viewModel<UserAccountViewModel>(
-                    factory = ViewModelFactory(
-                        Injection.provideUserRepository(
-                            LocalContext.current
-                        )
-                    )
-                )
-                UserAccountScreen(navController, viewModel)
+                val viewModel = viewModel<UserAccountViewModel>(factory = factory)
+                if (!isLoggedInAsGuest) {
+                    UserAccountScreen(navController, viewModel)
+                } else {
+                    GuestAccountScreen(navController, viewModel)
+                }
             }
 
             composable(
@@ -241,13 +230,7 @@ fun Host(
                     navArgument("id") { type = NavType.StringType }
                 )
             ) {
-                val viewModel = viewModel<ProductViewModel>(
-                    factory = ViewModelFactory(
-                        Injection.provideUserRepository(
-                            LocalContext.current
-                        )
-                    )
-                )
+                val viewModel = viewModel<ProductViewModel>(factory = factory)
                 val id = it.arguments?.getString("id") ?: "-"
                 ProductDetailScreen(navController = navController, id = id, viewModel = viewModel)
             }
@@ -269,13 +252,7 @@ fun Host(
                     navArgument("id") { type = NavType.StringType }
                 )
             ) {
-                val viewModel = viewModel<UmkmViewModel>(
-                    factory = ViewModelFactory(
-                        Injection.provideUserRepository(
-                            LocalContext.current
-                        )
-                    )
-                )
+                val viewModel = viewModel<UmkmViewModel>(factory = factory)
                 val id = it.arguments?.getString("id") ?: "-"
                 UmkmDetailScreen(
                     navController = navController,

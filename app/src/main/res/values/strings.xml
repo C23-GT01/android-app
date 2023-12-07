@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TrackMate</string>
     <string name="trackmate">TrackMate</string>
-    <string name="create_account">Create An Account</string>
+    <string name="create_account">Create an Account</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="email">Email</string>

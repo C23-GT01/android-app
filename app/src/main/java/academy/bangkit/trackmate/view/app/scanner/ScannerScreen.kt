@@ -1,7 +1,7 @@
 package academy.bangkit.trackmate.view.app.scanner
 
-import android.content.Context
-import android.widget.Toast
+import academy.bangkit.trackmate.navigation.Screen
+import academy.bangkit.trackmate.view.showToast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -11,7 +11,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import academy.bangkit.trackmate.navigation.Screen
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.codescanner.GmsBarcodeScannerOptions
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
@@ -63,8 +62,4 @@ fun ScannerScreen(navController: NavController) {
                 }
         }
     }
-}
-
-private fun showToast(context: Context, message: String) {
-    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }

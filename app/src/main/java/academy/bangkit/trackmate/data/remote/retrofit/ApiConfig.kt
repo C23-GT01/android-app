@@ -22,7 +22,7 @@ class ApiConfig {
                 .addInterceptor(authInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://a60ac30d-cf11-4bc6-8592-6497d8f8317c.mock.pstmn.io/")
+                .baseUrl("https://60df6d0f-f333-4237-b062-3be18082ca6a.mock.pstmn.io")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
