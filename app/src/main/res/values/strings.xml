@@ -19,4 +19,5 @@
     <string name="category_agriculture">Agrikultur</string>
     <string name="category_drink">Minuman</string>
     <string name="category_food">Makanan</string>
+    <string name="category_unknown">Produk UMKM</string>
 </resources>

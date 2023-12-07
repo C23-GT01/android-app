@@ -17,11 +17,11 @@ class HomeViewModel(private val repository: ProductRepository) : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    fun getAllProducts() {
+    fun getAllProducts(categoryId: Int? = null, keyword: String? = null) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                val productDetail = repository.getAllProducts()
+                val productDetail = repository.getAllProducts(categoryId, keyword)
                 _product.value = productDetail
             } catch (e: UnknownHostException) {
                 _product.value = detailError("Terjadi masalah dengan koneksi jaringan")

@@ -9,7 +9,13 @@ class ProductRepository {
         return ApiConfig.getApiService().getDetailProduct(id)
     }
 
-    suspend fun getAllProducts(): HomeResponse {
-        return ApiConfig.getApiService().getAllProducts()
+    suspend fun getAllProducts(categoryId: Int? = null, keyword: String? = null): HomeResponse {
+        return if (keyword != null) {
+            ApiConfig.getApiService().getProductsByKeyword(keyword)
+        } else if (categoryId != null) {
+            ApiConfig.getApiService().getProductsByCategory(categoryId)
+        } else {
+            ApiConfig.getApiService().getAllProducts()
+        }
     }
 }

@@ -21,6 +21,16 @@ interface ApiService {
     @GET("products")
     suspend fun getAllProducts(): HomeResponse
 
+    @GET("products/{categoryId}")
+    suspend fun getProductsByCategory(
+        @Path("categoryId") category: Int
+    ): HomeResponse
+
+    @GET("products/search/{keyword}")
+    suspend fun getProductsByKeyword(
+        @Path("keyword") keyword: String
+    ): HomeResponse
+
     @GET("umkm/{umkmId}")
     suspend fun getUMKMProfile(
         @Path("umkmId") detail: String,

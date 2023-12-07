@@ -1,5 +1,6 @@
 package academy.bangkit.trackmate.view.app.home
 
+import academy.bangkit.trackmate.R
 import academy.bangkit.trackmate.data.remote.response.HomeResponse
 import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
@@ -38,11 +39,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -59,8 +63,11 @@ fun HomeScreen(
     viewModel: HomeViewModel
 ) {
 
+    val context = LocalContext.current
     val response by viewModel.product.observeAsState()
     val isLoading by viewModel.isLoading.observeAsState(initial = false)
+
+    var title by remember { mutableStateOf(context.getString(R.string.category_all)) }
 
     LaunchedEffect(Unit) {
         viewModel.getAllProducts()
@@ -79,18 +86,53 @@ fun HomeScreen(
 
         AnimatedVisibility(visible = !showButton) {
             Column {
-                Banner(imageVisible = !landscape)
+                Banner(
+                    imageVisible = !landscape,
+                    onSearch = {
+                        Log.d("Onsearch", "You search for $it")
+                        viewModel.getAllProducts(keyword = it)
+                        title = "Hasil pencarian: \"$it\""
+                    },
+                    onClickScanner = { navController.navigate(Screen.App.Scanner.route) }
+                )
             }
         }
         if (!landscape) {
-            FilterRow()
+            FilterRow {
+                when (it) {
+                    0 -> {
+                        title = context.getString(R.string.category_all)
+                        viewModel.getAllProducts()
+                    }
+
+                    1 -> {
+                        title = context.getString(R.string.category_agriculture)
+                        viewModel.getAllProducts(it)
+                    }
+
+                    2 -> {
+                        title = context.getString(R.string.category_food)
+                        viewModel.getAllProducts(it)
+                    }
+
+                    3 -> {
+                        title = context.getString(R.string.category_drink)
+                        viewModel.getAllProducts(it)
+                    }
+
+                    else -> {
+                        title = context.getString(R.string.category_unknown)
+                        viewModel.getAllProducts()
+                    }
+                }
+            }
         }
 
         AnimatedVisibility(visible = !showButton) {
             Column {
                 if (!landscape) {
                     Divider()
-                    Title(title = "Rekomendasi Produk")
+                    Title(title = title)
                 }
             }
         }
@@ -171,7 +213,8 @@ fun isLandscape(configuration: Configuration): Boolean {
 
 @Composable
 fun FilterRow(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    action: (Int) -> Unit
 ) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -182,7 +225,9 @@ fun FilterRow(
             CategoryItem(
                 size = if (isLandscape(LocalConfiguration.current)) 40.dp else 60.dp,
                 category = category,
-                onClick = { Log.d("Tes Cick Icon", "Item ${category.id} clicked") }
+                onClick = {
+                    action(category.id)
+                }
             )
         }
     }

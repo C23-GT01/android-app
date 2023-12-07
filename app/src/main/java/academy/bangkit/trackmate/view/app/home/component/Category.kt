@@ -16,5 +16,5 @@ val category = listOf(
     R.drawable.icon_category_food to R.string.category_food,
     R.drawable.icon_category_drink to R.string.category_drink,
 ).mapIndexed { index, pair ->
-    Category(index + 1, pair.first, pair.second)
+    Category(index, pair.first, pair.second)
 }
