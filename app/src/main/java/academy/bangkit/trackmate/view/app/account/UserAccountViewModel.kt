@@ -1,6 +1,6 @@
 package academy.bangkit.trackmate.view.app.account
 
-import academy.bangkit.trackmate.data.pref.UserRepository
+import academy.bangkit.trackmate.data.repository.UserRepository
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch

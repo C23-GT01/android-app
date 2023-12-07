@@ -1,6 +1,8 @@
 package academy.bangkit.trackmate.view.auth.register
 
 import academy.bangkit.trackmate.R
+import academy.bangkit.trackmate.data.remote.response.RegisterResponse
+import academy.bangkit.trackmate.view.Factory
 import academy.bangkit.trackmate.view.LockScreenOrientation
 import academy.bangkit.trackmate.view.auth.components.ButtonComponent
 import academy.bangkit.trackmate.view.auth.components.ClickableLoginTextComponent
@@ -8,6 +10,7 @@ import academy.bangkit.trackmate.view.auth.components.HeadingTextComponent
 import academy.bangkit.trackmate.view.auth.components.NormalTextComponent
 import academy.bangkit.trackmate.view.auth.components.PasswordTextFieldComponent
 import academy.bangkit.trackmate.view.auth.components.TextFieldComponent
+import academy.bangkit.trackmate.view.component.LinearLoading
 import android.content.pm.ActivityInfo
 import android.util.Log
 import androidx.compose.foundation.layout.Column
@@ -17,72 +20,99 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterScreen(navController: NavController) {
-//    Surface(
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .background(Color.White)
-//            .padding(28.dp)
-//    ) {
+fun RegisterScreen(
+    navController: NavController,
+    viewModel: RegisterViewModel
+) {
+
     LockScreenOrientation(orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(28.dp)
-    ) {
-        NormalTextComponent(value = stringResource(id = R.string.trackmate))
-        HeadingTextComponent(value = stringResource(id = R.string.create_account))
-        Spacer(modifier = Modifier.height(38.dp))
-        TextFieldComponent(
-            labelValue = stringResource(id = R.string.first_name),
-            painterResource = painterResource(R.drawable.baseline_person_outline_24)
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        TextFieldComponent(
-            labelValue = stringResource(id = R.string.last_name),
-            painterResource = painterResource(R.drawable.baseline_person_outline_24)
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        TextFieldComponent(
-            labelValue = stringResource(id = R.string.email),
-            painterResource = painterResource(R.drawable.baseline_email_24)
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        PasswordTextFieldComponent(
-            labelValue = stringResource(id = R.string.password),
-            painterResource = painterResource(id = R.drawable.baseline_lock_24)
-        )
-        Spacer(modifier = Modifier.height(40.dp))
-        ButtonComponent(
-            value = stringResource(id = R.string.register),
-            action = {
-                Log.d("Register", "Clicked")
-            }
-        )
+    val nullableResponse by viewModel.registerResponse.observeAsState()
+    val isLoading by viewModel.isLoading.observeAsState(initial = false)
 
-        Spacer(modifier = Modifier.height(20.dp))
-        ClickableLoginTextComponent(
-            onTextSelected =
-            {
-                navController.navigateUp()
-            })
+    var username by remember { mutableStateOf("") }
+    var fullname by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
+    val response: RegisterResponse
+    if (nullableResponse != null) {
+        response = nullableResponse as RegisterResponse
+        Log.d("Register", response.toString())
     }
-//    }
+
+    Column {
+        LinearLoading(isLoading)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(28.dp)
+        ) {
+            NormalTextComponent(value = stringResource(id = R.string.trackmate))
+            HeadingTextComponent(value = stringResource(id = R.string.create_account))
+            Spacer(modifier = Modifier.height(38.dp))
+            TextFieldComponent(
+                labelValue = stringResource(id = R.string.full_name),
+                painterResource = painterResource(R.drawable.baseline_person_outline_24),
+                onTextValueChanged = { fullname = it }
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            TextFieldComponent(
+                labelValue = stringResource(id = R.string.username),
+                painterResource = painterResource(R.drawable.baseline_person_outline_24),
+                onTextValueChanged = { username = it }
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            TextFieldComponent(
+                labelValue = stringResource(id = R.string.email),
+                painterResource = painterResource(R.drawable.baseline_email_24),
+                onTextValueChanged = { email = it }
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+            PasswordTextFieldComponent(
+                labelValue = stringResource(id = R.string.password),
+                painterResource = painterResource(id = R.drawable.baseline_lock_24),
+                onTextValueChanged = { password = it }
+            )
+            Spacer(modifier = Modifier.height(40.dp))
+            ButtonComponent(
+                value = stringResource(id = R.string.register),
+                action = {
+                    Log.d("Register", "Your Data = $fullname, $username, $email, $password")
+                    viewModel.register(username, email, password, fullname)
+                }
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+            ClickableLoginTextComponent(
+                onTextSelected =
+                {
+                    navController.navigateUp()
+                })
+        }
+    }
+
 }
 
 @Preview(showBackground = true)
 @Composable
 fun RegisterScreenPrev() {
-    RegisterScreen(navController = rememberNavController())
+    val viewModel = viewModel<RegisterViewModel>(factory = Factory())
+    RegisterScreen(rememberNavController(), viewModel)
 }

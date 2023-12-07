@@ -62,8 +62,7 @@ fun NormalTextComponent(value: String) {
             fontSize = 24.sp,
             fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal
-        )
-        , color = TextColor,
+        ), color = TextColor,
         textAlign = TextAlign.Center
     )
 }
@@ -78,15 +77,18 @@ fun HeadingTextComponent(value: String) {
             fontSize = 30.sp,
             fontWeight = FontWeight.Bold,
             fontStyle = FontStyle.Normal
-        )
-        , color = TextColor,
+        ), color = TextColor,
         textAlign = TextAlign.Center
     )
 }
 
 @ExperimentalMaterial3Api
 @Composable
-fun TextFieldComponent(labelValue: String, painterResource: Painter) {
+fun TextFieldComponent(
+    labelValue: String,
+    painterResource: Painter,
+    onTextValueChanged: (String) -> Unit
+) {
     val textValue = remember {
         mutableStateOf(TextFieldValue(""))
     }
@@ -96,18 +98,18 @@ fun TextFieldComponent(labelValue: String, painterResource: Painter) {
             modifier = Modifier
                 .fillMaxWidth(),
             label = { Text(text = labelValue) },
+            singleLine = true,
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color.White,
                 focusedLabelColor = Primary,
                 cursorColor = Primary,
-
-
-                ),
+            ),
             shape = RoundedCornerShape(22.dp),
             keyboardOptions = KeyboardOptions.Default,
             value = textValue.value,
             onValueChange = {
                 textValue.value = it
+                onTextValueChanged(it.text)
             },
             leadingIcon = {
                 Icon(painter = painterResource, contentDescription = null)
@@ -118,7 +120,11 @@ fun TextFieldComponent(labelValue: String, painterResource: Painter) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter) {
+fun PasswordTextFieldComponent(
+    labelValue: String,
+    painterResource: Painter,
+    onTextValueChanged: (String) -> Unit
+) {
     val password = remember {
         mutableStateOf(TextFieldValue(""))
     }
@@ -132,28 +138,30 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter) {
             modifier = Modifier
                 .fillMaxWidth(),
             label = { Text(text = labelValue) },
+            singleLine = true,
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color.White,
                 focusedLabelColor = Primary,
                 cursorColor = Primary,
-                ),
+            ),
             shape = RoundedCornerShape(22.dp),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             value = password.value,
             onValueChange = {
                 password.value = it
+                onTextValueChanged(it.text)
             },
             leadingIcon = {
                 Icon(painter = painterResource, contentDescription = null)
             },
             trailingIcon = {
-                val iconImage = if(passwordVisible.value) {
+                val iconImage = if (passwordVisible.value) {
                     Icons.Filled.Visibility
                 } else {
                     Icons.Filled.VisibilityOff
                 }
 
-                val description = if (passwordVisible.value){
+                val description = if (passwordVisible.value) {
                     stringResource(id = R.string.hide_password)
                 } else {
                     stringResource(id = R.string.show_password)
@@ -170,7 +178,7 @@ fun PasswordTextFieldComponent(labelValue: String, painterResource: Painter) {
 }
 
 @Composable
-fun ButtonComponent(value: String, action: ()->Unit) {
+fun ButtonComponent(value: String, action: () -> Unit) {
     Button(
         onClick = action,
         modifier = Modifier
@@ -188,7 +196,7 @@ fun ButtonComponent(value: String, action: ()->Unit) {
                     shape = RoundedCornerShape(50.dp)
                 ),
             contentAlignment = Alignment.Center
-        ){
+        ) {
             Text(
                 text = value,
                 fontSize = 18.sp,
@@ -200,12 +208,13 @@ fun ButtonComponent(value: String, action: ()->Unit) {
 
 @Composable
 fun ClickableLoginTextComponent(tryingToLogin: Boolean = true, onTextSelected: (String) -> Unit) {
-    val initialText = if (tryingToLogin) "Already have an account? " else "Don't have an account yet? "
+    val initialText =
+        if (tryingToLogin) "Already have an account? " else "Don't have an account yet? "
     val loginText = if (tryingToLogin) "Login" else "Register"
 
     val annotatedString = buildAnnotatedString {
         append(initialText)
-        withStyle(style =  SpanStyle(color = Primary)) {
+        withStyle(style = SpanStyle(color = Primary)) {
             pushStringAnnotation(tag = loginText, annotation = loginText)
             append(loginText)
         }
@@ -220,14 +229,14 @@ fun ClickableLoginTextComponent(tryingToLogin: Boolean = true, onTextSelected: (
             fontStyle = FontStyle.Normal,
             textAlign = TextAlign.Center
         ),
-        text = annotatedString, onClick = {offset ->
-        annotatedString.getStringAnnotations(offset, offset)
-            .firstOrNull()?.also {span ->
-                if (span.item == loginText) {
-                    onTextSelected(span.item)
+        text = annotatedString, onClick = { offset ->
+            annotatedString.getStringAnnotations(offset, offset)
+                .firstOrNull()?.also { span ->
+                    if (span.item == loginText) {
+                        onTextSelected(span.item)
+                    }
                 }
-            }
-    })
+        })
 }
 
 @Composable
@@ -240,7 +249,8 @@ fun UnderlinedTextComponent(value: String) {
             fontSize = 15.sp,
             fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal
-        ), color = Color.Gray,
+        ),
+        color = Color.Gray,
         textAlign = TextAlign.Right,
         textDecoration = TextDecoration.Underline,
     )

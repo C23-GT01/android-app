@@ -1,4 +1,4 @@
-package academy.bangkit.trackmate.data.remote.repository
+package academy.bangkit.trackmate.data.repository
 
 import academy.bangkit.trackmate.data.remote.response.UMKMResponse
 import academy.bangkit.trackmate.data.remote.retrofit.ApiConfig

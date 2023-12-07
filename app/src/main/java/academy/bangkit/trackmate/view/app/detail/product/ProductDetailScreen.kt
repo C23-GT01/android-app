@@ -14,6 +14,7 @@ import academy.bangkit.trackmate.view.app.detail.component.product.ProductImageA
 import academy.bangkit.trackmate.view.app.detail.component.product.ProductImpactAndOverview
 import academy.bangkit.trackmate.view.app.detail.component.product.ProductMaterialDetail
 import academy.bangkit.trackmate.view.app.detail.component.productionprocess.ProductionProcess
+import academy.bangkit.trackmate.view.component.CircularLoading
 import academy.bangkit.trackmate.view.formatToRupiah
 import android.util.Log
 import androidx.compose.foundation.layout.Box
@@ -21,13 +22,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -56,12 +55,12 @@ fun ProductDetailScreen(
     val isLoading by viewModel.isLoading.observeAsState(initial = false)
 
     LaunchedEffect(Unit) {
-        Log.d("Check ID","Diterima $id")
+        Log.d("Check ID", "Diterima $id")
         viewModel.getProductDetail("xxx")
     }
 
     if (isLoading) {
-        Box(modifier = Modifier.fillMaxSize()) { Loading() }
+        Box(modifier = Modifier.fillMaxSize()) { CircularLoading() }
     } else {
         val detailResponse: DetailResponse
         if (response != null) {
@@ -112,8 +111,8 @@ private fun ShowProduct(product: ProductItem, navController: NavController) {
                         product.productBy.location.lat,
                         product.productBy.location.lng
                     )
-                ){
-                    Log.d("Click","ProductBy")
+                ) {
+                    Log.d("Click", "ProductBy")
                     navController.navigate(Screen.App.UMKM.createRoute("idUmkm"))
                 }
             }
@@ -159,18 +158,6 @@ fun ErrorScreen(message: String, action: () -> Unit) {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Loading() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        CircularProgressIndicator(
-            modifier = Modifier
-                .size(75.dp)
-                .padding(16.dp)
-                .align(Alignment.Center)
-        )
     }
 }
 

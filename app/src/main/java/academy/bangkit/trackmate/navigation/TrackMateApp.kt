@@ -1,7 +1,6 @@
 package academy.bangkit.trackmate.navigation
 
-import academy.bangkit.trackmate.di.Injection
-import academy.bangkit.trackmate.view.ViewModelFactory
+import academy.bangkit.trackmate.view.Factory
 import academy.bangkit.trackmate.view.app.account.GuestAccountScreen
 import academy.bangkit.trackmate.view.app.account.UserAccountScreen
 import academy.bangkit.trackmate.view.app.account.UserAccountViewModel
@@ -19,6 +18,8 @@ import academy.bangkit.trackmate.view.auth.forgetpassword.ForgetPasswordScreen
 import academy.bangkit.trackmate.view.auth.login.LoginScreen
 import academy.bangkit.trackmate.view.auth.login.LoginViewModel
 import academy.bangkit.trackmate.view.auth.register.RegisterScreen
+import academy.bangkit.trackmate.view.auth.register.RegisterViewModel
+import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -39,7 +40,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -60,6 +60,9 @@ fun TrackMateApp(viewModel: TrackMateAppViewModel) {
     val currentRoute = navBackStackEntry?.destination?.route
 
     viewModel.getSession().observeAsState().value?.let {
+        Log.d("Get Session", "User = ${it.username}")
+        Log.d("Get Session", "Refresh Token = ${it.refreshToken}")
+        Log.d("Get Session", "Is Login = ${it.isLogin}")
         if (!it.isLogin) {
             // TODO: kalo user belom login arahkan ke authentication screen
             Host(false, navController, Screen.Auth.route)
@@ -83,7 +86,7 @@ fun TrackMateApp(viewModel: TrackMateAppViewModel) {
                     BottomBar(navController)
                 }
             ) { innerPadding ->
-                val isLoggedInAsGuest = it.token == "Guest"
+                val isLoggedInAsGuest = it.refreshToken == "Guest"
                 Host(isLoggedInAsGuest, navController, Screen.App.route, innerPadding)
             }
         }
@@ -177,7 +180,7 @@ fun Host(
     startDestination: String,
     innerPadding: PaddingValues = PaddingValues(0.dp)
 ) {
-    val factory = ViewModelFactory(Injection.provideUserRepository(LocalContext.current))
+    val factory = Factory()
     NavHost(
         navController = navController,
         startDestination = startDestination,
@@ -194,7 +197,8 @@ fun Host(
             }
 
             composable(route = Screen.Auth.Register.route) {
-                RegisterScreen(navController = navController)
+                val viewModel = viewModel<RegisterViewModel>(factory = factory)
+                RegisterScreen(navController = navController, viewModel)
             }
 
             composable(route = Screen.Auth.ForgetPassword.route) {

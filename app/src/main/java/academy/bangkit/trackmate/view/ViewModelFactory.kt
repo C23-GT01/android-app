@@ -4,13 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import academy.bangkit.trackmate.view.app.home.HomeViewModel
 import academy.bangkit.trackmate.view.auth.login.LoginViewModel
-import academy.bangkit.trackmate.data.pref.UserRepository
-import academy.bangkit.trackmate.data.remote.repository.ProductRepository
-import academy.bangkit.trackmate.data.remote.repository.UMKMRepository
+import academy.bangkit.trackmate.data.repository.UserRepository
+import academy.bangkit.trackmate.data.repository.ProductRepository
+import academy.bangkit.trackmate.data.repository.UMKMRepository
 import academy.bangkit.trackmate.navigation.TrackMateAppViewModel
 import academy.bangkit.trackmate.view.app.account.UserAccountViewModel
 import academy.bangkit.trackmate.view.app.detail.product.ProductViewModel
 import academy.bangkit.trackmate.view.app.detail.umkm.UmkmViewModel
+import academy.bangkit.trackmate.view.auth.register.RegisterViewModel
 
 class ViewModelFactory(private val repository: UserRepository) :
     ViewModelProvider.NewInstanceFactory() {
@@ -28,6 +29,8 @@ class ViewModelFactory(private val repository: UserRepository) :
             return UserAccountViewModel(repository) as T
         } else if (modelClass.isAssignableFrom(UmkmViewModel::class.java)) {
             return UmkmViewModel(repository = UMKMRepository()) as T
+        } else if (modelClass.isAssignableFrom(RegisterViewModel::class.java)) {
+            return RegisterViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }

@@ -10,7 +10,7 @@ import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmImpact
 import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmLocation
 import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmProduct
 import academy.bangkit.trackmate.view.app.detail.product.ErrorScreen
-import academy.bangkit.trackmate.view.app.detail.product.Loading
+import academy.bangkit.trackmate.view.component.CircularLoading
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -38,11 +38,11 @@ fun UmkmDetailScreen(
 
     LaunchedEffect(Unit) {
         viewModel.getUMKMDetail("mamo")
-        Log.d("Check ID","Diterima $id")
+        Log.d("Check ID", "Diterima $id")
     }
 
     if (isLoading) {
-        Box(modifier = Modifier.fillMaxSize()) { Loading() }
+        Box(modifier = Modifier.fillMaxSize()) { CircularLoading() }
     } else {
         val detailResponse: UMKMResponse
         if (response != null) {

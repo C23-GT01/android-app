@@ -1,5 +1,6 @@
 package academy.bangkit.trackmate.view
 
+import academy.bangkit.trackmate.di.Injection
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
@@ -40,4 +41,9 @@ fun formatToRupiah(amount: Int): String {
 
 fun showToast(context: Context, message: String) {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+}
+
+@Composable
+fun Factory(): ViewModelFactory {
+    return ViewModelFactory(Injection.provideUserRepository(LocalContext.current))
 }

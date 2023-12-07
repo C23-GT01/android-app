@@ -1,7 +1,7 @@
 package academy.bangkit.trackmate.di
 
 import android.content.Context
-import academy.bangkit.trackmate.data.pref.UserRepository
+import academy.bangkit.trackmate.data.repository.UserRepository
 import academy.bangkit.trackmate.data.pref.UserPreference
 import academy.bangkit.trackmate.data.pref.dataStore
 

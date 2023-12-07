@@ -1,7 +1,7 @@
 package academy.bangkit.trackmate.view.app.home
 
 import androidx.lifecycle.ViewModel
-import academy.bangkit.trackmate.data.remote.repository.ProductRepository
+import academy.bangkit.trackmate.data.repository.ProductRepository
 import academy.bangkit.trackmate.data.remote.response.HomeResponse
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

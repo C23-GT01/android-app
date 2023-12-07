@@ -1,11 +1,10 @@
 package academy.bangkit.trackmate.view.app.account
 
 import academy.bangkit.trackmate.R
-import academy.bangkit.trackmate.di.Injection
 import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
+import academy.bangkit.trackmate.view.Factory
 import academy.bangkit.trackmate.view.LockScreenOrientation
-import academy.bangkit.trackmate.view.ViewModelFactory
 import android.content.pm.ActivityInfo
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -34,7 +33,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -212,13 +210,7 @@ private fun ButtonInUserAccount(
 fun AccountPreview() {
     TrackMateTheme {
         Surface {
-            val viewModel = viewModel<UserAccountViewModel>(
-                factory = ViewModelFactory(
-                    Injection.provideUserRepository(
-                        LocalContext.current
-                    )
-                )
-            )
+            val viewModel = viewModel<UserAccountViewModel>(factory = Factory())
             UserAccountScreen(navController = rememberNavController(), viewModel = viewModel)
         }
     }

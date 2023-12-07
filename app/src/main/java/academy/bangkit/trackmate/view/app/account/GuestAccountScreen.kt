@@ -1,10 +1,9 @@
 package academy.bangkit.trackmate.view.app.account
 
 import academy.bangkit.trackmate.R
-import academy.bangkit.trackmate.di.Injection
 import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
-import academy.bangkit.trackmate.view.ViewModelFactory
+import academy.bangkit.trackmate.view.Factory
 import academy.bangkit.trackmate.view.app.detail.component.Title
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -23,7 +22,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -76,18 +74,12 @@ fun GuestAccountScreen(
     }
 }
 
-@Preview
+@Preview(showBackground = true, heightDp = 400)
 @Composable
 fun GuestAccountScreenPreview() {
     TrackMateTheme {
         Surface {
-            val viewModel = viewModel<UserAccountViewModel>(
-                factory = ViewModelFactory(
-                    Injection.provideUserRepository(
-                        LocalContext.current
-                    )
-                )
-            )
+            val viewModel = viewModel<UserAccountViewModel>(factory = Factory())
             GuestAccountScreen(rememberNavController(), viewModel)
         }
     }

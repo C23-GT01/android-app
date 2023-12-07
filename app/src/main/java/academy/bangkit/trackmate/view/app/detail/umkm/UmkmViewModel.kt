@@ -1,6 +1,6 @@
 package academy.bangkit.trackmate.view.app.detail.umkm
 
-import academy.bangkit.trackmate.data.remote.repository.UMKMRepository
+import academy.bangkit.trackmate.data.repository.UMKMRepository
 import academy.bangkit.trackmate.data.remote.response.UMKMResponse
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

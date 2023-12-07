@@ -1,17 +1,16 @@
 package academy.bangkit.trackmate.view.app.home
 
 import academy.bangkit.trackmate.data.remote.response.HomeResponse
-import academy.bangkit.trackmate.di.Injection
 import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
-import academy.bangkit.trackmate.view.ViewModelFactory
+import academy.bangkit.trackmate.view.Factory
 import academy.bangkit.trackmate.view.app.detail.component.Divider
 import academy.bangkit.trackmate.view.app.detail.component.Title
 import academy.bangkit.trackmate.view.app.detail.product.ErrorScreen
-import academy.bangkit.trackmate.view.app.detail.product.Loading
 import academy.bangkit.trackmate.view.app.home.component.Banner
 import academy.bangkit.trackmate.view.app.home.component.CategoryItem
 import academy.bangkit.trackmate.view.app.home.component.category
+import academy.bangkit.trackmate.view.component.CircularLoading
 import academy.bangkit.trackmate.view.formatToRupiah
 import android.content.res.Configuration
 import android.util.Log
@@ -44,7 +43,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -98,7 +96,7 @@ fun HomeScreen(
         }
 
         if (isLoading) {
-            Loading()
+            CircularLoading()
         } else {
 
             if (response != null) {
@@ -195,13 +193,7 @@ fun FilterRow(
 fun HomeScreenPreview() {
     TrackMateTheme {
         Surface {
-            val viewModel = viewModel<HomeViewModel>(
-                factory = ViewModelFactory(
-                    Injection.provideUserRepository(
-                        LocalContext.current
-                    )
-                )
-            )
+            val viewModel = viewModel<HomeViewModel>(factory = Factory())
             HomeScreen(navController = rememberNavController(), viewModel = viewModel)
         }
     }
