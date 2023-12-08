@@ -19,8 +19,10 @@ import academy.bangkit.trackmate.view.component.ErrorScreen
 import academy.bangkit.trackmate.view.formatToRupiah
 import android.util.Log
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -74,36 +76,35 @@ fun ProductDetailScreen(
 private fun ShowProduct(product: ProductItem, navController: NavController) {
     Box(modifier = Modifier.fillMaxSize()) {
         //product success to display
-        LazyColumn {
-            item {
+        Column(
+            modifier = Modifier.verticalScroll(rememberScrollState())
+        ) {
+            Log.d(
+                "Location",
+                "Lat = ${product.productBy.location.lat}\nLon = ${product.productBy.location.lng}\nLocation = ${product.productBy.location}"
+            )
 
-                Log.d(
-                    "Location",
-                    "Lat = ${product.productBy.location.lat}\nLon = ${product.productBy.location.lng}\nLocation = ${product.productBy.location}"
+            ProductImageAndOverview(
+                title = product.name,
+                imageUrl = product.image,
+                price = formatToRupiah(product.price),
+                productOverview = product.description
+            )
+            ProductMaterialDetail(product.resources)
+            ProductionProcess(product.production)
+            ProductImpactAndOverview(product.impact, product.contribution)
+            ProductBy(
+                companyName = product.productBy.name,
+                logoUrl = "https://joglo-ayutenan.com/wp-content/uploads/2021/05/logo-Joglo-Ayu-Tenan-MakerSpace.png",
+                employeeCount = product.productBy.employeeCount,
+                locationName = product.productBy.location.name,
+                latLng = LatLng(
+                    product.productBy.location.lat,
+                    product.productBy.location.lng
                 )
-
-                ProductImageAndOverview(
-                    title = product.name,
-                    imageUrl = product.image,
-                    price = formatToRupiah(product.price),
-                    productOverview = product.description
-                )
-                ProductMaterialDetail(product.resources)
-                ProductionProcess(product.production)
-                ProductImpactAndOverview(product.impact, product.contribution)
-                ProductBy(
-                    companyName = product.productBy.name,
-                    logoUrl = "https://joglo-ayutenan.com/wp-content/uploads/2021/05/logo-Joglo-Ayu-Tenan-MakerSpace.png",
-                    employeeCount = product.productBy.employeeCount,
-                    locationName = product.productBy.location.name,
-                    latLng = LatLng(
-                        product.productBy.location.lat,
-                        product.productBy.location.lng
-                    )
-                ) {
-                    Log.d("Click", "ProductBy")
-                    navController.navigate(Screen.App.UMKM.createRoute("idUmkm"))
-                }
+            ) {
+                Log.d("Click", "ProductBy")
+                navController.navigate(Screen.App.UMKM.createRoute("idUmkm"))
             }
         }
     }
