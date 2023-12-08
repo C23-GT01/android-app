@@ -1,5 +1,6 @@
 package academy.bangkit.trackmate.view.app.scanner
 
+import academy.bangkit.trackmate.R
 import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.view.showToast
 import androidx.compose.runtime.Composable
@@ -50,7 +51,7 @@ fun ScannerScreen(navController: NavController) {
                             inclusive = true
                         }
                     }
-                    showToast(context, "Scan Dibatalkan")
+                    showToast(context, context.getString(R.string.scan_canceled))
                 }
                 .addOnFailureListener { e ->
                     navController.navigate(Screen.App.Home.route) {
@@ -58,7 +59,8 @@ fun ScannerScreen(navController: NavController) {
                             inclusive = true
                         }
                     }
-                    showToast(context, "Error: $e")
+                    val errorMessage = e.message ?: context.getString(R.string.unknown_error)
+                    showToast(context, context.getString(R.string.error_message, errorMessage))
                 }
         }
     }

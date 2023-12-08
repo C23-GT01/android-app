@@ -56,10 +56,10 @@ data class ProductItem(
     val id: String,
 
     @field:SerializedName("umkm")
-    val productBy: UMKM
+    val productBy: UMKMInDetail
 )
 
-data class UMKM(
+data class UMKMInDetail(
 
     @field:SerializedName("id")
     val id: String,

@@ -11,8 +11,8 @@ import java.net.UnknownHostException
 
 class HomeViewModel(private val repository: ProductRepository) : ViewModel() {
 
-    private val _product = MutableLiveData<HomeResponse>()
-    val product: LiveData<HomeResponse> = _product
+    private val _products = MutableLiveData<HomeResponse>()
+    val products: LiveData<HomeResponse> = _products
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
@@ -21,12 +21,12 @@ class HomeViewModel(private val repository: ProductRepository) : ViewModel() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                val productDetail = repository.getAllProducts(categoryId, keyword)
-                _product.value = productDetail
+                val products = repository.getAllProducts(categoryId, keyword)
+                _products.value = products
             } catch (e: UnknownHostException) {
-                _product.value = detailError("Terjadi masalah dengan koneksi jaringan")
+                _products.value = detailError("Terjadi masalah dengan koneksi jaringan")
             } catch (e: Exception) {
-                _product.value = detailError(e.message ?: "Terjadi masalah")
+                _products.value = detailError(e.message ?: "Terjadi masalah")
             } finally {
                 _isLoading.value = false
             }

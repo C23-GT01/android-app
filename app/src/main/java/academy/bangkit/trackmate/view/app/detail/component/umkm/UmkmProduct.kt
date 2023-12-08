@@ -1,9 +1,12 @@
 package academy.bangkit.trackmate.view.app.detail.component.umkm
 
-import academy.bangkit.trackmate.R
+import academy.bangkit.trackmate.data.remote.response.ProductsItemHome
+import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.view.app.detail.component.Title
-import androidx.compose.foundation.Image
+import academy.bangkit.trackmate.view.formatToRupiah
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -25,22 +28,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-
-data class Product(val name: String, val price: String, val image: Int)
-
-val productList = listOf(
-    Product("Product 1", "$19.99", R.drawable.necklace),
-    Product("Product 2", "$29.99", R.drawable.headband),
-    Product("Product 3", "$39.99", R.drawable.ic_launcher_foreground),
-    Product("Product 4", "$49.99", R.drawable.ic_launcher_foreground),
-    // Add more products as needed
-)
+import androidx.navigation.NavController
+import coil.compose.AsyncImage
 
 @Composable
-fun ProductCard(product: Product, modifier: Modifier = Modifier) {
+fun ProductCard(product: ProductsItemHome, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier
             .padding(8.dp)
@@ -54,8 +48,8 @@ fun ProductCard(product: Product, modifier: Modifier = Modifier) {
                 .background(Color.White),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = painterResource(id = product.image),
+            AsyncImage(
+                model = product.image,
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -73,7 +67,7 @@ fun ProductCard(product: Product, modifier: Modifier = Modifier) {
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = product.price,
+                text = formatToRupiah(product.price),
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -84,27 +78,32 @@ fun ProductCard(product: Product, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun UmkmProduct() {
-    Title(title = "Product")
+fun UmkmProduct(products: List<ProductsItemHome>? = null, navController: NavController) {
 
-    LazyRow(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(10.dp)
-    ) {
-        items(productList) { product ->
-            ProductCard(
-                product = product,
-                modifier = Modifier
-                    .padding(end = 16.dp)
-            )
+    if (products != null){
+        Title(title = "Product")
+        LazyRow(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(10.dp)
+        ) {
+            items(products) { product ->
+                ProductCard(
+                    product = product,
+                    modifier = Modifier
+                        .padding(end = 16.dp)
+                        .clickable {
+                            Log.d("Clicked Product Card", product.id)
+                            navController.navigate(Screen.App.Detail.createRoute(product.id))
+                        }
+                )
+            }
         }
     }
 }
 
 
-
 @Preview(showBackground = true)
 @Composable
 fun PreviewMyApp() {
-    UmkmProduct()
+//    UmkmProduct()
 }

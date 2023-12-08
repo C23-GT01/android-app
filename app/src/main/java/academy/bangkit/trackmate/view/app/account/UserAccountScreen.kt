@@ -34,6 +34,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -119,7 +120,7 @@ fun UserAccountScreen(
                             popUpTo(Screen.App.Account.route)
                         }
                     }
-                    ButtonInUserAccount("Logout", R.drawable.ic_1) {
+                    ButtonInUserAccount(stringResource(id = R.string.logout), R.drawable.ic_1) {
                         showDialog = true
                     }
                 }
@@ -132,7 +133,7 @@ fun UserAccountScreen(
                     showDialog = false
                 },
                 title = {
-                    Text(text = "Logout")
+                    Text(text = stringResource(id = R.string.logout))
                 },
                 text = {
                     Text(text = "Yakin mau keluar?")

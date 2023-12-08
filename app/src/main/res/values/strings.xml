@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">TrackMate</string>
-    <string name="trackmate">TrackMate</string>
+
+    <!--    todo: Auth -->
     <string name="create_account">Create an Account</string>
     <string name="full_name">Full Name</string>
     <string name="email">Email</string>
@@ -13,11 +14,45 @@
     <string name="login">Login</string>
     <string name="guest">Login as Guest</string>
     <string name="forgot_your_password">Forgot Your Password?</string>
-    <string name="title_activity_maps">MapsActivity</string>
 
+    <!--    Product Category -->
     <string name="category_all">Semua</string>
     <string name="category_agriculture">Agrikultur</string>
     <string name="category_drink">Minuman</string>
     <string name="category_food">Makanan</string>
     <string name="category_unknown">Produk UMKM</string>
+
+    <!--    Detail Product Screen -->
+    <string name="product_material">Bahan Baku</string>
+    <string name="production_process">Proses Produksi</string>
+    <string name="product_impact">Impact Produk</string>
+    <string name="product_impact_overview">Dengan membeli produk ini Anda telah mendukung…</string>
+
+    <!--    todo: Product Impact Overview -->
+    <string name="product_impact_overview_1">Minimalisasi Carbon Footprints</string>
+
+    <!--    Screen Title -->
+    <string name="screen_product_detail">Detail Produk</string>
+    <string name="screen_umkm_detail">Detail UMKM</string>
+    <string name="screen_my_review">Review Saya</string>
+    <string name="screen_about_me">Tentang Saya</string>
+
+    <!--    Bottom Navigation Title -->
+    <string name="home">Home</string>
+    <string name="scanner">Scan QR Code</string>
+    <string name="account">Akun</string>
+
+    <!--    todo: User Account Screen -->
+    <string name="logout">Logout</string>
+
+    <!--    If Login as Guest Account -->
+    <string name="guest_account">Anda login sebagai Guest</string>
+    <string name="guest_account_message">Buat akun dan login untuk mendapatkan lebih banyak fitur di aplikasi TrackMate</string>
+
+    <!--    Other -->
+    <string name="search">Cari produk UMKM!</string>
+    <string name="scan_canceled">Scan dibatalkan</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="unknown_error">Terjadi Kesalahan</string>
+    <string name="error_message">Error: %1$s</string>
 </resources>

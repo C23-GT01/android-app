@@ -6,7 +6,7 @@ import academy.bangkit.trackmate.data.remote.response.Location
 import academy.bangkit.trackmate.data.remote.response.ProductItem
 import academy.bangkit.trackmate.data.remote.response.ProductMaterial
 import academy.bangkit.trackmate.data.remote.response.ProductionItem
-import academy.bangkit.trackmate.data.remote.response.UMKM
+import academy.bangkit.trackmate.data.remote.response.UMKMInDetail
 import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import academy.bangkit.trackmate.view.app.detail.component.product.ProductBy
@@ -15,30 +15,19 @@ import academy.bangkit.trackmate.view.app.detail.component.product.ProductImpact
 import academy.bangkit.trackmate.view.app.detail.component.product.ProductMaterialDetail
 import academy.bangkit.trackmate.view.app.detail.component.productionprocess.ProductionProcess
 import academy.bangkit.trackmate.view.component.CircularLoading
+import academy.bangkit.trackmate.view.component.ErrorScreen
 import academy.bangkit.trackmate.view.formatToRupiah
 import android.util.Log
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.maps.model.LatLng
@@ -120,47 +109,6 @@ private fun ShowProduct(product: ProductItem, navController: NavController) {
     }
 }
 
-@Composable
-fun ErrorScreen(message: String, action: () -> Unit) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .wrapContentSize(Alignment.Center)
-        ) {
-            Text(
-                text = message,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            )
-            Box(
-                modifier = Modifier
-                    .wrapContentSize(Alignment.Center)
-                    .fillMaxWidth()
-            ) {
-                Button(
-                    onClick = {
-                        action()
-                    },
-                    modifier = Modifier.align(Alignment.Center)
-                ) {
-                    Icon(
-                        Icons.Filled.Refresh,
-                        contentDescription = "Retry",
-                    )
-                    Text(
-                        text = "Coba Lagi",
-                        modifier = Modifier
-                            .padding(start = 16.dp, end = 16.dp)
-                    )
-                }
-            }
-        }
-    }
-}
-
 @Preview(heightDp = 1950)
 @Composable
 fun ProductDetailScreenPrev() {
@@ -231,7 +179,7 @@ fun ProductDetailScreenPrev() {
                 ),
             ),
             id = "sampleIdOfProduct",
-            productBy = UMKM(
+            productBy = UMKMInDetail(
                 "sampleIdOfUMKM",
                 "https://picsum.photos/200",
                 21,
@@ -241,18 +189,6 @@ fun ProductDetailScreenPrev() {
         )
         Surface {
             ShowProduct(product = sampleProduct, rememberNavController())
-        }
-    }
-}
-
-@Preview(heightDp = 200)
-@Composable
-fun ErrorScreenPreview() {
-    TrackMateTheme {
-        Surface {
-            ErrorScreen(message = "Terjadi Error") {
-                Log.d("Error", "Action click triggered")
-            }
         }
     }
 }

@@ -31,6 +31,11 @@ interface ApiService {
         @Path("keyword") keyword: String
     ): HomeResponse
 
+    @GET("products/umkm/{umkmId}")
+    suspend fun getProductsByUmkm(
+        @Path("umkmId") keyword: String
+    ): HomeResponse
+
     @GET("umkm/{umkmId}")
     suspend fun getUMKMProfile(
         @Path("umkmId") detail: String,

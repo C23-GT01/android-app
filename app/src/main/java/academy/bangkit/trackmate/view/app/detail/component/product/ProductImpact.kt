@@ -38,10 +38,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import academy.bangkit.trackmate.R
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 
 @Composable
 fun ProductImpactAndOverview(productImpact: List<ImpactItem>, contribution: List<Byte>) {
-    Title(title = "Product Impact")
+
+    val context = LocalContext.current
+
+    Title(title = stringResource(id = R.string.product_impact))
 
     Row(
         modifier = Modifier
@@ -82,17 +88,16 @@ fun ProductImpactAndOverview(productImpact: List<ImpactItem>, contribution: List
     }
     Divider()
     Text(
-        text = "Dengan membeli produk ini Anda telah mendukung...",
+        text = stringResource(id = R.string.product_impact_overview),
         fontWeight = FontWeight.SemiBold,
         modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
     )
 
     contribution.forEach {
-        val productImpactOverview1 =
+        val productImpactOverview =
             when (it) {
                 1.toByte() -> ProductImpactOverview(
-                    Icons.Rounded.Air,
-                    "Minimalisasi Carbon Footprints"
+                    Icons.Rounded.Air, context.getString(R.string.product_impact_overview_1)
                 )
 
                 2.toByte() -> ProductImpactOverview(
@@ -146,13 +151,13 @@ fun ProductImpactAndOverview(productImpact: List<ImpactItem>, contribution: List
             modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
         ) {
             Icon(
-                productImpactOverview1.icons,
+                productImpactOverview.icons,
                 "Content desc",
                 Modifier,
                 Color.DarkGray
             )
             Text(
-                text = productImpactOverview1.description,
+                text = productImpactOverview.description,
                 modifier = Modifier.padding(start = 8.dp)
             )
         }

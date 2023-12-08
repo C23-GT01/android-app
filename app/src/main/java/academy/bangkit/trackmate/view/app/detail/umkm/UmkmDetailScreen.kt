@@ -1,5 +1,7 @@
 package academy.bangkit.trackmate.view.app.detail.umkm
 
+import academy.bangkit.trackmate.data.remote.response.HomeResponse
+import academy.bangkit.trackmate.data.remote.response.ProductsItemHome
 import academy.bangkit.trackmate.data.remote.response.UMKMResponse
 import academy.bangkit.trackmate.data.remote.response.Umkm
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
@@ -9,8 +11,8 @@ import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmImageAndName
 import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmImpact
 import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmLocation
 import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmProduct
-import academy.bangkit.trackmate.view.app.detail.product.ErrorScreen
 import academy.bangkit.trackmate.view.component.CircularLoading
+import academy.bangkit.trackmate.view.component.ErrorScreen
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -33,28 +35,36 @@ fun UmkmDetailScreen(
     viewModel: UmkmViewModel
 ) {
 
-    val response by viewModel.umkm.observeAsState()
+    val umkmResponse by viewModel.umkm.observeAsState()
+    val productsResponse by viewModel.products.observeAsState()
     val isLoading by viewModel.isLoading.observeAsState(initial = false)
 
     LaunchedEffect(Unit) {
-        viewModel.getUMKMDetail("mamo")
+        viewModel.getUMKMDetailAndProducts("mamo")
         Log.d("Check ID", "Diterima $id")
     }
 
     if (isLoading) {
         Box(modifier = Modifier.fillMaxSize()) { CircularLoading() }
     } else {
-        val detailResponse: UMKMResponse
-        if (response != null) {
+        val umkmDetailResponse: UMKMResponse
+        val productResponse: HomeResponse
 
-            detailResponse = response as UMKMResponse
+        if (umkmResponse != null && productsResponse != null) {
 
-            if (!detailResponse.error && detailResponse.data != null) {
-                Log.d("Found", response?.data?.umkm.toString())
-                ShowUMKM(detailResponse.data.umkm)
+            umkmDetailResponse = umkmResponse as UMKMResponse
+            productResponse = productsResponse as HomeResponse
+
+            if (!umkmDetailResponse.error && umkmDetailResponse.data != null && !productResponse.error && productResponse.data != null) {
+                Log.d("Product Count", productResponse.count.toString())
+                ShowUMKM(
+                    umkmDetailResponse.data.umkm,
+                    if (productResponse.count <= 0) null else productResponse.data.products,
+                    navController
+                )
             } else {
-                ErrorScreen(message = detailResponse.status) {
-                    viewModel.getUMKMDetail("mamo")
+                ErrorScreen(message = umkmDetailResponse.status) {
+                    viewModel.getUMKMDetailAndProducts("mamo")
                 }
             }
         }
@@ -62,7 +72,11 @@ fun UmkmDetailScreen(
 }
 
 @Composable
-private fun ShowUMKM(umkm: Umkm) {
+private fun ShowUMKM(
+    umkm: Umkm,
+    products: List<ProductsItemHome>? = null,
+    navController: NavController
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -75,7 +89,7 @@ private fun ShowUMKM(umkm: Umkm) {
                 description = umkm.description
             )
             Divider()
-            UmkmProduct()
+            UmkmProduct(products, navController)
             UmkmImpact(umkmImpact = umkm.impact)
             UmkmLocation(
                 companyName = umkm.name,

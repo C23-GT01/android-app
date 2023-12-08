@@ -40,6 +40,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -51,6 +52,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import academy.bangkit.trackmate.R
 
 @Composable
 fun TrackMateApp(viewModel: TrackMateAppViewModel) {
@@ -103,11 +105,11 @@ private fun TopBar(navController: NavHostController) {
     TopAppBar(
         title = {
             val title = when (currentRoute) {
-                Screen.App.Detail.route -> "Detail Produk"
-                Screen.App.UMKM.route -> "Detail UMKM"
-                Screen.App.Account.MyReview.route -> "Review Saya"
-                Screen.App.Account.PersonalInformation.route -> "Tentang Saya"
-                else -> "TrackMate"
+                Screen.App.Detail.route -> stringResource(id = R.string.screen_product_detail)
+                Screen.App.UMKM.route -> stringResource(id = R.string.screen_umkm_detail)
+                Screen.App.Account.MyReview.route -> stringResource(id = R.string.screen_my_review)
+                Screen.App.Account.PersonalInformation.route -> stringResource(id = R.string.screen_about_me)
+                else -> stringResource(id = R.string.app_name)
             }
             Text(text = title)
         },
@@ -131,17 +133,17 @@ private fun BottomBar(navController: NavHostController) {
 
         val navigationItems = listOf(
             BottomNavigationItem(
-                title = "Home",
+                title = stringResource(id = R.string.home),
                 icon = Icons.Rounded.Home,
                 screen = Screen.App.Home
             ),
             BottomNavigationItem(
-                title = "Scan",
+                title = stringResource(id = R.string.scanner),
                 icon = Icons.Rounded.CameraAlt,
                 screen = Screen.App.Scanner
             ),
             BottomNavigationItem(
-                title = "Akun",
+                title = stringResource(id = R.string.account),
                 icon = Icons.Rounded.Person,
                 screen = Screen.App.Account
             ),

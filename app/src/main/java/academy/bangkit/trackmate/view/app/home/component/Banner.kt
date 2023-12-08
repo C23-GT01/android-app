@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -115,9 +116,7 @@ fun Search(
                 }
             }
         },
-        placeholder = {
-            Text("Cari produk UMKM!")
-        },
+        placeholder = { Text(stringResource(id = R.string.search)) },
         shape = MaterialTheme.shapes.large,
         colors = SearchBarDefaults.colors(
             containerColor = MaterialTheme.colorScheme.background

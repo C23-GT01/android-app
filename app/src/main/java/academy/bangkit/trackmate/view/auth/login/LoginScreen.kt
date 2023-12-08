@@ -81,7 +81,7 @@ fun LoginScreen(
                 .fillMaxSize()
                 .padding(28.dp)
         ) {
-            NormalTextComponent(value = stringResource(id = R.string.trackmate))
+            NormalTextComponent(value = stringResource(id = R.string.app_name))
             HeadingTextComponent(value = stringResource(id = R.string.login))
             Spacer(modifier = Modifier.height(38.dp))
             TextFieldComponent(

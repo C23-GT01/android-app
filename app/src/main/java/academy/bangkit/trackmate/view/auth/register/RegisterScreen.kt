@@ -64,7 +64,7 @@ fun RegisterScreen(
                 .fillMaxSize()
                 .padding(28.dp)
         ) {
-            NormalTextComponent(value = stringResource(id = R.string.trackmate))
+            NormalTextComponent(value = stringResource(id = R.string.app_name))
             HeadingTextComponent(value = stringResource(id = R.string.create_account))
             Spacer(modifier = Modifier.height(38.dp))
             TextFieldComponent(

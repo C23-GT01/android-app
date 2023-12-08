@@ -7,11 +7,11 @@ import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import academy.bangkit.trackmate.view.Factory
 import academy.bangkit.trackmate.view.app.detail.component.Divider
 import academy.bangkit.trackmate.view.app.detail.component.Title
-import academy.bangkit.trackmate.view.app.detail.product.ErrorScreen
 import academy.bangkit.trackmate.view.app.home.component.Banner
 import academy.bangkit.trackmate.view.app.home.component.CategoryItem
 import academy.bangkit.trackmate.view.app.home.component.category
 import academy.bangkit.trackmate.view.component.CircularLoading
+import academy.bangkit.trackmate.view.component.ErrorScreen
 import academy.bangkit.trackmate.view.formatToRupiah
 import android.content.res.Configuration
 import android.util.Log
@@ -64,7 +64,7 @@ fun HomeScreen(
 ) {
 
     val context = LocalContext.current
-    val response by viewModel.product.observeAsState()
+    val response by viewModel.products.observeAsState()
     val isLoading by viewModel.isLoading.observeAsState(initial = false)
 
     var title by remember { mutableStateOf(context.getString(R.string.category_all)) }

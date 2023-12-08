@@ -41,12 +41,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import academy.bangkit.trackmate.R
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun ProductMaterialDetail(productMaterial: List<ProductMaterial>) {
-    Title("Bahan Baku")
+    Title(stringResource(id = R.string.product_material))
     LazyRow(
         contentPadding = PaddingValues(
             start = 16.dp,
