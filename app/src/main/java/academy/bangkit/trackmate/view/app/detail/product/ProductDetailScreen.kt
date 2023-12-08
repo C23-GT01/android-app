@@ -6,7 +6,7 @@ import academy.bangkit.trackmate.data.remote.response.Location
 import academy.bangkit.trackmate.data.remote.response.ProductItem
 import academy.bangkit.trackmate.data.remote.response.ProductMaterial
 import academy.bangkit.trackmate.data.remote.response.ProductionItem
-import academy.bangkit.trackmate.data.remote.response.UMKM
+import academy.bangkit.trackmate.data.remote.response.UMKMInDetail
 import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import academy.bangkit.trackmate.view.app.detail.component.product.ProductBy
@@ -231,7 +231,7 @@ fun ProductDetailScreenPrev() {
                 ),
             ),
             id = "sampleIdOfProduct",
-            productBy = UMKM(
+            productBy = UMKMInDetail(
                 "sampleIdOfUMKM",
                 "https://picsum.photos/200",
                 21,

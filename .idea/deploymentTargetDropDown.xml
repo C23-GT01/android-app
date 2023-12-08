@@ -2,33 +2,8 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AccountPreview">
-        <State />
-      </entry>
-      <entry key="GuestAccountScreenPreview">
-        <State />
-      </entry>
-      <entry key="HomeScreenPreview">
-        <State />
-      </entry>
-      <entry key="ProductDetailScreenPrev">
-        <State />
-      </entry>
       <entry key="app">
-        <State>
-          <runningDeviceTargetSelectedWithDropDown>
-            <Target>
-              <type value="RUNNING_DEVICE_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="SERIAL_NUMBER" />
-                  <value value="adb-be59pn4txcmfaulz-0Cn8gh._adb-tls-connect._tcp" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </runningDeviceTargetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2023-12-07T12:51:39.346618193Z" />
-        </State>
+        <State />
       </entry>
     </value>
   </component>
