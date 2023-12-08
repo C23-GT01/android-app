@@ -20,7 +20,13 @@ import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
 fun ScannerScreen(navController: NavController) {
 
     var qrCodeToString: String? by remember { mutableStateOf(null) }
+    var gmsScannerFailed: Boolean by remember { mutableStateOf(false) }
     val context = LocalContext.current
+    if (gmsScannerFailed) {
+        QRCodeCamera {
+            qrCodeToString = it
+        }
+    }
 
     LaunchedEffect(qrCodeToString) {
         if (qrCodeToString != null) {
@@ -53,14 +59,15 @@ fun ScannerScreen(navController: NavController) {
                     }
                     showToast(context, context.getString(R.string.scan_canceled))
                 }
-                .addOnFailureListener { e ->
-                    navController.navigate(Screen.App.Home.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            inclusive = true
-                        }
-                    }
-                    val errorMessage = e.message ?: context.getString(R.string.unknown_error)
-                    showToast(context, context.getString(R.string.error_message, errorMessage))
+                .addOnFailureListener {
+//                    navController.navigate(Screen.App.Home.route) {
+//                        popUpTo(navController.graph.findStartDestination().id) {
+//                            inclusive = true
+//                        }
+//                    }
+                    gmsScannerFailed = true
+//                    val errorMessage = e.message ?: context.getString(R.string.unknown_error)
+//                    showToast(context, context.getString(R.string.error_message, errorMessage))
                 }
         }
     }
