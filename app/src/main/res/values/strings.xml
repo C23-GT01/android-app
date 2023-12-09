@@ -55,4 +55,12 @@
     <string name="title_activity_maps">MapsActivity</string>
     <string name="unknown_error">Terjadi Kesalahan</string>
     <string name="error_message">Error: %1$s</string>
+    <string name="efisiensi_energi">Efisiensi Energi</string>
+    <string name="pengelolaan_limbah">Pengelolaan Limbah</string>
+    <string name="penggunaan_bahan_baku_lokal">Penggunaan Bahan Baku Lokal</string>
+    <string name="efisiensi_air">Efisiensi Air</string>
+    <string name="daur_ulang_produk">Daur Ulang Produk</string>
+    <string name="kesejahteraan_pekerja">Kesejahteraan Pekerja</string>
+    <string name="kesehatan_dan_keamanan_lingkungan">Kesehatan dan Keamanan Lingkungan</string>
+    <string name="kemajuan_umkm_indonesia">Kemajuan UMKM Indonesia</string>
 </resources>

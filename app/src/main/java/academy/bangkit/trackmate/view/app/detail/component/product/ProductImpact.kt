@@ -102,42 +102,42 @@ fun ProductImpactAndOverview(productImpact: List<ImpactItem>, contribution: List
 
                 2.toByte() -> ProductImpactOverview(
                     Icons.Rounded.ElectricBolt,
-                    "Efisiensi Energi"
+                    context.getString(R.string.efisiensi_energi)
                 )
 
                 3.toByte() -> ProductImpactOverview(
                     Icons.Rounded.RestoreFromTrash,
-                    "Pengelolaan Limbah"
+                    context.getString(R.string.pengelolaan_limbah)
                 )
 
                 4.toByte() -> ProductImpactOverview(
                     Icons.Rounded.ShareLocation,
-                    "Penggunaan Bahan Baku Lokal"
+                    context.getString(R.string.penggunaan_bahan_baku_lokal)
                 )
 
                 5.toByte() -> ProductImpactOverview(
                     Icons.Rounded.WaterDrop,
-                    "Efisiensi Air"
+                    context.getString(R.string.efisiensi_air)
                 )
 
                 6.toByte() -> ProductImpactOverview(
                     Icons.Rounded.Recycling,
-                    "Daur Ulang Produk"
+                    context.getString(R.string.daur_ulang_produk)
                 )
 
                 7.toByte() -> ProductImpactOverview(
                     Icons.Rounded.EmojiPeople,
-                    "Kesejahteraan Pekerja"
+                    context.getString(R.string.kesejahteraan_pekerja)
                 )
 
                 8.toByte() -> ProductImpactOverview(
                     Icons.Rounded.Eco,
-                    "Kesehatan dan Keamanan Lingkungan"
+                    context.getString(R.string.kesehatan_dan_keamanan_lingkungan)
                 )
 
                 9.toByte() -> ProductImpactOverview(
                     Icons.AutoMirrored.Rounded.TrendingUp,
-                    "Kemajuan UMKM Indonesia"
+                    context.getString(R.string.kemajuan_umkm_indonesia)
                 )
 
                 else -> {
