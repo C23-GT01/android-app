@@ -2,18 +2,18 @@
     <string name="app_name">TrackMate</string>
 
     <!--    todo: Auth -->
-    <string name="create_account">Create an Account</string>
-    <string name="full_name">Full Name</string>
+    <string name="create_account">Buat Akun</string>
+    <string name="full_name">Nama Panjang</string>
     <string name="email">Email</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="hide_password">Hide Password</string>
-    <string name="show_password">Show Password</string>
+    <string name="hide_password">Sembunyikan Password</string>
+    <string name="show_password">Lihat Password</string>
     <string name="register">Register</string>
-    <string name="go_to_Login">Already have an account? Login</string>
+    <string name="go_to_Login">Sudah Mempunyai Akun? Login</string>
     <string name="login">Login</string>
-    <string name="guest">Login as Guest</string>
-    <string name="forgot_your_password">Forgot Your Password?</string>
+    <string name="guest">Login Sebagai Tamu</string>
+    <string name="forgot_your_password">Lupa Password?</string>
 
     <!--    Product Category -->
     <string name="category_all">Semua</string>
@@ -29,7 +29,7 @@
     <string name="product_impact_overview">Dengan membeli produk ini Anda telah mendukung…</string>
 
     <!--    todo: Product Impact Overview -->
-    <string name="product_impact_overview_1">Minimalisasi Carbon Footprints</string>
+    <string name="product_impact_overview_1">Minimalisasi Jejak Karbon</string>
 
     <!--    Screen Title -->
     <string name="screen_product_detail">Detail Produk</string>
@@ -56,4 +56,12 @@
     <string name="scan_canceled">Scan dibatalkan</string>
     <string name="unknown_error">Terjadi Kesalahan</string>
     <string name="error_message">Error: %1$s</string>
+    <string name="efisiensi_energi">Efisiensi Energi</string>
+    <string name="pengelolaan_limbah">Pengelolaan Limbah</string>
+    <string name="penggunaan_bahan_baku_lokal">Penggunaan Bahan Baku Lokal</string>
+    <string name="efisiensi_air">Efisiensi Air</string>
+    <string name="daur_ulang_produk">Daur Ulang Produk</string>
+    <string name="kesejahteraan_pekerja">Kesejahteraan Pekerja</string>
+    <string name="kesehatan_dan_keamanan_lingkungan">Kesehatan dan Keamanan Lingkungan</string>
+    <string name="kemajuan_umkm_indonesia">Kemajuan UMKM Indonesia</string>
 </resources>
