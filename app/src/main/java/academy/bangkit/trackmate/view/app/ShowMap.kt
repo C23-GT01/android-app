@@ -31,7 +31,7 @@ fun ShowMap(
             Marker(
                 state = MarkerState(position = location),
                 title = locationName,
-                snippet = "Marker in Singapore"
+//                snippet = "Marker in Singapore"
             )
         }
     }

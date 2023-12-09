@@ -13,9 +13,6 @@ data class DetailResponse(
     @field:SerializedName("error")
     val error: Boolean,
 
-    @field:SerializedName("message")
-    val message: String,
-
     @field:SerializedName("status")
     val status: String
 )
@@ -29,7 +26,7 @@ data class Data(
 data class ProductItem(
 
     @field:SerializedName("image")
-    val image: String,
+    val image: List<String>,
 
     @field:SerializedName("contribution")
     val contribution: List<Byte>,
@@ -68,7 +65,7 @@ data class UMKMInDetail(
     val logo: String,
 
     @field:SerializedName("employe")
-    val employeeCount: Int,
+    val employeeCount: Int?,
 
     @field:SerializedName("name")
     val name: String,
@@ -85,7 +82,7 @@ data class ImpactItem(
     @field:SerializedName("name")
     val title: String,
 
-    @field:SerializedName("deskripsi")
+    @field:SerializedName("description")
     val description: String
 )
 
@@ -129,7 +126,7 @@ data class ProductMaterial(
     @field:SerializedName("location")
     val location: Location,
 
-    @field:SerializedName("deskripsi")
+    @field:SerializedName("description")
     val description: String,
 
     @field:SerializedName("umkm")

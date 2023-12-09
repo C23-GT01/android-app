@@ -1,5 +1,6 @@
 package academy.bangkit.trackmate.data.remote.retrofit
 
+import academy.bangkit.trackmate.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -22,7 +23,7 @@ class ApiConfig {
                 .addInterceptor(authInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://60df6d0f-f333-4237-b062-3be18082ca6a.mock.pstmn.io")
+                .baseUrl(BuildConfig.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

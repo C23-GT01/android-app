@@ -8,29 +8,25 @@ import academy.bangkit.trackmate.view.Factory
 import academy.bangkit.trackmate.view.app.detail.component.Divider
 import academy.bangkit.trackmate.view.app.detail.component.Title
 import academy.bangkit.trackmate.view.app.home.component.Banner
-import academy.bangkit.trackmate.view.app.home.component.CategoryItem
-import academy.bangkit.trackmate.view.app.home.component.category
+import academy.bangkit.trackmate.view.app.home.component.FilterRow
+import academy.bangkit.trackmate.view.app.home.component.EmptyProducts
 import academy.bangkit.trackmate.view.component.CircularLoading
 import academy.bangkit.trackmate.view.component.ErrorScreen
 import academy.bangkit.trackmate.view.formatToRupiah
-import android.content.res.Configuration
+import academy.bangkit.trackmate.view.isLandscape
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -78,18 +74,17 @@ fun HomeScreen(
     Column {
         val listState = rememberLazyGridState()
 
-        val showButton by remember {
+        val isFirstItemVisible by remember {
             derivedStateOf {
                 listState.firstVisibleItemIndex > 0
             }
         }
 
-        AnimatedVisibility(visible = !showButton) {
+        AnimatedVisibility(visible = !isFirstItemVisible) {
             Column {
                 Banner(
                     imageVisible = !landscape,
                     onSearch = {
-                        Log.d("Onsearch", "You search for $it")
                         viewModel.getAllProducts(keyword = it)
                         title = "Hasil pencarian: \"$it\""
                     },
@@ -128,7 +123,7 @@ fun HomeScreen(
             }
         }
 
-        AnimatedVisibility(visible = !showButton) {
+        AnimatedVisibility(visible = !isFirstItemVisible) {
             Column {
                 if (!landscape) {
                     Divider()
@@ -145,7 +140,10 @@ fun HomeScreen(
                 val homeResponse = response as HomeResponse
                 if (!homeResponse.error && homeResponse.data != null) {
 
-                    Log.d("Home", homeResponse.data.products.toString())
+                    val products = homeResponse.data.products
+                    if (products.isEmpty()) {
+                        EmptyProducts()
+                    }
 
                     LazyVerticalGrid(
                         state = listState,
@@ -154,22 +152,19 @@ fun HomeScreen(
                             .padding(top = 8.dp),
                         columns = GridCells.Adaptive(150.dp)
                     ) {
-
-                        val products = homeResponse.data.products
-
-                        items(products) { index ->
+                        items(products) { product ->
                             Card(
                                 modifier = Modifier
                                     .height(200.dp)
                                     .padding(4.dp)
                                     .clickable {
-                                        Log.d("Click", "Item ${index.id} ")
-                                        navController.navigate(Screen.App.Detail.createRoute("xxx"))
+                                        Log.d("Click", "Item ${product.id} ")
+                                        navController.navigate(Screen.App.Detail.createRoute(product.id))
                                     }
                             ) {
                                 AsyncImage(
                                     contentScale = ContentScale.Crop,
-                                    model = index.image,
+                                    model = product.image[0],
                                     contentDescription = "Translated description of what the image contains",
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -178,7 +173,7 @@ fun HomeScreen(
                                 )
                                 Column {
                                     Text(
-                                        text = index.name,
+                                        text = product.name,
                                         fontWeight = FontWeight.ExtraBold,
                                         fontSize = 16.sp,
                                         maxLines = 1,
@@ -189,7 +184,7 @@ fun HomeScreen(
                                         )
                                     )
                                     Text(
-                                        text = formatToRupiah(index.price),
+                                        text = formatToRupiah(product.price),
                                         modifier = Modifier.padding(horizontal = 8.dp)
                                     )
                                 }
@@ -203,32 +198,6 @@ fun HomeScreen(
                     )
                 }
             }
-        }
-    }
-}
-
-fun isLandscape(configuration: Configuration): Boolean {
-    return configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-}
-
-@Composable
-fun FilterRow(
-    modifier: Modifier = Modifier,
-    action: (Int) -> Unit
-) {
-    LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        modifier = modifier.padding(top = 16.dp)
-    ) {
-        items(category, key = { it.textCategory }) { category ->
-            CategoryItem(
-                size = if (isLandscape(LocalConfiguration.current)) 40.dp else 60.dp,
-                category = category,
-                onClick = {
-                    action(category.id)
-                }
-            )
         }
     }
 }

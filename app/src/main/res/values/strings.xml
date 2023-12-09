@@ -50,9 +50,10 @@
     <string name="guest_account_message">Buat akun dan login untuk mendapatkan lebih banyak fitur di aplikasi TrackMate</string>
 
     <!--    Other -->
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="products_is_empty">Produk tidak ditemukan</string>
     <string name="search">Cari produk UMKM!</string>
     <string name="scan_canceled">Scan dibatalkan</string>
-    <string name="title_activity_maps">MapsActivity</string>
     <string name="unknown_error">Terjadi Kesalahan</string>
     <string name="error_message">Error: %1$s</string>
     <string name="efisiensi_energi">Efisiensi Energi</string>

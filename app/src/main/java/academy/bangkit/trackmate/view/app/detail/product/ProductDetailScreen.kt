@@ -47,7 +47,7 @@ fun ProductDetailScreen(
 
     LaunchedEffect(Unit) {
         Log.d("Check ID", "Diterima $id")
-        viewModel.getProductDetail("xxx")
+        viewModel.getProductDetail(id)
     }
 
     if (isLoading) {
@@ -63,8 +63,8 @@ fun ProductDetailScreen(
                 ShowProduct(detailResponse.data.product, navController)
             } else {
                 //product failed to display
-                ErrorScreen(detailResponse.message) {
-                    viewModel.getProductDetail("xxx")
+                ErrorScreen(detailResponse.status) {
+                    viewModel.getProductDetail(id)
                 }
             }
         }
@@ -86,7 +86,7 @@ private fun ShowProduct(product: ProductItem, navController: NavController) {
 
             ProductImageAndOverview(
                 title = product.name,
-                imageUrl = product.image,
+                imageUrl = product.image[0],
                 price = formatToRupiah(product.price),
                 productOverview = product.description
             )
@@ -95,7 +95,7 @@ private fun ShowProduct(product: ProductItem, navController: NavController) {
             ProductImpactAndOverview(product.impact, product.contribution)
             ProductBy(
                 companyName = product.productBy.name,
-                logoUrl = "https://joglo-ayutenan.com/wp-content/uploads/2021/05/logo-Joglo-Ayu-Tenan-MakerSpace.png",
+                logoUrl = product.productBy.logo,
                 employeeCount = product.productBy.employeeCount,
                 locationName = product.productBy.location.name,
                 latLng = LatLng(
@@ -103,8 +103,8 @@ private fun ShowProduct(product: ProductItem, navController: NavController) {
                     product.productBy.location.lng
                 )
             ) {
-                Log.d("Click", "ProductBy")
-                navController.navigate(Screen.App.UMKM.createRoute("idUmkm"))
+                Log.d("Umkm Id", product.productBy.id)
+                navController.navigate(Screen.App.UMKM.createRoute(product.productBy.id))
             }
         }
     }
@@ -115,7 +115,7 @@ private fun ShowProduct(product: ProductItem, navController: NavController) {
 fun ProductDetailScreenPrev() {
     TrackMateTheme {
         val sampleProduct = ProductItem(
-            image = "https://picsum.photos/200",
+            image = immutableListOf("https://picsum.photos/200"),
             contribution = immutableListOf(1, 2, 3),
             production = immutableListOf(
                 ProductionItem("https://picsum.photos/100", "Title 1", "Description 1"),
