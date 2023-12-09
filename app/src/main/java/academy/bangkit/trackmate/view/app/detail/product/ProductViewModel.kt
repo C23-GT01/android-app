@@ -34,6 +34,6 @@ class ProductViewModel(private val repository: ProductRepository) : ViewModel() 
     }
 
     private fun productDetailError(message: String): DetailResponse {
-        return DetailResponse(null, true, message, "fail")
+        return DetailResponse(null, true, message)
     }
 }

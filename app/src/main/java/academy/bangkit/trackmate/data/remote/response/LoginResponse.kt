@@ -2,6 +2,8 @@ package academy.bangkit.trackmate.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
+// https://github.com/C23-GT01/backend-api#login
+
 data class LoginResponse(
 
     @field:SerializedName("error")

@@ -40,7 +40,7 @@ fun UmkmDetailScreen(
     val isLoading by viewModel.isLoading.observeAsState(initial = false)
 
     LaunchedEffect(Unit) {
-        viewModel.getUMKMDetailAndProducts("mamo")
+        viewModel.getUMKMDetailAndProducts(id)
         Log.d("Check ID", "Diterima $id")
     }
 
@@ -64,7 +64,7 @@ fun UmkmDetailScreen(
                 )
             } else {
                 ErrorScreen(message = umkmDetailResponse.status) {
-                    viewModel.getUMKMDetailAndProducts("mamo")
+                    viewModel.getUMKMDetailAndProducts(id)
                 }
             }
         }
@@ -85,7 +85,8 @@ private fun ShowUMKM(
         item {
             UmkmImageAndName(
                 title = umkm.name,
-                imageUrl = umkm.image,
+                image = umkm.image,
+                logo = umkm.logo,
                 description = umkm.description
             )
             Divider()

@@ -4,6 +4,7 @@ import academy.bangkit.trackmate.di.Injection
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -23,6 +24,10 @@ fun LockScreenOrientation(orientation: Int) {
             activity.requestedOrientation = originalOrientation
         }
     }
+}
+
+fun isLandscape(configuration: Configuration): Boolean {
+    return configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 }
 
 fun Context.findActivity(): Activity? = when (this) {

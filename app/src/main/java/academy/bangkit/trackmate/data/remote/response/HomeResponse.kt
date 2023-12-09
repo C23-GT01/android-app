@@ -31,7 +31,7 @@ data class ProductsItemHome(
     val name: String,
 
     @field:SerializedName("image")
-    val image: String,
+    val image: List<String>,
 
     @field:SerializedName("price")
     val price: Int,

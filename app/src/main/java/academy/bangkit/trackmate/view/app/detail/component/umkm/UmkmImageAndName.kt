@@ -28,17 +28,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 
 @Composable
 fun UmkmImageAndName(
     title: String,
-    imageUrl: String,
+    image: String,
+    logo: String,
     description: String
 ) {
     Image(
         painter = rememberAsyncImagePainter(
-            model = imageUrl,
+            model = image,
             placeholder = painterResource(id = R.drawable.umkm) // for preview only
         ),
         contentDescription = title,
@@ -49,8 +51,8 @@ fun UmkmImageAndName(
             .background(Color.White)
     )
     Row {
-        Image(
-            painter = painterResource(id = R.drawable.logo),
+        AsyncImage(
+            model = logo,
             contentDescription = "logoumkm",
             modifier = Modifier
                 .height(140.dp)
@@ -89,7 +91,11 @@ fun UmkmImageAndNamePreview(){
                 LazyColumn {
                     item {
                         ProductSample.apply {
-                            UmkmImageAndName(title = title, imageUrl = imageUrl, description = description)
+                            UmkmImageAndName(
+                                title = title,
+                                image = imageUrl,
+                                logo = "",
+                                description = description)
                         }
                     }
                 }

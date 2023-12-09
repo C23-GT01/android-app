@@ -60,7 +60,7 @@ fun LoginScreen(
 
         viewModel.saveSession(
             UserModel(
-                username = username,
+                accessToken = response.token?.access ?: "",
                 refreshToken = response.token?.refresh ?: "",
                 isLogin = true
             )
@@ -120,7 +120,7 @@ fun LoginScreen(
                 action = {
                     viewModel.saveSession(
                         UserModel(
-                            username = "",
+                            accessToken = "",
                             refreshToken = "Guest",
                             isLogin = true
                         )

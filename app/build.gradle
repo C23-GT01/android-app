@@ -18,14 +18,20 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"https://c23-gt01-01.et.r.appspot.com/\""
+        )
     }
 
     buildTypes {
         release {
-            minifyEnabled  false
+            minifyEnabled false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
             )
         }
     }
@@ -47,6 +53,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    android.buildFeatures.buildConfig = true
 }
 
 dependencies {
@@ -104,5 +111,5 @@ dependencies {
     implementation("com.google.maps.android:maps-compose:4.1.1")
 
     //ConstraintLayout
-    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
+    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 }

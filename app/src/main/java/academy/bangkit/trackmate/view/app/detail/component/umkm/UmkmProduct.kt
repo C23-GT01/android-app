@@ -49,7 +49,7 @@ fun ProductCard(product: ProductsItemHome, modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImage(
-                model = product.image,
+                model = product.image[0],
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()

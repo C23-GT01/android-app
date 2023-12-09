@@ -62,7 +62,7 @@ fun TrackMateApp(viewModel: TrackMateAppViewModel) {
     val currentRoute = navBackStackEntry?.destination?.route
 
     viewModel.getSession().observeAsState().value?.let {
-        Log.d("Get Session", "User = ${it.username}")
+        Log.d("Get Session", "Access Token = ${it.accessToken}")
         Log.d("Get Session", "Refresh Token = ${it.refreshToken}")
         Log.d("Get Session", "Is Login = ${it.isLogin}")
         if (!it.isLogin) {
@@ -162,10 +162,11 @@ private fun BottomBar(navController: NavHostController) {
                 onClick = {
                     navController.navigate(item.screen.route) {
                         popUpTo(navController.graph.findStartDestination().id)
-//                        {
-//                            saveState = true
-//                        }
-//                        restoreState = true
+                        //todo: Need navigation test!
+                        {
+                            saveState = true
+                        }
+                        restoreState = true
                         launchSingleTop = true
                     }
                 }

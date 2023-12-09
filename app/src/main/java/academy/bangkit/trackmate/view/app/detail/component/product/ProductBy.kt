@@ -34,7 +34,7 @@ import com.google.android.gms.maps.model.LatLng
 fun ProductBy(
     companyName: String,
     logoUrl: String,
-    employeeCount: Int,
+    employeeCount: Int?,
     locationName: String,
     latLng: LatLng,
     onClick: () -> Unit
@@ -62,9 +62,11 @@ fun ProductBy(
                 text = companyName,
                 fontWeight = FontWeight.ExtraBold,
             )
-            Row {
-                Icon(Icons.Rounded.Person, "Karyawan")
-                Text(text = "$employeeCount Karyawan")
+            if (employeeCount != null) {
+                Row {
+                    Icon(Icons.Rounded.Person, "Karyawan")
+                    Text(text = "$employeeCount Karyawan")
+                }
             }
             Row {
                 val context = LocalContext.current
