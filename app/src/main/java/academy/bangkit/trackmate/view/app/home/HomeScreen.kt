@@ -8,12 +8,13 @@ import academy.bangkit.trackmate.view.Factory
 import academy.bangkit.trackmate.view.app.detail.component.Divider
 import academy.bangkit.trackmate.view.app.detail.component.Title
 import academy.bangkit.trackmate.view.app.home.component.Banner
-import academy.bangkit.trackmate.view.app.home.component.FilterRow
 import academy.bangkit.trackmate.view.app.home.component.EmptyProducts
+import academy.bangkit.trackmate.view.app.home.component.FilterRow
 import academy.bangkit.trackmate.view.component.CircularLoading
 import academy.bangkit.trackmate.view.component.ErrorScreen
 import academy.bangkit.trackmate.view.formatToRupiah
 import academy.bangkit.trackmate.view.isLandscape
+import android.content.Context
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -31,12 +32,14 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -48,6 +51,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -60,14 +64,40 @@ fun HomeScreen(
 ) {
 
     val context = LocalContext.current
-    val response by viewModel.products.observeAsState()
+
+    val savedState by rememberSaveable {
+        mutableStateOf<SavedStateHandle?>(null)
+    }
+
+    val savedResponse = savedState?.getLiveData<ProductsResponse>("response")
+    val response by viewModel.products.observeAsState(savedResponse)
+
     val isLoading by viewModel.isLoading.observeAsState(initial = false)
 
-    var title by remember { mutableStateOf(context.getString(R.string.category_all)) }
+    var title by rememberSaveable {
+        mutableStateOf(savedState?.get("title") ?: context.getString(R.string.category_all))
+    }
+
+    var searchKeyword by rememberSaveable {
+        mutableStateOf(savedState?.get("search") ?: "")
+    }
 
     LaunchedEffect(Unit) {
-        viewModel.getAllProducts()
+        if (response == null) {
+            Log.d("Getting data", "running from launched effect")
+            viewModel.getAllProducts()
+        }
     }
+
+    DisposableEffect(key1 = response) {
+        onDispose {
+            Log.d("onDispose", response.toString())
+            savedState?.set("response", response)
+            savedState?.set("title", title)
+            savedState?.set("search", searchKeyword)
+        }
+    }
+
 
     val landscape = isLandscape(LocalConfiguration.current)
 
@@ -87,6 +117,7 @@ fun HomeScreen(
                     onSearch = {
                         viewModel.getAllProducts(keyword = it)
                         title = "Hasil pencarian: \"$it\""
+                        searchKeyword = it
                     },
                     onClickScanner = { navController.navigate(Screen.App.Scanner.route) }
                 )
@@ -98,26 +129,31 @@ fun HomeScreen(
                     0 -> {
                         title = context.getString(R.string.category_all)
                         viewModel.getAllProducts()
+                        searchKeyword = ""
                     }
 
                     1 -> {
                         title = context.getString(R.string.category_agriculture)
                         viewModel.getAllProducts(it)
+                        searchKeyword = ""
                     }
 
                     2 -> {
                         title = context.getString(R.string.category_food)
                         viewModel.getAllProducts(it)
+                        searchKeyword = ""
                     }
 
                     3 -> {
                         title = context.getString(R.string.category_drink)
                         viewModel.getAllProducts(it)
+                        searchKeyword = ""
                     }
 
                     else -> {
                         title = context.getString(R.string.category_unknown)
                         viewModel.getAllProducts()
+                        searchKeyword = ""
                     }
                 }
             }
@@ -143,50 +179,54 @@ fun HomeScreen(
                     val products = productsResponse.products.productList
                     if (products.isEmpty()) {
                         EmptyProducts()
-                    }
-
-                    LazyVerticalGrid(
-                        state = listState,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 8.dp),
-                        columns = GridCells.Adaptive(150.dp)
-                    ) {
-                        items(products) { product ->
-                            Card(
-                                modifier = Modifier
-                                    .height(200.dp)
-                                    .padding(4.dp)
-                                    .clickable {
-                                        Log.d("Click", "Item ${product.id} ")
-                                        navController.navigate(Screen.App.Detail.createRoute(product.id))
-                                    }
-                            ) {
-                                AsyncImage(
-                                    contentScale = ContentScale.Crop,
-                                    model = product.images[0],
-                                    contentDescription = "Translated description of what the image contains",
+                    } else {
+                        LazyVerticalGrid(
+                            state = listState,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(top = 8.dp),
+                            columns = GridCells.Adaptive(150.dp)
+                        ) {
+                            items(products) { product ->
+                                Card(
                                     modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(130.dp)
-                                        .background(Color.DarkGray)
-                                )
-                                Column {
-                                    Text(
-                                        text = product.name,
-                                        fontWeight = FontWeight.ExtraBold,
-                                        fontSize = 16.sp,
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis,
-                                        modifier = Modifier.padding(
-                                            horizontal = 8.dp,
-                                            vertical = 2.dp
+                                        .height(200.dp)
+                                        .padding(4.dp)
+                                        .clickable {
+                                            Log.d("Click", "Item ${product.id} ")
+                                            navController.navigate(
+                                                Screen.App.Detail.createRoute(
+                                                    product.id
+                                                )
+                                            )
+                                        }
+                                ) {
+                                    AsyncImage(
+                                        contentScale = ContentScale.Crop,
+                                        model = product.images[0],
+                                        contentDescription = "Translated description of what the image contains",
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(130.dp)
+                                            .background(Color.DarkGray)
+                                    )
+                                    Column {
+                                        Text(
+                                            text = product.name,
+                                            fontWeight = FontWeight.ExtraBold,
+                                            fontSize = 16.sp,
+                                            maxLines = 1,
+                                            overflow = TextOverflow.Ellipsis,
+                                            modifier = Modifier.padding(
+                                                horizontal = 8.dp,
+                                                vertical = 2.dp
+                                            )
                                         )
-                                    )
-                                    Text(
-                                        text = formatToRupiah(product.price),
-                                        modifier = Modifier.padding(horizontal = 8.dp)
-                                    )
+                                        Text(
+                                            text = formatToRupiah(product.price),
+                                            modifier = Modifier.padding(horizontal = 8.dp)
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -194,9 +234,38 @@ fun HomeScreen(
                 } else {
                     ErrorScreen(
                         message = productsResponse.message,
-                        action = { viewModel.getAllProducts() }
+                        action = { reloadData(searchKeyword, viewModel, title, context) }
                     )
                 }
+            }
+        }
+    }
+}
+
+private fun reloadData(
+    searchKeyword: String,
+    viewModel: HomeViewModel,
+    title: String,
+    context: Context
+) {
+    if (searchKeyword != "") {
+        viewModel.getAllProducts(keyword = searchKeyword)
+    } else {
+        when (title) {
+            context.getString(R.string.category_all) -> {
+                viewModel.getAllProducts()
+            }
+
+            context.getString(R.string.category_agriculture) -> {
+                viewModel.getAllProducts(categoryId = 1)
+            }
+
+            context.getString(R.string.category_food) -> {
+                viewModel.getAllProducts(categoryId = 2)
+            }
+
+            context.getString(R.string.category_drink) -> {
+                viewModel.getAllProducts(categoryId = 3)
             }
         }
     }
