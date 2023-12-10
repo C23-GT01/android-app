@@ -157,7 +157,7 @@ fun EditProfileScreen() {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, heightDp = 600)
 @Composable
 fun EditProfilePreview() {
     TrackMateTheme {

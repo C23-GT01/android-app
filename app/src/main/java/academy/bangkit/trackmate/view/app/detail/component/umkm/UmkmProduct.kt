@@ -1,6 +1,6 @@
 package academy.bangkit.trackmate.view.app.detail.component.umkm
 
-import academy.bangkit.trackmate.data.remote.response.ProductsItemHome
+import academy.bangkit.trackmate.data.remote.response.ProductItem
 import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.view.app.detail.component.Title
 import academy.bangkit.trackmate.view.formatToRupiah
@@ -34,7 +34,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 
 @Composable
-fun ProductCard(product: ProductsItemHome, modifier: Modifier = Modifier) {
+fun ProductCard(product: ProductItem, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier
             .padding(8.dp)
@@ -49,7 +49,7 @@ fun ProductCard(product: ProductsItemHome, modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImage(
-                model = product.image[0],
+                model = product.images[0],
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -78,7 +78,7 @@ fun ProductCard(product: ProductsItemHome, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun UmkmProduct(products: List<ProductsItemHome>? = null, navController: NavController) {
+fun UmkmProduct(products: List<ProductItem>? = null, navController: NavController) {
 
     if (products != null){
         Title(title = "Product")

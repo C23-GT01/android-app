@@ -79,20 +79,19 @@ private fun ShowProduct(product: ProductItem, navController: NavController) {
         Column(
             modifier = Modifier.verticalScroll(rememberScrollState())
         ) {
-            Log.d(
-                "Location",
-                "Lat = ${product.productBy.location.lat}\nLon = ${product.productBy.location.lng}\nLocation = ${product.productBy.location}"
-            )
-
             ProductImageAndOverview(
                 title = product.name,
-                imageUrl = product.image[0],
+                imageUrl = product.images[0],
                 price = formatToRupiah(product.price),
                 productOverview = product.description
             )
-            ProductMaterialDetail(product.resources)
-            ProductionProcess(product.production)
-            ProductImpactAndOverview(product.impact, product.contribution)
+            if (product.resources.isNotEmpty()) {
+                ProductMaterialDetail(product.resources)
+            }
+            if (product.productions.isNotEmpty()) {
+                ProductionProcess(product.productions)
+            }
+            ProductImpactAndOverview(product.impacts, product.contributions)
             ProductBy(
                 companyName = product.productBy.name,
                 logoUrl = product.productBy.logo,
@@ -115,16 +114,16 @@ private fun ShowProduct(product: ProductItem, navController: NavController) {
 fun ProductDetailScreenPrev() {
     TrackMateTheme {
         val sampleProduct = ProductItem(
-            image = immutableListOf("https://picsum.photos/200"),
-            contribution = immutableListOf(1, 2, 3),
-            production = immutableListOf(
+            images = immutableListOf("https://picsum.photos/200"),
+            contributions = immutableListOf(1, 2, 3),
+            productions = immutableListOf(
                 ProductionItem("https://picsum.photos/100", "Title 1", "Description 1"),
                 ProductionItem("https://picsum.photos/200", "Title 2", "Description 2"),
                 ProductionItem("https://picsum.photos/300", "Title 3", "Description 3"),
                 ProductionItem("https://picsum.photos/400", "Title 4", "Description 4"),
             ),
             price = 100000,
-            impact = immutableListOf(
+            impacts = immutableListOf(
                 ImpactItem(
                     "https://picsum.photos/500",
                     "Impact Title 1",
@@ -186,7 +185,8 @@ fun ProductDetailScreenPrev() {
                 21,
                 "Nama UMKM",
                 Location(0.0, 0.0, "Wonogiri, Jawa Tengah")
-            )
+            ),
+            category = 0
         )
         Surface {
             ShowProduct(product = sampleProduct, rememberNavController())

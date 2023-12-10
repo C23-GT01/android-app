@@ -17,16 +17,21 @@ class UserAccountViewModel(private val repository: UserRepository) : ViewModel()
         Log.d("Logout", "Running logout... clearing...")
         viewModelScope.launch {
             _isLoading.value = true
-
-            //clearing token from server
-            val refreshToken = repository.getRefreshToken()
-            repository.logout(refreshToken)
-            _isLoading.value = true
-
-            //clearing token from device
-            if (_isLoading.value == false) {
+            try {
+                //clearing token from server
+                val refreshToken = repository.getRefreshToken()
+                repository.logout(refreshToken)
+            } finally {
+                //clearing token from device
+                _isLoading.value = false
                 repository.clearUserData()
             }
+        }
+    }
+
+    fun clearLocalData() {
+        viewModelScope.launch {
+            repository.clearUserData()
         }
     }
 }

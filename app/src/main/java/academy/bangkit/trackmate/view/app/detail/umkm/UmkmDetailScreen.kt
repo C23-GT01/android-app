@@ -1,7 +1,7 @@
 package academy.bangkit.trackmate.view.app.detail.umkm
 
-import academy.bangkit.trackmate.data.remote.response.HomeResponse
-import academy.bangkit.trackmate.data.remote.response.ProductsItemHome
+import academy.bangkit.trackmate.data.remote.response.ProductsResponse
+import academy.bangkit.trackmate.data.remote.response.ProductItem
 import academy.bangkit.trackmate.data.remote.response.UMKMResponse
 import academy.bangkit.trackmate.data.remote.response.Umkm
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
@@ -14,17 +14,17 @@ import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmProduct
 import academy.bangkit.trackmate.view.component.CircularLoading
 import academy.bangkit.trackmate.view.component.ErrorScreen
 import android.util.Log
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 
@@ -48,18 +48,18 @@ fun UmkmDetailScreen(
         Box(modifier = Modifier.fillMaxSize()) { CircularLoading() }
     } else {
         val umkmDetailResponse: UMKMResponse
-        val productResponse: HomeResponse
+        val productResponse: ProductsResponse
 
         if (umkmResponse != null && productsResponse != null) {
 
             umkmDetailResponse = umkmResponse as UMKMResponse
-            productResponse = productsResponse as HomeResponse
+            productResponse = productsResponse as ProductsResponse
 
-            if (!umkmDetailResponse.error && umkmDetailResponse.data != null && !productResponse.error && productResponse.data != null) {
+            if (!umkmDetailResponse.error && umkmDetailResponse.data != null && !productResponse.isError && productResponse.products != null) {
                 Log.d("Product Count", productResponse.count.toString())
                 ShowUMKM(
                     umkmDetailResponse.data.umkm,
-                    if (productResponse.count <= 0) null else productResponse.data.products,
+                    if (productResponse.count <= 0) null else productResponse.products.productList,
                     navController
                 )
             } else {
@@ -74,15 +74,15 @@ fun UmkmDetailScreen(
 @Composable
 private fun ShowUMKM(
     umkm: Umkm,
-    products: List<ProductsItemHome>? = null,
+    products: List<ProductItem>? = null,
     navController: NavController
 ) {
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .verticalScroll(rememberScrollState())
     ) {
-        item {
+//        item {
             UmkmImageAndName(
                 title = umkm.name,
                 image = umkm.image,
@@ -98,7 +98,7 @@ private fun ShowUMKM(
             )
             Divider()
             UmkmContact()
-        }
+//        }
     }
 }
 

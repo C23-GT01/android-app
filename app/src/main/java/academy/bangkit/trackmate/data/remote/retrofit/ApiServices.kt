@@ -4,7 +4,7 @@ import academy.bangkit.trackmate.data.remote.request.LoginRequest
 import academy.bangkit.trackmate.data.remote.request.LogoutRequest
 import academy.bangkit.trackmate.data.remote.request.RegisterRequest
 import academy.bangkit.trackmate.data.remote.response.DetailResponse
-import academy.bangkit.trackmate.data.remote.response.HomeResponse
+import academy.bangkit.trackmate.data.remote.response.ProductsResponse
 import academy.bangkit.trackmate.data.remote.response.LoginResponse
 import academy.bangkit.trackmate.data.remote.response.LogoutResponse
 import academy.bangkit.trackmate.data.remote.response.RegisterResponse
@@ -22,22 +22,22 @@ interface ApiService {
     ): DetailResponse
 
     @GET("products")
-    suspend fun getAllProducts(): HomeResponse
+    suspend fun getAllProducts(): ProductsResponse
 
     @GET("products/category/{categoryId}")
     suspend fun getProductsByCategory(
         @Path("categoryId") category: Int
-    ): HomeResponse
+    ): ProductsResponse
 
     @GET("products/search/{keyword}")
     suspend fun getProductsByKeyword(
         @Path("keyword") keyword: String
-    ): HomeResponse
+    ): ProductsResponse
 
     @GET("products/umkm/{umkmId}")
     suspend fun getProductsByUmkm(
         @Path("umkmId") keyword: String
-    ): HomeResponse
+    ): ProductsResponse
 
     @GET("umkm/{umkmId}")
     suspend fun getUMKMProfile(

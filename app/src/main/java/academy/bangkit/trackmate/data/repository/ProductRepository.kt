@@ -1,7 +1,7 @@
 package academy.bangkit.trackmate.data.repository
 
 import academy.bangkit.trackmate.data.remote.response.DetailResponse
-import academy.bangkit.trackmate.data.remote.response.HomeResponse
+import academy.bangkit.trackmate.data.remote.response.ProductsResponse
 import academy.bangkit.trackmate.data.remote.retrofit.ApiConfig
 
 class ProductRepository {
@@ -9,7 +9,7 @@ class ProductRepository {
         return ApiConfig.getApiService().getDetailProduct(id)
     }
 
-    suspend fun getAllProducts(categoryId: Int? = null, keyword: String? = null): HomeResponse {
+    suspend fun getAllProducts(categoryId: Int? = null, keyword: String? = null): ProductsResponse {
         return if (keyword != null) {
             ApiConfig.getApiService().getProductsByKeyword(keyword)
         } else if (categoryId != null) {

@@ -10,7 +10,8 @@
     <string name="hide_password">Sembunyikan Password</string>
     <string name="show_password">Lihat Password</string>
     <string name="register">Register</string>
-    <string name="go_to_Login">Sudah Mempunyai Akun? Login</string>
+    <string name="go_to_login">Sudah mempunyai Akun?</string>
+    <string name="go_to_register">Belum mempunyai Akun?</string>
     <string name="login">Login</string>
     <string name="guest">Login Sebagai Tamu</string>
     <string name="forgot_your_password">Lupa Password?</string>
@@ -28,9 +29,6 @@
     <string name="product_impact">Impact Produk</string>
     <string name="product_impact_overview">Dengan membeli produk ini Anda telah mendukung…</string>
 
-    <!--    todo: Product Impact Overview -->
-    <string name="product_impact_overview_1">Minimalisasi Jejak Karbon</string>
-
     <!--    Screen Title -->
     <string name="screen_product_detail">Detail Produk</string>
     <string name="screen_umkm_detail">Detail UMKM</string>
@@ -44,6 +42,11 @@
 
     <!--    todo: User Account Screen -->
     <string name="logout">Logout</string>
+    <string name="profile_edit">Edit Profil</string>
+    <string name="my_data">Data Saya</string>
+    <string name="logout_confirmation">Logout sekarang?</string>
+    <string name="yes">Ya</string>
+    <string name="no">Tidak</string>
 
     <!--    If Login as Guest Account -->
     <string name="guest_account">Anda login sebagai Guest</string>
@@ -56,6 +59,9 @@
     <string name="scan_canceled">Scan dibatalkan</string>
     <string name="unknown_error">Terjadi Kesalahan</string>
     <string name="error_message">Error: %1$s</string>
+
+    <!--    Product Impact Overview -->
+    <string name="minimalisasi_jejak_carbon">Minimalisasi Jejak Karbon</string>
     <string name="efisiensi_energi">Efisiensi Energi</string>
     <string name="pengelolaan_limbah">Pengelolaan Limbah</string>
     <string name="penggunaan_bahan_baku_lokal">Penggunaan Bahan Baku Lokal</string>

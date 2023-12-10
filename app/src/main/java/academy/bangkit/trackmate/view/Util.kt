@@ -4,7 +4,9 @@ import academy.bangkit.trackmate.di.Injection
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -51,4 +53,11 @@ fun showToast(context: Context, message: String) {
 @Composable
 fun Factory(): ViewModelFactory {
     return ViewModelFactory(Injection.provideUserRepository(LocalContext.current))
+}
+
+fun sendWhatsAppMessage(context: Context, phoneNumber: String, message: String) {
+    context.startActivity(
+        Intent(Intent.ACTION_VIEW)
+            .setData(Uri.parse("https://api.whatsapp.com/send?phone=$phoneNumber&text=$message"))
+    )
 }

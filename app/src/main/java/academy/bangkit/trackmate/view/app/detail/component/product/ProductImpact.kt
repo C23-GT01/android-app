@@ -47,122 +47,129 @@ fun ProductImpactAndOverview(productImpact: List<ImpactItem>, contribution: List
 
     val context = LocalContext.current
 
-    Title(title = stringResource(id = R.string.product_impact))
+    if (productImpact.isNotEmpty()) {
+        Title(title = stringResource(id = R.string.product_impact))
 
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .horizontalScroll(rememberScrollState())
-            .padding(start = 16.dp, top = 16.dp),
-    ) {
-        productImpact.forEach { item ->
-            Card(
-                modifier = Modifier
-                    .width(190.dp)
-                    .padding(end = 16.dp)
-            ) {
-                Column {
-                    AsyncImage(
-                        contentScale = ContentScale.Crop,
-                        model = item.image,
-                        contentDescription = "Translated description of what the image contains",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(130.dp)
-                            .background(Color.DarkGray)
-                    )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState())
+                .padding(start = 16.dp, top = 16.dp),
+        ) {
+            productImpact.forEach { item ->
+                Card(
+                    modifier = Modifier
+                        .width(190.dp)
+                        .padding(end = 16.dp)
+                ) {
                     Column {
-                        Text(
-                            text = item.title,
-                            fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.padding(top = 4.dp, start = 6.dp)
+                        AsyncImage(
+                            contentScale = ContentScale.Crop,
+                            model = item.image,
+                            contentDescription = "Translated description of what the image contains",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(130.dp)
+                                .background(Color.DarkGray)
                         )
-                        Text(
-                            text = item.description,
-                            modifier = Modifier.padding(top = 4.dp, bottom = 4.dp, start = 6.dp)
-                        )
+                        Column {
+                            Text(
+                                text = item.title,
+                                fontWeight = FontWeight.SemiBold,
+                                modifier = Modifier.padding(top = 4.dp, start = 6.dp)
+                            )
+                            Text(
+                                text = item.description,
+                                modifier = Modifier.padding(top = 4.dp, bottom = 4.dp, start = 6.dp)
+                            )
+                        }
                     }
                 }
             }
         }
     }
-    Divider()
-    Text(
-        text = stringResource(id = R.string.product_impact_overview),
-        fontWeight = FontWeight.SemiBold,
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
-    )
 
-    contribution.forEach {
-        val productImpactOverview =
-            when (it) {
-                1.toByte() -> ProductImpactOverview(
-                    Icons.Rounded.Air, context.getString(R.string.product_impact_overview_1)
-                )
 
-                2.toByte() -> ProductImpactOverview(
-                    Icons.Rounded.ElectricBolt,
-                    context.getString(R.string.efisiensi_energi)
-                )
+    if (contribution.isNotEmpty()) {
+        Divider()
+        Text(
+            text = stringResource(id = R.string.product_impact_overview),
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp)
+        )
 
-                3.toByte() -> ProductImpactOverview(
-                    Icons.Rounded.RestoreFromTrash,
-                    context.getString(R.string.pengelolaan_limbah)
-                )
-
-                4.toByte() -> ProductImpactOverview(
-                    Icons.Rounded.ShareLocation,
-                    context.getString(R.string.penggunaan_bahan_baku_lokal)
-                )
-
-                5.toByte() -> ProductImpactOverview(
-                    Icons.Rounded.WaterDrop,
-                    context.getString(R.string.efisiensi_air)
-                )
-
-                6.toByte() -> ProductImpactOverview(
-                    Icons.Rounded.Recycling,
-                    context.getString(R.string.daur_ulang_produk)
-                )
-
-                7.toByte() -> ProductImpactOverview(
-                    Icons.Rounded.EmojiPeople,
-                    context.getString(R.string.kesejahteraan_pekerja)
-                )
-
-                8.toByte() -> ProductImpactOverview(
-                    Icons.Rounded.Eco,
-                    context.getString(R.string.kesehatan_dan_keamanan_lingkungan)
-                )
-
-                9.toByte() -> ProductImpactOverview(
-                    Icons.AutoMirrored.Rounded.TrendingUp,
-                    context.getString(R.string.kemajuan_umkm_indonesia)
-                )
-
-                else -> {
-                    ProductImpactOverview(
-                        Icons.Rounded.Close,
-                        "-"
+        contribution.forEach {
+            val productImpactOverview =
+                when (it) {
+                    1.toByte() -> ProductImpactOverview(
+                        Icons.Rounded.Air, context.getString(R.string.minimalisasi_jejak_carbon)
                     )
+
+                    2.toByte() -> ProductImpactOverview(
+                        Icons.Rounded.ElectricBolt,
+                        context.getString(R.string.efisiensi_energi)
+                    )
+
+                    3.toByte() -> ProductImpactOverview(
+                        Icons.Rounded.RestoreFromTrash,
+                        context.getString(R.string.pengelolaan_limbah)
+                    )
+
+                    4.toByte() -> ProductImpactOverview(
+                        Icons.Rounded.ShareLocation,
+                        context.getString(R.string.penggunaan_bahan_baku_lokal)
+                    )
+
+                    5.toByte() -> ProductImpactOverview(
+                        Icons.Rounded.WaterDrop,
+                        context.getString(R.string.efisiensi_air)
+                    )
+
+                    6.toByte() -> ProductImpactOverview(
+                        Icons.Rounded.Recycling,
+                        context.getString(R.string.daur_ulang_produk)
+                    )
+
+                    7.toByte() -> ProductImpactOverview(
+                        Icons.Rounded.EmojiPeople,
+                        context.getString(R.string.kesejahteraan_pekerja)
+                    )
+
+                    8.toByte() -> ProductImpactOverview(
+                        Icons.Rounded.Eco,
+                        context.getString(R.string.kesehatan_dan_keamanan_lingkungan)
+                    )
+
+                    9.toByte() -> ProductImpactOverview(
+                        Icons.AutoMirrored.Rounded.TrendingUp,
+                        context.getString(R.string.kemajuan_umkm_indonesia)
+                    )
+
+                    else -> {
+                        ProductImpactOverview(
+                            Icons.Rounded.Close,
+                            "-"
+                        )
+                    }
                 }
+            Row(
+                modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
+            ) {
+                Icon(
+                    productImpactOverview.icons,
+                    "Content desc",
+                    Modifier,
+                    Color.DarkGray
+                )
+                Text(
+                    text = productImpactOverview.description,
+                    modifier = Modifier.padding(start = 8.dp)
+                )
             }
-        Row(
-            modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
-        ) {
-            Icon(
-                productImpactOverview.icons,
-                "Content desc",
-                Modifier,
-                Color.DarkGray
-            )
-            Text(
-                text = productImpactOverview.description,
-                modifier = Modifier.padding(start = 8.dp)
-            )
         }
+        Divider()
     }
-    Divider()
+
 }
 
 @Preview(showBackground = true, heightDp = 480)

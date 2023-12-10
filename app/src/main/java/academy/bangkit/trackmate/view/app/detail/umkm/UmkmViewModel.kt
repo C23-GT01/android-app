@@ -1,6 +1,6 @@
 package academy.bangkit.trackmate.view.app.detail.umkm
 
-import academy.bangkit.trackmate.data.remote.response.HomeResponse
+import academy.bangkit.trackmate.data.remote.response.ProductsResponse
 import academy.bangkit.trackmate.data.repository.UMKMRepository
 import academy.bangkit.trackmate.data.remote.response.UMKMResponse
 import androidx.lifecycle.LiveData
@@ -15,8 +15,8 @@ class UmkmViewModel(private val repository: UMKMRepository) : ViewModel() {
     private val _umkm = MutableLiveData<UMKMResponse>()
     val umkm: LiveData<UMKMResponse> = _umkm
 
-    private val _products = MutableLiveData<HomeResponse>()
-    val products: LiveData<HomeResponse> = _products
+    private val _products = MutableLiveData<ProductsResponse>()
+    val products: LiveData<ProductsResponse> = _products
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
@@ -51,13 +51,13 @@ class UmkmViewModel(private val repository: UMKMRepository) : ViewModel() {
         )
     }
 
-    private fun productError(message: String): HomeResponse {
-        return HomeResponse(
-            error = true,
+    private fun productError(message: String): ProductsResponse {
+        return ProductsResponse(
+            isError = true,
             status = "fail",
             message = message,
             count = 0,
-            data = null
+            products = null
         )
     }
 }

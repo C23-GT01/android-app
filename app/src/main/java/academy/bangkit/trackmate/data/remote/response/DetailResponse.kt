@@ -25,20 +25,23 @@ data class Data(
 
 data class ProductItem(
 
+    @field:SerializedName("id")
+    val id: String,
+
     @field:SerializedName("image")
-    val image: List<String>,
+    val images: List<String>,
 
     @field:SerializedName("contribution")
-    val contribution: List<Byte>,
+    val contributions: List<Byte>,
 
     @field:SerializedName("production")
-    val production: List<ProductionItem>,
+    val productions: List<ProductionItem>,
 
     @field:SerializedName("price")
     val price: Int,
 
     @field:SerializedName("impact")
-    val impact: List<ImpactItem>,
+    val impacts: List<ImpactItem>,
 
     @field:SerializedName("name")
     val name: String,
@@ -49,11 +52,11 @@ data class ProductItem(
     @field:SerializedName("resources")
     val resources: List<ProductMaterial>,
 
-    @field:SerializedName("id")
-    val id: String,
-
     @field:SerializedName("umkm")
-    val productBy: UMKMInDetail
+    val productBy: UMKMInDetail,
+
+    @field:SerializedName("category")
+    val category: Int
 )
 
 data class UMKMInDetail(

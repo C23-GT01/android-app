@@ -108,13 +108,13 @@ fun UserAccountScreen(
                         fontSize = 20.sp,
                         color = Color.Black
                     )
-                    ButtonInUserAccount("Edit Profile", R.drawable.ic_2) {
+                    ButtonInUserAccount(stringResource(id = R.string.profile_edit), R.drawable.ic_2) {
                         navController.navigate(Screen.App.Account.EditProfile.route)
                         {
                             popUpTo(Screen.App.Account.route)
                         }
                     }
-                    ButtonInUserAccount("Data Saya", R.drawable.ic_3) {
+                    ButtonInUserAccount(stringResource(id = R.string.my_data), R.drawable.ic_3) {
                         navController.navigate(Screen.App.Account.PersonalInformation.route)
                         {
                             popUpTo(Screen.App.Account.route)
@@ -136,7 +136,7 @@ fun UserAccountScreen(
                     Text(text = stringResource(id = R.string.logout))
                 },
                 text = {
-                    Text(text = "Yakin mau keluar?")
+                    Text(text = stringResource(id = R.string.logout_confirmation))
                 },
                 confirmButton = {
                     Button(
@@ -146,7 +146,7 @@ fun UserAccountScreen(
                             navController.navigate(Screen.Auth.route)
                         }
                     ) {
-                        Text("Yes")
+                        Text(stringResource(id = R.string.yes))
                     }
                 },
                 dismissButton = {
@@ -155,7 +155,7 @@ fun UserAccountScreen(
                             showDialog = false
                         }
                     ) {
-                        Text("No")
+                        Text(stringResource(id = R.string.no))
                     }
                 }
             )

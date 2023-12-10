@@ -17,7 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.Logout
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -61,7 +60,7 @@ fun GuestAccountScreen(
             )
             Spacer(modifier = Modifier.height(20.dp))
             Button(onClick = {
-                viewModel.logout()
+                viewModel.clearLocalData()
                 navController.navigate(Screen.Auth.route)
             }) {
                 Icon(
@@ -79,9 +78,7 @@ fun GuestAccountScreen(
 @Composable
 fun GuestAccountScreenPreview() {
     TrackMateTheme {
-        Surface {
-            val viewModel = viewModel<UserAccountViewModel>(factory = Factory())
-            GuestAccountScreen(rememberNavController(), viewModel)
-        }
+        val viewModel = viewModel<UserAccountViewModel>(factory = Factory())
+        GuestAccountScreen(rememberNavController(), viewModel)
     }
 }

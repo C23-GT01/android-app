@@ -1,7 +1,7 @@
 package academy.bangkit.trackmate.view.app.home
 
 import academy.bangkit.trackmate.R
-import academy.bangkit.trackmate.data.remote.response.HomeResponse
+import academy.bangkit.trackmate.data.remote.response.ProductsResponse
 import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import academy.bangkit.trackmate.view.Factory
@@ -137,10 +137,10 @@ fun HomeScreen(
         } else {
 
             if (response != null) {
-                val homeResponse = response as HomeResponse
-                if (!homeResponse.error && homeResponse.data != null) {
+                val productsResponse = response as ProductsResponse
+                if (!productsResponse.isError && productsResponse.products != null) {
 
-                    val products = homeResponse.data.products
+                    val products = productsResponse.products.productList
                     if (products.isEmpty()) {
                         EmptyProducts()
                     }
@@ -164,7 +164,7 @@ fun HomeScreen(
                             ) {
                                 AsyncImage(
                                     contentScale = ContentScale.Crop,
-                                    model = product.image[0],
+                                    model = product.images[0],
                                     contentDescription = "Translated description of what the image contains",
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -193,7 +193,7 @@ fun HomeScreen(
                     }
                 } else {
                     ErrorScreen(
-                        message = homeResponse.message,
+                        message = productsResponse.message,
                         action = { viewModel.getAllProducts() }
                     )
                 }

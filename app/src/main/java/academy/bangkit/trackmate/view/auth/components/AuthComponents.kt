@@ -1,5 +1,3 @@
-@file:Suppress("DEPRECATION")
-
 package academy.bangkit.trackmate.view.auth.components
 
 import academy.bangkit.trackmate.R
@@ -8,6 +6,7 @@ import academy.bangkit.trackmate.ui.theme.Primary
 import academy.bangkit.trackmate.ui.theme.Secondary
 import academy.bangkit.trackmate.ui.theme.TextColor
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,8 +24,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -99,10 +98,10 @@ fun TextFieldComponent(
                 .fillMaxWidth(),
             label = { Text(text = labelValue) },
             singleLine = true,
-            colors = TextFieldDefaults.outlinedTextFieldColors(
+            colors = OutlinedTextFieldDefaults.colors(
+                cursorColor = Primary,
                 focusedBorderColor = Color.White,
                 focusedLabelColor = Primary,
-                cursorColor = Primary,
             ),
             shape = RoundedCornerShape(22.dp),
             keyboardOptions = KeyboardOptions.Default,
@@ -118,7 +117,6 @@ fun TextFieldComponent(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PasswordTextFieldComponent(
     labelValue: String,
@@ -139,10 +137,10 @@ fun PasswordTextFieldComponent(
                 .fillMaxWidth(),
             label = { Text(text = labelValue) },
             singleLine = true,
-            colors = TextFieldDefaults.outlinedTextFieldColors(
+            colors = OutlinedTextFieldDefaults.colors(
+                cursorColor = Primary,
                 focusedBorderColor = Color.White,
                 focusedLabelColor = Primary,
-                cursorColor = Primary,
             ),
             shape = RoundedCornerShape(22.dp),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -209,8 +207,9 @@ fun ButtonComponent(value: String, action: () -> Unit) {
 @Composable
 fun ClickableLoginTextComponent(tryingToLogin: Boolean = true, onTextSelected: (String) -> Unit) {
     val initialText =
-        if (tryingToLogin) "Already have an account? " else "Don't have an account yet? "
-    val loginText = if (tryingToLogin) "Login" else "Register"
+        if (tryingToLogin) stringResource(id = R.string.go_to_login) else stringResource(id = R.string.go_to_register)
+    val loginText =
+        " " + if (tryingToLogin) stringResource(id = R.string.login) else stringResource(id = R.string.register)
 
     val annotatedString = buildAnnotatedString {
         append(initialText)
@@ -240,10 +239,11 @@ fun ClickableLoginTextComponent(tryingToLogin: Boolean = true, onTextSelected: (
 }
 
 @Composable
-fun UnderlinedTextComponent(value: String) {
+fun UnderlinedTextComponent(value: String, action: () -> Unit) {
     Text(
         text = value,
         modifier = Modifier
+            .clickable { action() }
             .fillMaxWidth(),
         style = TextStyle(
             fontSize = 15.sp,
