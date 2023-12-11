@@ -53,6 +53,8 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import academy.bangkit.trackmate.R
+import academy.bangkit.trackmate.data.remote.response.User
+import academy.bangkit.trackmate.view.app.account.UserAccount
 
 @Composable
 fun TrackMateApp(viewModel: TrackMateAppViewModel) {
@@ -251,7 +253,8 @@ fun Host(
             }
 
             composable(route = Screen.App.Account.PersonalInformation.route) {
-                PersonalInformationScreen(navController = navController)
+                val user = UserAccount.user ?: User(null,"0","No Name","-","-")
+                PersonalInformationScreen(navController = navController, user = user)
             }
 
             composable(

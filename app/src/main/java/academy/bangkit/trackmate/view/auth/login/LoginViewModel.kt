@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import java.net.UnknownHostException
 
 class LoginViewModel(private val repository: UserRepository) : ViewModel() {
 
@@ -30,18 +29,15 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
             try {
                 val loginResponse = repository.login(username, password)
                 _loginResponse.value = loginResponse
-            } catch (e: UnknownHostException) {
-                _loginResponse.value = loginError("Terjadi masalah dengan koneksi jaringan")
             } catch (e: Exception) {
-                _loginResponse.value = loginError(e.message ?: "Terjadi masalah")
+                handleLoginError(e.message ?: "Terjadi masalah")
             } finally {
                 _isLoading.value = false
             }
         }
     }
 
-    private fun loginError(message: String): LoginResponse {
-        return LoginResponse(true, "fail", message, null)
+    private fun handleLoginError(message: String) {
+        _loginResponse.value = LoginResponse(true, "fail", message, null)
     }
-
 }

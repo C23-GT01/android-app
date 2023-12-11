@@ -1,6 +1,7 @@
 package academy.bangkit.trackmate.view.app.account.menu
 
 import academy.bangkit.trackmate.R
+import academy.bangkit.trackmate.data.remote.response.User
 import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import androidx.compose.foundation.Image
@@ -28,9 +29,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,11 +41,12 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun PersonalInformationScreen(navController: NavController) {
-    val username by remember { mutableStateOf("Ngurah Agung") }
-    val email by remember { mutableStateOf("ngurahagung543@gmail.com") }
-    val fullname by remember { mutableStateOf("I Gusti Ngurah Agung Kade Dwi Arsana")}
-    val id by remember { mutableStateOf("186718013")}
+fun PersonalInformationScreen(navController: NavController, user: User) {
+
+    val username = user.username
+    val email = user.email
+    val fullname = user.fullname
+    val id = user.id
 
     val scrollState = rememberScrollState()
 
@@ -135,11 +134,14 @@ fun PersonalInfoRow(label: String, value: String, icon: ImageVector) {
     HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, heightDp = 600)
 @Composable
 fun PersonalInformationPreview() {
     TrackMateTheme {
-        PersonalInformationScreen(rememberNavController())
+        PersonalInformationScreen(
+            rememberNavController(),
+            User(null, "1234", "Abdullah Fikri", "abdullah.fikri@students.utdi.ac.id", "fikrihandy")
+        )
     }
 }
 

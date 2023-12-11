@@ -1,10 +1,14 @@
 package academy.bangkit.trackmate.view.app.account
 
 import academy.bangkit.trackmate.R
+import academy.bangkit.trackmate.data.remote.response.User
+import academy.bangkit.trackmate.data.remote.response.UserAccountResponse
 import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import academy.bangkit.trackmate.view.Factory
 import academy.bangkit.trackmate.view.LockScreenOrientation
+import academy.bangkit.trackmate.view.component.CircularLoading
+import academy.bangkit.trackmate.view.component.ErrorScreen
 import android.content.pm.ActivityInfo
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -24,7 +28,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -50,12 +56,43 @@ fun UserAccountScreen(
     viewModel: UserAccountViewModel
 ) {
 
+    val response by viewModel.user.observeAsState()
+    val isLoading by viewModel.isLoading.observeAsState(initial = false)
+
+    LaunchedEffect(Unit) {
+        viewModel.getProfile()
+    }
+
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-    var showDialog by remember { mutableStateOf(false) }
+
+    if (isLoading) {
+        Box(modifier = Modifier.fillMaxSize()) { CircularLoading() }
+    } else {
+
+        val userResponse: UserAccountResponse
+        if (response != null) {
+            userResponse = response as UserAccountResponse
+            if (!userResponse.error && userResponse.data != null) {
+                ShowProfile(navController, viewModel, userResponse.data.user)
+            } else {
+                ErrorScreen(message = userResponse.status) {
+                    viewModel.getProfile()
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ShowProfile(
+    navController: NavController,
+    viewModel: UserAccountViewModel,
+    user: User
+) {
+    var showDialog1 by remember { mutableStateOf(false) }
 
     Box {
         Column {
-
             ConstraintLayout {
                 val (topImg, profile) = createRefs()
                 Image(painterResource(id = R.drawable.top_background), null,
@@ -98,39 +135,48 @@ fun UserAccountScreen(
                     modifier = Modifier.align(Alignment.Center)
                 ) {
                     Text(
-                        "Ngurah Agung",
+                        user.fullname,
                         fontSize = 25.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
                     Text(
-                        "ngurahagung@gmail.com",
+                        user.email,
                         fontSize = 20.sp,
                         color = Color.Black
                     )
-                    ButtonInUserAccount(stringResource(id = R.string.profile_edit), R.drawable.ic_2) {
+                    ButtonInUserAccount(
+                        stringResource(id = R.string.profile_edit),
+                        R.drawable.ic_2
+                    ) {
                         navController.navigate(Screen.App.Account.EditProfile.route)
                         {
                             popUpTo(Screen.App.Account.route)
                         }
                     }
-                    ButtonInUserAccount(stringResource(id = R.string.my_data), R.drawable.ic_3) {
+                    ButtonInUserAccount(
+                        stringResource(id = R.string.my_data),
+                        R.drawable.ic_3
+                    ) {
+                        UserAccount.user = user
                         navController.navigate(Screen.App.Account.PersonalInformation.route)
                         {
                             popUpTo(Screen.App.Account.route)
                         }
                     }
-                    ButtonInUserAccount(stringResource(id = R.string.logout), R.drawable.ic_1) {
-                        showDialog = true
+                    ButtonInUserAccount(
+                        stringResource(id = R.string.logout),
+                        R.drawable.ic_1
+                    ) {
+                        showDialog1 = true
                     }
                 }
             }
         }
-
-        if (showDialog) {
+        if (showDialog1) {
             AlertDialog(
                 onDismissRequest = {
-                    showDialog = false
+                    showDialog1 = false
                 },
                 title = {
                     Text(text = stringResource(id = R.string.logout))
@@ -141,7 +187,7 @@ fun UserAccountScreen(
                 confirmButton = {
                     Button(
                         onClick = {
-                            showDialog = false
+                            showDialog1 = false
                             viewModel.logout()
                             navController.navigate(Screen.Auth.route)
                         }
@@ -152,7 +198,7 @@ fun UserAccountScreen(
                 dismissButton = {
                     Button(
                         onClick = {
-                            showDialog = false
+                            showDialog1 = false
                         }
                     ) {
                         Text(stringResource(id = R.string.no))
@@ -206,6 +252,11 @@ private fun ButtonInUserAccount(
     }
 }
 
+object UserAccount {
+    var user : User? = null
+}
+
+
 @Preview(showBackground = true, heightDp = 600)
 @Composable
 fun AccountPreview() {
@@ -213,6 +264,17 @@ fun AccountPreview() {
         Surface {
             val viewModel = viewModel<UserAccountViewModel>(factory = Factory())
             UserAccountScreen(navController = rememberNavController(), viewModel = viewModel)
+            ShowProfile(
+                navController = rememberNavController(),
+                viewModel = viewModel,
+                user = User(
+                    "",
+                    "1234",
+                    "Abdullah",
+                    "abdullah.fikri@students.utdi.ac.id",
+                    "fikrihandy"
+                )
+            )
         }
     }
 }

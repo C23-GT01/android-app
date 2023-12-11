@@ -5,12 +5,15 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalContext
+import org.json.JSONException
+import org.json.JSONObject
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.Locale
@@ -56,8 +59,33 @@ fun Factory(): ViewModelFactory {
 }
 
 fun sendWhatsAppMessage(context: Context, phoneNumber: String, message: String) {
-    context.startActivity(
-        Intent(Intent.ACTION_VIEW)
-            .setData(Uri.parse("https://api.whatsapp.com/send?phone=$phoneNumber&text=$message"))
-    )
+
+    val installed = isWAInstalled(context)
+    if (installed) {
+        context.startActivity(
+            Intent(Intent.ACTION_VIEW)
+                .setData(Uri.parse("https://api.whatsapp.com/send?phone=$phoneNumber&text=$message"))
+        )
+    } else {
+        Toast.makeText(context, "WhatsApp tidak ditemukan", Toast.LENGTH_SHORT).show()
+    }
+}
+
+private fun isWAInstalled(context: Context): Boolean {
+    val packageManager = context.packageManager
+    return try {
+        packageManager.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES)
+        true
+    } catch (e: PackageManager.NameNotFoundException) {
+        false
+    }
+}
+
+fun parseErrorMessage(errorBody: String?): String {
+    return try {
+        val errorJson = JSONObject(errorBody!!)
+        errorJson.optString("message", "Unknown error")
+    } catch (e: JSONException) {
+        "Error parsing JSON response"
+    }
 }

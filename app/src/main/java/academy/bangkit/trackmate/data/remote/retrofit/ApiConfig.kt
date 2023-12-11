@@ -9,13 +9,19 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiConfig {
     companion object {
-        fun getApiService(): ApiService {
+        fun getApiService(token: String? = null): ApiService {
             val loggingInterceptor =
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
             val authInterceptor = Interceptor { chain ->
                 val req = chain.request()
-                val requestHeaders = req.newBuilder().build()
+                val requestHeaders = if (token != null) {
+                    req.newBuilder()
+                        .addHeader("Authorization", "Bearer $token")
+                        .build()
+                } else {
+                    req.newBuilder().build()
+                }
                 chain.proceed(requestHeaders)
             }
             val client = OkHttpClient.Builder()

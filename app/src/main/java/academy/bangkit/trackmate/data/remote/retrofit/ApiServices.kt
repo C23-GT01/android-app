@@ -9,6 +9,8 @@ import academy.bangkit.trackmate.data.remote.response.LoginResponse
 import academy.bangkit.trackmate.data.remote.response.LogoutResponse
 import academy.bangkit.trackmate.data.remote.response.RegisterResponse
 import academy.bangkit.trackmate.data.remote.response.UMKMResponse
+import academy.bangkit.trackmate.data.remote.response.UserAccountResponse
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.HTTP
@@ -47,15 +49,18 @@ interface ApiService {
     @POST("authentications")
     suspend fun postLogin(
         @Body request: LoginRequest
-    ): LoginResponse
+    ): Response<LoginResponse>
 
     @POST("users")
     suspend fun postRegister(
         @Body request: RegisterRequest
-    ): RegisterResponse
+    ): Response<RegisterResponse>
 
     @HTTP(method = "DELETE", path = "authentications", hasBody = true)
     suspend fun logout(
         @Body request: LogoutRequest
     ): LogoutResponse
+
+    @GET("users/profile")
+    suspend fun getUserProfile(): UserAccountResponse
 }

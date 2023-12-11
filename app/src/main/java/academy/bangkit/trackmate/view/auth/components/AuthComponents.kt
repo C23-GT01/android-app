@@ -278,3 +278,15 @@ fun OutlinedTextFieldBackground(
         content()
     }
 }
+
+@Composable
+fun ErrorMessage(isError: Boolean, errorMessage: String) {
+    if (isError) {
+        Text(
+            text = errorMessage,
+            textAlign = TextAlign.Center,
+            style = TextStyle(Color.Red),
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}

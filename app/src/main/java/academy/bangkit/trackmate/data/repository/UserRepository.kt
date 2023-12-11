@@ -8,10 +8,15 @@ import academy.bangkit.trackmate.data.remote.request.RegisterRequest
 import academy.bangkit.trackmate.data.remote.response.LoginResponse
 import academy.bangkit.trackmate.data.remote.response.LogoutResponse
 import academy.bangkit.trackmate.data.remote.response.RegisterResponse
+import academy.bangkit.trackmate.data.remote.response.UserAccountResponse
 import academy.bangkit.trackmate.data.remote.retrofit.ApiConfig
+import academy.bangkit.trackmate.view.parseErrorMessage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import okio.IOException
+import retrofit2.Response
+import java.net.UnknownHostException
 
 class UserRepository private constructor(
     private val userPreference: UserPreference
@@ -30,6 +35,12 @@ class UserRepository private constructor(
         }
     }
 
+    fun getAccessToken(): String {
+        return runBlocking {
+            userPreference.getAccessToken().first()
+        }
+    }
+
     suspend fun clearUserData() {
         userPreference.logout()
     }
@@ -39,16 +50,43 @@ class UserRepository private constructor(
         return ApiConfig.getApiService().logout(logoutRequest)
     }
 
+    private suspend fun <T> handleApiRequest(apiCall: suspend () -> Response<T>): T {
+        try {
+            val response = apiCall.invoke()
+            if (response.isSuccessful) {
+                return response.body() ?: throw IOException("Response body is null")
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorMessage = parseErrorMessage(errorBody)
+                throw IOException(errorMessage)
+            }
+        } catch (e: UnknownHostException) {
+            throw IOException("Terjadi masalah dengan koneksi jaringan")
+        } catch (e: Exception) {
+            throw IOException(e.message ?: "Terjadi masalah")
+        }
+    }
+
     suspend fun login(username: String, password: String): LoginResponse {
         val loginRequest = LoginRequest(username, password)
-        return ApiConfig.getApiService().postLogin(loginRequest)
+
+        return handleApiRequest {
+            ApiConfig.getApiService().postLogin(loginRequest)
+        }
     }
 
     suspend fun register(
         username: String, email: String, password: String, fullname: String
     ): RegisterResponse {
         val registerRequest = RegisterRequest(username, email, password, fullname)
-        return ApiConfig.getApiService().postRegister(registerRequest)
+
+        return handleApiRequest {
+            ApiConfig.getApiService().postRegister(registerRequest)
+        }
+    }
+
+    suspend fun getUserProfile(accessToken: String): UserAccountResponse {
+        return ApiConfig.getApiService(accessToken).getUserProfile()
     }
 
     companion object {
