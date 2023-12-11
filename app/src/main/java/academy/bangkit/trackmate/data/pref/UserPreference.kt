@@ -22,6 +22,12 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         }
     }
 
+    suspend fun saveNewAccessToken(newAccessToken: String) {
+        dataStore.edit { preferences ->
+            preferences[ACCESS_TOKEN_KEY] = newAccessToken
+        }
+    }
+
     fun getSession(): Flow<UserModel> {
         return dataStore.data.map { preferences ->
             UserModel(

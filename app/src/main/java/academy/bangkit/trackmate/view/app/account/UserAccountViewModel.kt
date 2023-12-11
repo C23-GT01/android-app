@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import java.net.UnknownHostException
 
 class UserAccountViewModel(private val repository: UserRepository) : ViewModel() {
 
@@ -46,19 +45,28 @@ class UserAccountViewModel(private val repository: UserRepository) : ViewModel()
             try {
                 val accessToken = repository.getAccessToken()
                 _user.value = repository.getUserProfile(accessToken)
-            } catch (e: UnknownHostException) {
-                _user.value = userError("Terjadi masalah dengan koneksi jaringan")
             } catch (e: Exception) {
-                _user.value = userError("Terjadi masalah")
-            }
-            finally {
+                if (e.message == "Token maximum age exceeded") {
+                    val refreshToken = repository.getRefreshToken()
+                    val renew = repository.renewAccessToken(refreshToken)
+                    if (!renew.error && renew.data != null) {
+                        val newAccessToken = renew.data.accessToken
+                        repository.saveNewAccessToken(newAccessToken)
+                        _user.value = repository.getUserProfile(newAccessToken)
+                    } else {
+                        Log.d("Gagal", "Gagal Update Token LOGOUT AJALAH")
+                        repository.clearUserData()
+                    }
+                } else {
+                    _user.value = userError(e.message ?: "Terjadi Masalah")
+                }
+            } finally {
                 _isLoading.value = false
             }
         }
     }
 
     private fun userError(message: String): UserAccountResponse {
-        return UserAccountResponse(true, null, message)
+        return UserAccountResponse(true, null, message, "fail")
     }
-
 }

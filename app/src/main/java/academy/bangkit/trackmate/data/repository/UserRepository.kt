@@ -5,9 +5,11 @@ import academy.bangkit.trackmate.data.pref.UserPreference
 import academy.bangkit.trackmate.data.remote.request.LoginRequest
 import academy.bangkit.trackmate.data.remote.request.LogoutRequest
 import academy.bangkit.trackmate.data.remote.request.RegisterRequest
+import academy.bangkit.trackmate.data.remote.request.UpdateAccesTokenRequest
 import academy.bangkit.trackmate.data.remote.response.LoginResponse
 import academy.bangkit.trackmate.data.remote.response.LogoutResponse
 import academy.bangkit.trackmate.data.remote.response.RegisterResponse
+import academy.bangkit.trackmate.data.remote.response.RenewTokenResponse
 import academy.bangkit.trackmate.data.remote.response.UserAccountResponse
 import academy.bangkit.trackmate.data.remote.retrofit.ApiConfig
 import academy.bangkit.trackmate.view.parseErrorMessage
@@ -23,6 +25,10 @@ class UserRepository private constructor(
 ) {
     suspend fun saveSession(user: UserModel) {
         userPreference.saveSession(user)
+    }
+
+    suspend fun saveNewAccessToken(accessToken: String) {
+        userPreference.saveNewAccessToken(accessToken)
     }
 
     fun getSession(): Flow<UserModel> {
@@ -86,7 +92,12 @@ class UserRepository private constructor(
     }
 
     suspend fun getUserProfile(accessToken: String): UserAccountResponse {
-        return ApiConfig.getApiService(accessToken).getUserProfile()
+        return handleApiRequest { ApiConfig.getApiService(accessToken).getUserProfile() }
+    }
+
+    suspend fun renewAccessToken(refreshToken: String): RenewTokenResponse {
+        val renewRequest = UpdateAccesTokenRequest(refreshToken)
+        return ApiConfig.getApiService().renewAccessToken(renewRequest)
     }
 
     companion object {

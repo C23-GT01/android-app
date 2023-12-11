@@ -10,6 +10,9 @@ data class UserAccountResponse(
     @field:SerializedName("data")
     val data: UserData?,
 
+    @field:SerializedName("message")
+    val message: String,
+
     @field:SerializedName("status")
     val status: String
 )

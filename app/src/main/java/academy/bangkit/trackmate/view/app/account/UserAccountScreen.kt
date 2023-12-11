@@ -75,7 +75,7 @@ fun UserAccountScreen(
             if (!userResponse.error && userResponse.data != null) {
                 ShowProfile(navController, viewModel, userResponse.data.user)
             } else {
-                ErrorScreen(message = userResponse.status) {
+                ErrorScreen(message = userResponse.message) {
                     viewModel.getProfile()
                 }
             }
@@ -253,7 +253,7 @@ private fun ButtonInUserAccount(
 }
 
 object UserAccount {
-    var user : User? = null
+    var user: User? = null
 }
 
 

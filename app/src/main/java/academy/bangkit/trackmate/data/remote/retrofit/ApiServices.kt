@@ -3,18 +3,21 @@ package academy.bangkit.trackmate.data.remote.retrofit
 import academy.bangkit.trackmate.data.remote.request.LoginRequest
 import academy.bangkit.trackmate.data.remote.request.LogoutRequest
 import academy.bangkit.trackmate.data.remote.request.RegisterRequest
+import academy.bangkit.trackmate.data.remote.request.UpdateAccesTokenRequest
 import academy.bangkit.trackmate.data.remote.response.DetailResponse
 import academy.bangkit.trackmate.data.remote.response.ProductsResponse
 import academy.bangkit.trackmate.data.remote.response.LoginResponse
 import academy.bangkit.trackmate.data.remote.response.LogoutResponse
 import academy.bangkit.trackmate.data.remote.response.RegisterResponse
 import academy.bangkit.trackmate.data.remote.response.UMKMResponse
+import academy.bangkit.trackmate.data.remote.response.RenewTokenResponse
 import academy.bangkit.trackmate.data.remote.response.UserAccountResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.HTTP
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface ApiService {
@@ -62,5 +65,10 @@ interface ApiService {
     ): LogoutResponse
 
     @GET("users/profile")
-    suspend fun getUserProfile(): UserAccountResponse
+    suspend fun getUserProfile(): Response<UserAccountResponse>
+
+    @PUT("authentications")
+    suspend fun renewAccessToken(
+        @Body request: UpdateAccesTokenRequest
+    ): RenewTokenResponse
 }
