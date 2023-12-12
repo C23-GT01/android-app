@@ -165,10 +165,10 @@ private fun BottomBar(navController: NavHostController) {
                     navController.navigate(item.screen.route) {
                         popUpTo(navController.graph.findStartDestination().id)
                         //todo: Need navigation test!
-                        {
-                            saveState = true
-                        }
-                        restoreState = true
+//                        {
+//                            saveState = true
+//                        }
+//                        restoreState = true
                         launchSingleTop = true
                     }
                 }
@@ -249,7 +249,8 @@ fun Host(
             }
 
             composable(route = Screen.App.Account.EditProfile.route) {
-                EditProfileScreen()
+                val viewModel = viewModel<UserAccountViewModel>(factory = factory)
+                EditProfileScreen(navController = navController, viewModel = viewModel)
             }
 
             composable(route = Screen.App.Account.PersonalInformation.route) {

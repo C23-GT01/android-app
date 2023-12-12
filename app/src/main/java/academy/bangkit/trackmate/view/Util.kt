@@ -12,8 +12,12 @@ import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalContext
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.File
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.Locale
@@ -88,4 +92,16 @@ fun parseErrorMessage(errorBody: String?): String {
     } catch (e: JSONException) {
         "Error parsing JSON response"
     }
+}
+
+fun Uri.toMultipartBodyPart(context: Context): MultipartBody.Part {
+    val inputStream = context.contentResolver.openInputStream(this)
+    val file = File(context.cacheDir, "pp_from_mobile")
+    inputStream?.use { input ->
+        file.outputStream().use { output ->
+            input.copyTo(output)
+        }
+    }
+    val requestFile = file.asRequestBody("image/jpeg".toMediaType())
+    return MultipartBody.Part.createFormData("data", file.name, requestFile)
 }

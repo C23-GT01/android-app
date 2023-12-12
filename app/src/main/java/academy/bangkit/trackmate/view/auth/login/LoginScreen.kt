@@ -90,7 +90,7 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(38.dp))
             TextFieldComponent(
                 labelValue = stringResource(id = R.string.username),
-                painterResource = painterResource(id = R.drawable.baseline_email_24),
+                painterResource = painterResource(id = R.drawable.baseline_person_outline_24),
                 onTextValueChanged = {
                     username = it
                 }

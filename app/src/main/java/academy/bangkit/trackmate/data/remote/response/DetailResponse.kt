@@ -97,7 +97,7 @@ data class ProductionItem(
     @field:SerializedName("name")
     val title: String,
 
-    @field:SerializedName("deskripsi")
+    @field:SerializedName("description")
     val description: String
 )
 

@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -49,6 +50,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 
 @Composable
 fun UserAccountScreen(
@@ -115,13 +117,12 @@ private fun ShowProfile(
                         }
                 ) {
                     // Gambar
-                    Image(
-                        painterResource(id = R.drawable.profile),
+                    AsyncImage(
+                        model = user.image ?: R.drawable.profile,
                         contentDescription = null,
                         modifier = Modifier
                             .fillMaxSize()
-                            .clip(MaterialTheme.shapes.medium)
-                            .clickable { /* Handle image selection */ },
+                            .clip(CircleShape),
                         contentScale = ContentScale.Crop
                     )
                 }
@@ -149,6 +150,7 @@ private fun ShowProfile(
                         stringResource(id = R.string.profile_edit),
                         R.drawable.ic_2
                     ) {
+                        UserAccount.user = user
                         navController.navigate(Screen.App.Account.EditProfile.route)
                         {
                             popUpTo(Screen.App.Account.route)

@@ -1,10 +1,13 @@
 package academy.bangkit.trackmate.data.remote.retrofit
 
+import academy.bangkit.trackmate.data.remote.request.EditProfileRequest
 import academy.bangkit.trackmate.data.remote.request.LoginRequest
 import academy.bangkit.trackmate.data.remote.request.LogoutRequest
 import academy.bangkit.trackmate.data.remote.request.RegisterRequest
 import academy.bangkit.trackmate.data.remote.request.UpdateAccesTokenRequest
 import academy.bangkit.trackmate.data.remote.response.DetailResponse
+import academy.bangkit.trackmate.data.remote.response.EditProfileResponse
+import academy.bangkit.trackmate.data.remote.response.ImageUploadResponse
 import academy.bangkit.trackmate.data.remote.response.ProductsResponse
 import academy.bangkit.trackmate.data.remote.response.LoginResponse
 import academy.bangkit.trackmate.data.remote.response.LogoutResponse
@@ -12,12 +15,15 @@ import academy.bangkit.trackmate.data.remote.response.RegisterResponse
 import academy.bangkit.trackmate.data.remote.response.UMKMResponse
 import academy.bangkit.trackmate.data.remote.response.RenewTokenResponse
 import academy.bangkit.trackmate.data.remote.response.UserAccountResponse
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.HTTP
+import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 
 interface ApiService {
@@ -71,4 +77,15 @@ interface ApiService {
     suspend fun renewAccessToken(
         @Body request: UpdateAccesTokenRequest
     ): RenewTokenResponse
+
+    @PUT("users")
+    suspend fun editProfile(
+        @Body request: EditProfileRequest
+    ): EditProfileResponse
+
+    @Multipart
+    @POST("upload/images")
+    suspend fun uploadImages(
+        @Part file: MultipartBody.Part,
+    ): ImageUploadResponse
 }

@@ -3,7 +3,7 @@
 
     <!--    todo: Auth -->
     <string name="create_account">Buat Akun</string>
-    <string name="full_name">Nama Panjang</string>
+    <string name="full_name">Nama Lengkap</string>
     <string name="email">Email</string>
     <string name="username">Username</string>
     <string name="password">Password</string>

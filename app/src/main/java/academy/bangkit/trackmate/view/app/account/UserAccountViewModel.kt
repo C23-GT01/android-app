@@ -1,5 +1,8 @@
 package academy.bangkit.trackmate.view.app.account
 
+import academy.bangkit.trackmate.data.remote.request.EditProfileRequest
+import academy.bangkit.trackmate.data.remote.response.EditProfileResponse
+import academy.bangkit.trackmate.data.remote.response.ImageUploadResponse
 import academy.bangkit.trackmate.data.remote.response.UserAccountResponse
 import academy.bangkit.trackmate.data.repository.UserRepository
 import android.util.Log
@@ -8,11 +11,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 
 class UserAccountViewModel(private val repository: UserRepository) : ViewModel() {
 
     private val _user = MutableLiveData<UserAccountResponse>()
     val user: LiveData<UserAccountResponse> = _user
+
+    private val _userEdit = MutableLiveData<EditProfileResponse>()
+    val userEdit: LiveData<EditProfileResponse> = _userEdit
+
+    private val _newProfilePicture = MutableLiveData<ImageUploadResponse>()
+    val newProfilePicture: LiveData<ImageUploadResponse> = _newProfilePicture
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
@@ -62,6 +72,36 @@ class UserAccountViewModel(private val repository: UserRepository) : ViewModel()
                 }
             } finally {
                 _isLoading.value = false
+            }
+        }
+    }
+
+    fun editProfile(profile: EditProfileRequest) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                val accessToken = repository.getAccessToken()
+                val editProfile = repository.editProfile(
+                    accessToken,
+                    profile
+                )
+                _userEdit.value = editProfile
+            } catch (e: Exception) {
+                Log.d("Gagal", "Edit Profile")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun uploadImage(file: MultipartBody.Part) {
+        viewModelScope.launch {
+            try {
+                val accessToken = repository.getAccessToken()
+                val response = repository.uploadImage(accessToken, file)
+                _newProfilePicture.value = response
+            } catch (e: Exception) {
+                _newProfilePicture.value = ImageUploadResponse(null, true, "fail")
             }
         }
     }

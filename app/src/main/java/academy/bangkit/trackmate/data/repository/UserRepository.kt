@@ -2,10 +2,13 @@ package academy.bangkit.trackmate.data.repository
 
 import academy.bangkit.trackmate.data.pref.UserModel
 import academy.bangkit.trackmate.data.pref.UserPreference
+import academy.bangkit.trackmate.data.remote.request.EditProfileRequest
 import academy.bangkit.trackmate.data.remote.request.LoginRequest
 import academy.bangkit.trackmate.data.remote.request.LogoutRequest
 import academy.bangkit.trackmate.data.remote.request.RegisterRequest
 import academy.bangkit.trackmate.data.remote.request.UpdateAccesTokenRequest
+import academy.bangkit.trackmate.data.remote.response.EditProfileResponse
+import academy.bangkit.trackmate.data.remote.response.ImageUploadResponse
 import academy.bangkit.trackmate.data.remote.response.LoginResponse
 import academy.bangkit.trackmate.data.remote.response.LogoutResponse
 import academy.bangkit.trackmate.data.remote.response.RegisterResponse
@@ -13,9 +16,11 @@ import academy.bangkit.trackmate.data.remote.response.RenewTokenResponse
 import academy.bangkit.trackmate.data.remote.response.UserAccountResponse
 import academy.bangkit.trackmate.data.remote.retrofit.ApiConfig
 import academy.bangkit.trackmate.view.parseErrorMessage
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import okhttp3.MultipartBody
 import okio.IOException
 import retrofit2.Response
 import java.net.UnknownHostException
@@ -98,6 +103,15 @@ class UserRepository private constructor(
     suspend fun renewAccessToken(refreshToken: String): RenewTokenResponse {
         val renewRequest = UpdateAccesTokenRequest(refreshToken)
         return ApiConfig.getApiService().renewAccessToken(renewRequest)
+    }
+
+    suspend fun editProfile(accessToken: String, request: EditProfileRequest): EditProfileResponse {
+        Log.d("EditProfil", "Repository hitted")
+        return ApiConfig.getApiService(accessToken).editProfile(request)
+    }
+
+    suspend fun uploadImage(accessToken: String, file: MultipartBody.Part): ImageUploadResponse {
+        return ApiConfig.getApiService(accessToken).uploadImages(file)
     }
 
     companion object {

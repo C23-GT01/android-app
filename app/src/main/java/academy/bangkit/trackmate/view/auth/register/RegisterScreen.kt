@@ -12,27 +12,35 @@ import academy.bangkit.trackmate.view.auth.components.NormalTextComponent
 import academy.bangkit.trackmate.view.auth.components.PasswordTextFieldComponent
 import academy.bangkit.trackmate.view.auth.components.TextFieldComponent
 import academy.bangkit.trackmate.view.component.LinearLoading
-import academy.bangkit.trackmate.view.showToast
 import android.content.pm.ActivityInfo
 import android.util.Log
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -56,15 +64,21 @@ fun RegisterScreen(
 
     var isError by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
+    var successRegister by remember { mutableStateOf(false) }
 
-    val response: RegisterResponse
     if (nullableResponse != null) {
-        response = nullableResponse as RegisterResponse
+        val response = nullableResponse as RegisterResponse
         if (response.error) {
             isError = true
             errorMessage = response.message
         } else {
-            showToast(LocalContext.current, response.message)
+            successRegister = true
+//            navController.navigateUp()
+        }
+    }
+
+    if (successRegister) {
+        SuccessDialog {
             navController.navigateUp()
         }
     }
@@ -121,7 +135,36 @@ fun RegisterScreen(
                 })
         }
     }
+}
 
+@Composable
+private fun SuccessDialog(action: () -> Unit) {
+    Dialog(onDismissRequest = { action() }) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .padding(16.dp),
+            shape = RoundedCornerShape(16.dp),
+        ) {
+            Box(Modifier.fillMaxSize()) {
+                Column(
+                    Modifier.align(Alignment.Center)
+                ) {
+                    Text(
+                        text = "Berhasil Mendaftar",
+                        modifier = Modifier
+                            .padding(bottom = 8.dp)
+                            .wrapContentSize(Alignment.Center),
+                        textAlign = TextAlign.Center,
+                    )
+                    Button(onClick = { action() }) {
+                        Text(text = "Login Sekarang")
+                    }
+                }
+            }
+        }
+    }
 }
 
 @Preview(showBackground = true)
@@ -129,4 +172,12 @@ fun RegisterScreen(
 fun RegisterScreenPrev() {
     val viewModel = viewModel<RegisterViewModel>(factory = Factory())
     RegisterScreen(rememberNavController(), viewModel)
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SuccessDialogPrev() {
+    SuccessDialog {
+        Log.d("Dialog", "CLicked")
+    }
 }
