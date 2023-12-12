@@ -1,7 +1,5 @@
 package academy.bangkit.trackmate.view.app.detail.component.umkm
 
-import academy.bangkit.trackmate.R
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,20 +13,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 
 @Composable
-fun UmkmLocation(companyName: String, locationName: String) {
+fun UmkmLocation(logo: String, companyName: String, locationName: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
     ) {
         // Logo
-        Image(
-            painter = painterResource(id = R.drawable.logo),
+        AsyncImage(
+            model = logo,
             contentDescription = null,
             modifier = Modifier
                 .size(40.dp)
@@ -52,8 +50,8 @@ fun UmkmLocation(companyName: String, locationName: String) {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun UmkmLocatonPrev() {
-    UmkmLocation(companyName = "Joglo Ayu Tenan", locationName = "Jl. Langsat")
+//    UmkmLocation(companyName = "Joglo Ayu Tenan", locationName = "Jl. Langsat")
 }

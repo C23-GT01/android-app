@@ -12,3 +12,6 @@ val TextColor = Color(0xFF1D1617)
 val Primary = Color(0xFF92A3FD)
 val Secondary = Color(0xFF9DCEFF)
 val BackgroundColor = Color(0xFFF7F8F8)
+
+//Custom
+val Brown = Color(0xFF886345)

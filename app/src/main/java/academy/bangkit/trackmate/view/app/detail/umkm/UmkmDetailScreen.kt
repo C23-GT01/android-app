@@ -83,22 +83,25 @@ private fun ShowUMKM(
             .verticalScroll(rememberScrollState())
     ) {
 //        item {
-            UmkmImageAndName(
-                title = umkm.name,
-                image = umkm.image,
-                logo = umkm.logo,
-                description = umkm.description
-            )
-            Divider()
-            UmkmProduct(products, navController)
-            UmkmImpact(umkmImpact = umkm.impact)
-            UmkmLocation(
-                companyName = umkm.name,
-                locationName = umkm.location.name
-            )
-            Divider()
-            UmkmContact()
-//        }
+        UmkmImageAndName(
+            title = umkm.name,
+            image = umkm.image,
+            logo = umkm.logo,
+            description = umkm.description
+        )
+        Divider()
+        UmkmProduct(products, navController)
+        UmkmImpact(umkmImpact = umkm.impact)
+        UmkmLocation(
+            logo = umkm.logo,
+            companyName = umkm.name,
+            locationName = umkm.location.name
+        )
+        Divider()
+        if (!umkm.contact.isNullOrEmpty()) {
+            val umkmContact = umkm.contact[0]
+            UmkmContact(umkmContact.email, umkmContact.phone.phoneNumber)
+        }
     }
 }
 

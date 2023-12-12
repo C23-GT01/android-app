@@ -79,7 +79,7 @@ fun EditProfileScreen(
     val nullableResponse by viewModel.userEdit.observeAsState()
     val newPPResponse by viewModel.newProfilePicture.observeAsState()
 
-    var selectedImage by remember { mutableStateOf<Uri?>(null) }
+    var selectedImage by remember { mutableStateOf<Uri?>(null) } //dari storage
 
 
     val response: EditProfileResponse
@@ -88,7 +88,7 @@ fun EditProfileScreen(
     var fullname by remember { mutableStateOf(user.fullname) }
     var username by remember { mutableStateOf(user.username) }
     var email by remember { mutableStateOf(user.email) }
-    var newProfilePicture by remember { mutableStateOf<String?>(null) }
+    var newProfilePicture by remember { mutableStateOf<String?>(null) } //dari url
 
     if (newPPResponse != null) {
         val newProfileImage = newPPResponse as ImageUploadResponse
@@ -287,9 +287,23 @@ fun EditProfileScreen(
             Button(
                 enabled = isDataChanged,
                 onClick = {
-                    viewModel.editProfile(
-                        EditProfileRequest(username, email, newProfilePicture, fullname)
-                    )
+                    Log.d("Upload", "Clicked")
+                    if (selectedImage != null) {
+                        Log.d("Upload", "Selected image")
+                        viewModel.editProfile(
+                            EditProfileRequest(
+                                username,
+                                email,
+                                newProfilePicture,
+                                fullname
+                            )
+                        )
+                    } else {
+                        Log.d("Upload", "Tanpa perubahan gambar")
+                        viewModel.editProfile(
+                            EditProfileRequest(username, email, user.image, fullname)
+                        )
+                    }
                 },
                 modifier = Modifier
 //                    .fillMaxWidth()

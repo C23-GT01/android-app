@@ -1,7 +1,6 @@
 package academy.bangkit.trackmate.view.app.detail.component.umkm
 
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,12 +19,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.semantics.SemanticsProperties.Text
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun UmkmContact() {
+fun UmkmContact(email: String, phone: String) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -47,7 +45,7 @@ fun UmkmContact() {
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Phone: 082212312323",
+                text = "Phone: $phone",
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(bottom = 4.dp)
             )
@@ -63,7 +61,7 @@ fun UmkmContact() {
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Email: dummy@mail.com",
+                text = "Email: $email",
                 style = MaterialTheme.typography.bodySmall
             )
         }
@@ -75,7 +73,7 @@ fun UmkmContact() {
 fun UmkmContactPreview() {
     TrackMateTheme {
         Surface {
-            UmkmContact()
+//            UmkmContact()
         }
     }
 }

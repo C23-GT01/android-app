@@ -67,7 +67,7 @@ data class Umkm(
 	val impact: List<ImpactItem>,
 
 	@field:SerializedName("contact")
-	val contact: List<ContactItem>,
+	val contact: List<ContactItem>?,
 
 	@field:SerializedName("name")
 	val name: String,

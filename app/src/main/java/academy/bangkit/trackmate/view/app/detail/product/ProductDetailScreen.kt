@@ -17,7 +17,6 @@ import academy.bangkit.trackmate.view.app.detail.component.productionprocess.Pro
 import academy.bangkit.trackmate.view.component.CircularLoading
 import academy.bangkit.trackmate.view.component.ErrorScreen
 import academy.bangkit.trackmate.view.formatToRupiah
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -46,30 +45,21 @@ fun ProductDetailScreen(
     val isLoading by viewModel.isLoading.observeAsState(initial = false)
 
     LaunchedEffect(Unit) {
-        Log.d("Check ID", "Diterima $id")
         viewModel.getProductDetail(id)
     }
 
     if (isLoading) {
         Box(modifier = Modifier.fillMaxSize()) { CircularLoading() }
     } else {
-        val detailResponse: DetailResponse
         if (response != null) {
-
-            detailResponse = response as DetailResponse
-
+            val detailResponse = response as DetailResponse
             if (!detailResponse.error && detailResponse.data != null) {
-
                 ShowProduct(detailResponse.data.product, navController)
             } else {
-                //product failed to display
-                ErrorScreen(detailResponse.status) {
-                    viewModel.getProductDetail(id)
-                }
+                ErrorScreen(detailResponse.status) { viewModel.getProductDetail(id) }
             }
         }
     }
-//    }
 }
 
 @Composable
@@ -102,7 +92,6 @@ private fun ShowProduct(product: ProductItem, navController: NavController) {
                     product.productBy.location.lng
                 )
             ) {
-                Log.d("Umkm Id", product.productBy.id)
                 navController.navigate(Screen.App.UMKM.createRoute(product.productBy.id))
             }
         }
