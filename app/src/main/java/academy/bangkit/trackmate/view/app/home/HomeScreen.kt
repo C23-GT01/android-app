@@ -104,9 +104,11 @@ fun HomeScreen(
     Column {
         val listState = rememberLazyGridState()
 
+        var itemMoreThan6 by mutableStateOf(false)
+
         val isFirstItemVisible by remember {
             derivedStateOf {
-                listState.firstVisibleItemIndex > 0
+                listState.firstVisibleItemIndex > 0 && itemMoreThan6
             }
         }
 
@@ -180,6 +182,11 @@ fun HomeScreen(
                     if (products.isEmpty()) {
                         EmptyProducts()
                     } else {
+
+                        if (products.size >= 6) {
+                            itemMoreThan6 = true
+                        }
+
                         LazyVerticalGrid(
                             state = listState,
                             modifier = Modifier
