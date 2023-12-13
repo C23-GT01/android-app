@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalContext
+import id.zelory.compressor.Compressor
+import id.zelory.compressor.constraint.quality
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -94,14 +96,17 @@ fun parseErrorMessage(errorBody: String?): String {
     }
 }
 
-fun Uri.toMultipartBodyPart(context: Context): MultipartBody.Part {
-    val inputStream = context.contentResolver.openInputStream(this)
+suspend fun Uri.toMultipartBodyPart(context: Context): MultipartBody.Part {
     val file = File(context.cacheDir, "pp_from_mobile")
+    val compressedFile = Compressor.compress(context, file) {
+        quality(10)
+    }
+    val inputStream = context.contentResolver.openInputStream(this)
     inputStream?.use { input ->
         file.outputStream().use { output ->
             input.copyTo(output)
         }
     }
-    val requestFile = file.asRequestBody("image/jpeg".toMediaType())
-    return MultipartBody.Part.createFormData("data", file.name, requestFile)
+    val requestFile = compressedFile.asRequestBody("image/jpeg".toMediaType())
+    return MultipartBody.Part.createFormData("data", compressedFile.name, requestFile)
 }

@@ -1,19 +1,21 @@
 package academy.bangkit.trackmate.view.app.detail.umkm
 
-import academy.bangkit.trackmate.data.remote.response.ProductsResponse
+import academy.bangkit.trackmate.data.remote.response.History
+import academy.bangkit.trackmate.data.remote.response.Location
 import academy.bangkit.trackmate.data.remote.response.ProductItem
+import academy.bangkit.trackmate.data.remote.response.ProductsResponse
 import academy.bangkit.trackmate.data.remote.response.UMKMResponse
 import academy.bangkit.trackmate.data.remote.response.Umkm
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import academy.bangkit.trackmate.view.app.detail.component.Divider
 import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmContact
+import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmHistory
 import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmImageAndName
 import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmImpact
 import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmLocation
 import academy.bangkit.trackmate.view.app.detail.component.umkm.UmkmProduct
 import academy.bangkit.trackmate.view.component.CircularLoading
 import academy.bangkit.trackmate.view.component.ErrorScreen
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +29,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun UmkmDetailScreen(
@@ -41,7 +44,6 @@ fun UmkmDetailScreen(
 
     LaunchedEffect(Unit) {
         viewModel.getUMKMDetailAndProducts(id)
-        Log.d("Check ID", "Diterima $id")
     }
 
     if (isLoading) {
@@ -56,7 +58,6 @@ fun UmkmDetailScreen(
             productResponse = productsResponse as ProductsResponse
 
             if (!umkmDetailResponse.error && umkmDetailResponse.data != null && !productResponse.isError && productResponse.products != null) {
-                Log.d("Product Count", productResponse.count.toString())
                 ShowUMKM(
                     umkmDetailResponse.data.umkm,
                     if (productResponse.count <= 0) null else productResponse.products.productList,
@@ -82,7 +83,6 @@ private fun ShowUMKM(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-//        item {
         UmkmImageAndName(
             title = umkm.name,
             image = umkm.image,
@@ -91,11 +91,14 @@ private fun ShowUMKM(
         )
         Divider()
         UmkmProduct(products, navController)
+        if (umkm.history != null) {
+            UmkmHistory(umkm.history)
+        }
         UmkmImpact(umkmImpact = umkm.impact)
         UmkmLocation(
             logo = umkm.logo,
             companyName = umkm.name,
-            locationName = umkm.location.name
+            location = umkm.location
         )
         Divider()
         if (!umkm.contact.isNullOrEmpty()) {
@@ -105,13 +108,33 @@ private fun ShowUMKM(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, heightDp = 900)
 @Composable
 fun UmkmDetailPrev() {
     TrackMateTheme {
         Surface {
-//            val umkm = Umkm()
-//            ShowUMKM(umkm = )
+            val umkm = Umkm(
+                owner = "Owner",
+                image = "possit",
+                createdAt = "mus",
+                impact = listOf(),
+                contact = listOf(),
+                name = "Evan Atkins",
+                logo = "appareat",
+                description = "porro",
+                location = Location(
+                    lng = 4.5,
+                    lat = 6.7,
+                    name = "Angelo Hawkins"
+                ),
+                id = "tritani",
+                history = History(
+                    image = "adhuc",
+                    text = "iriure"
+                ),
+                updatedAt = "et"
+            )
+            ShowUMKM(umkm, listOf(), rememberNavController())
         }
     }
 }

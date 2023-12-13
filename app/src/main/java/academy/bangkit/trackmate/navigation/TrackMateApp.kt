@@ -249,12 +249,13 @@ fun Host(
             }
 
             composable(route = Screen.App.Account.EditProfile.route) {
+                val user = UserAccount.user ?: User(null, "0", "No Name", "-", "-")
                 val viewModel = viewModel<UserAccountViewModel>(factory = factory)
-                EditProfileScreen(navController = navController, viewModel = viewModel)
+                EditProfileScreen(navController = navController, viewModel = viewModel, user = user)
             }
 
             composable(route = Screen.App.Account.PersonalInformation.route) {
-                val user = UserAccount.user ?: User(null,"0","No Name","-","-")
+                val user = UserAccount.user ?: User(null, "0", "No Name", "-", "-")
                 PersonalInformationScreen(navController = navController, user = user)
             }
 

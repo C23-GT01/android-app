@@ -47,7 +47,7 @@ fun UmkmImageAndName(
     Image(
         painter = rememberAsyncImagePainter(
             model = image,
-            placeholder = painterResource(id = R.drawable.umkm) // for preview only
+            placeholder = painterResource(id = R.drawable.placeholder_landscape) // for preview only
         ),
         contentDescription = title,
         contentScale = ContentScale.FillWidth,

@@ -85,7 +85,7 @@ data class Umkm(
 	val id: String,
 
 	@field:SerializedName("history")
-	val history: History,
+	val history: History?,
 
 	@field:SerializedName("updatedAt")
 	val updatedAt: String

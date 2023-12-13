@@ -28,7 +28,6 @@ class UserAccountViewModel(private val repository: UserRepository) : ViewModel()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
     fun logout() {
-        Log.d("Logout", "Running logout... clearing...")
         viewModelScope.launch {
             _isLoading.value = true
             try {
@@ -96,12 +95,15 @@ class UserAccountViewModel(private val repository: UserRepository) : ViewModel()
 
     fun uploadImage(file: MultipartBody.Part) {
         viewModelScope.launch {
+            _isLoading.value = true
             try {
                 val accessToken = repository.getAccessToken()
                 val response = repository.uploadImage(accessToken, file)
                 _newProfilePicture.value = response
             } catch (e: Exception) {
                 _newProfilePicture.value = ImageUploadResponse(null, true, "fail")
+            } finally {
+                _isLoading.value = false
             }
         }
     }

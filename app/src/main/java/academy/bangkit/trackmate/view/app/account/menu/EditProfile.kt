@@ -8,8 +8,8 @@ import academy.bangkit.trackmate.data.remote.response.User
 import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import academy.bangkit.trackmate.view.Factory
-import academy.bangkit.trackmate.view.app.account.UserAccount
 import academy.bangkit.trackmate.view.app.account.UserAccountViewModel
+import academy.bangkit.trackmate.view.component.LinearLoading
 import academy.bangkit.trackmate.view.showToast
 import academy.bangkit.trackmate.view.toMultipartBodyPart
 import android.net.Uri
@@ -68,9 +68,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import kotlinx.coroutines.runBlocking
 
 @Composable
 fun EditProfileScreen(
+    user: User,
     navController: NavController,
     viewModel: UserAccountViewModel
 ) {
@@ -78,23 +80,22 @@ fun EditProfileScreen(
 
     val nullableResponse by viewModel.userEdit.observeAsState()
     val newPPResponse by viewModel.newProfilePicture.observeAsState()
+    val isLoading by viewModel.isLoading.observeAsState(initial = false)
 
     var selectedImage by remember { mutableStateOf<Uri?>(null) } //dari storage
 
-
     val response: EditProfileResponse
-    val user = UserAccount.user as User
 
     var fullname by remember { mutableStateOf(user.fullname) }
     var username by remember { mutableStateOf(user.username) }
     var email by remember { mutableStateOf(user.email) }
-    var newProfilePicture by remember { mutableStateOf<String?>(null) } //dari url
+    var newProfilePicture by remember { mutableStateOf<String?>(null) } //dari backend
 
     if (newPPResponse != null) {
         val newProfileImage = newPPResponse as ImageUploadResponse
         if (!newProfileImage.error) {
-            showToast(context, "Gambar berhasil diunggah")
             newProfilePicture = newProfileImage.data?.fileLocation
+            Log.d("New PP", newProfilePicture ?: "masih kosong")
         } else {
             selectedImage = null
             showToast(context, "Gagal upload image")
@@ -102,7 +103,7 @@ fun EditProfileScreen(
     }
     var isDataChanged by remember { mutableStateOf(false) }
     isDataChanged =
-        fullname != user.fullname || username != user.username || email != user.email || selectedImage != null
+        (fullname != user.fullname || username != user.username || email != user.email || selectedImage != null) && !isLoading
 
     if (nullableResponse != null) {
         response = nullableResponse as EditProfileResponse
@@ -125,12 +126,13 @@ fun EditProfileScreen(
     val openImagePicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
-        selectedImage = uri
-        Log.d("Selected", selectedImage.toString())
-        val multipartBody = selectedImage?.toMultipartBodyPart(context)
-        selectedImage?.let {
-            if (multipartBody != null) {
-                viewModel.uploadImage(multipartBody)
+        runBlocking {
+            selectedImage = uri
+            val multipartBody = selectedImage?.toMultipartBodyPart(context)
+            selectedImage?.let {
+                if (multipartBody != null) {
+                    viewModel.uploadImage(multipartBody)
+                }
             }
         }
     }
@@ -145,6 +147,9 @@ fun EditProfileScreen(
             .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        if (isLoading) {
+            LinearLoading(isLoading = true)
+        }
         ConstraintLayout {
             val (topImg, profile) = createRefs()
             Image(painterResource(id = R.drawable.top_background), null,
@@ -168,7 +173,6 @@ fun EditProfileScreen(
                     }
             ) {
                 // Gambar
-
                 AsyncImage(
                     model =
                     if (selectedImage != null) {
@@ -213,7 +217,7 @@ fun EditProfileScreen(
         OutlinedTextField(
             value = fullname,
             onValueChange = { fullname = it },
-            label = { Text("Fullname") },
+            label = { Text("Nama Lengkap") },
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.AccountBox,
@@ -282,14 +286,12 @@ fun EditProfileScreen(
             ) {
                 Icon(imageVector = Icons.Rounded.Cancel, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Cancel")
+                Text("Batal")
             }
             Button(
                 enabled = isDataChanged,
                 onClick = {
-                    Log.d("Upload", "Clicked")
                     if (selectedImage != null) {
-                        Log.d("Upload", "Selected image")
                         viewModel.editProfile(
                             EditProfileRequest(
                                 username,
@@ -299,20 +301,18 @@ fun EditProfileScreen(
                             )
                         )
                     } else {
-                        Log.d("Upload", "Tanpa perubahan gambar")
                         viewModel.editProfile(
                             EditProfileRequest(username, email, user.image, fullname)
                         )
                     }
                 },
                 modifier = Modifier
-//                    .fillMaxWidth()
                     .height(56.dp)
                     .padding(horizontal = 16.dp), shape = RoundedCornerShape(15)
             ) {
                 Icon(imageVector = Icons.Rounded.Save, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Save")
+                Text("Simpan")
             }
         }
     }
@@ -324,7 +324,8 @@ fun EditProfilePreview() {
     viewModel<UserAccountViewModel>(factory = Factory())
     TrackMateTheme {
         Surface {
-
+            val viewModel = viewModel<UserAccountViewModel>(factory = Factory())
+//            EditProfileScreen(navController = rememberNavController(), viewModel = viewModel)
         }
     }
 }
