@@ -97,16 +97,19 @@ fun parseErrorMessage(errorBody: String?): String {
 }
 
 suspend fun Uri.toMultipartBodyPart(context: Context): MultipartBody.Part {
+
     val file = File(context.cacheDir, "pp_from_mobile")
-    val compressedFile = Compressor.compress(context, file) {
-        quality(10)
-    }
     val inputStream = context.contentResolver.openInputStream(this)
     inputStream?.use { input ->
         file.outputStream().use { output ->
             input.copyTo(output)
         }
     }
+
+    val compressedFile = Compressor.compress(context, file) {
+        quality(10)
+    }
+
     val requestFile = compressedFile.asRequestBody("image/jpeg".toMediaType())
-    return MultipartBody.Part.createFormData("data", compressedFile.name, requestFile)
+    return MultipartBody.Part.createFormData("data", file.name, requestFile)
 }

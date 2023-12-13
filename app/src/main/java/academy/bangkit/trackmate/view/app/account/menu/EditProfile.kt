@@ -15,6 +15,7 @@ import academy.bangkit.trackmate.view.toMultipartBodyPart
 import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -51,6 +52,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -68,7 +70,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 
 @Composable
 fun EditProfileScreen(
@@ -77,6 +79,7 @@ fun EditProfileScreen(
     viewModel: UserAccountViewModel
 ) {
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
 
     val nullableResponse by viewModel.userEdit.observeAsState()
     val newPPResponse by viewModel.newProfilePicture.observeAsState()
@@ -89,9 +92,9 @@ fun EditProfileScreen(
     var fullname by remember { mutableStateOf(user.fullname) }
     var username by remember { mutableStateOf(user.username) }
     var email by remember { mutableStateOf(user.email) }
-    var newProfilePicture by remember { mutableStateOf<String?>(null) } //dari backend
+    var newProfilePicture: String? = null //dari backend
 
-    if (newPPResponse != null) {
+    if (newPPResponse != null && !isLoading) {
         val newProfileImage = newPPResponse as ImageUploadResponse
         if (!newProfileImage.error) {
             newProfilePicture = newProfileImage.data?.fileLocation
@@ -108,6 +111,8 @@ fun EditProfileScreen(
     if (nullableResponse != null) {
         response = nullableResponse as EditProfileResponse
         if (!response.error) {
+            newProfilePicture = null
+            selectedImage = null
             navController.navigate(Screen.App.Account.route) {
                 popUpTo(Screen.App.Home.route)
             }
@@ -117,16 +122,10 @@ fun EditProfileScreen(
         }
     }
 
-//    if (user != null) {
-//        fullname = user.fullname
-//        username = user.username
-//        email = user.email
-//    }
-
     val openImagePicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
+        contract = ActivityResultContracts.PickVisualMedia()
     ) { uri: Uri? ->
-        runBlocking {
+        scope.launch {
             selectedImage = uri
             val multipartBody = selectedImage?.toMultipartBodyPart(context)
             selectedImage?.let {
@@ -197,7 +196,7 @@ fun EditProfileScreen(
                         .align(Alignment.BottomEnd)
                         .clickable {
                             Log.d("CLick", "Icon Camera")
-                            openImagePicker.launch("image/*")
+                            openImagePicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                         }
                 ) {
                     Image(
@@ -324,7 +323,7 @@ fun EditProfilePreview() {
     viewModel<UserAccountViewModel>(factory = Factory())
     TrackMateTheme {
         Surface {
-            val viewModel = viewModel<UserAccountViewModel>(factory = Factory())
+//            val viewModel = viewModel<UserAccountViewModel>(factory = Factory())
 //            EditProfileScreen(navController = rememberNavController(), viewModel = viewModel)
         }
     }
