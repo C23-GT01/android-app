@@ -40,7 +40,7 @@ fun CategoryItem(
         Text(
             text = stringResource(category.textCategory),
             fontSize = 10.sp,
-            modifier = Modifier.paddingFromBaseline(top = 16.dp, bottom = 8.dp)
+            modifier = Modifier.paddingFromBaseline(top = 16.dp)
         )
     }
 }

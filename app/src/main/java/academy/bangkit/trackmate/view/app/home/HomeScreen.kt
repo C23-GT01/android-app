@@ -91,7 +91,6 @@ fun HomeScreen(
 
     DisposableEffect(key1 = response) {
         onDispose {
-            Log.d("onDispose", response.toString())
             savedState?.set("response", response)
             savedState?.set("title", title)
             savedState?.set("search", searchKeyword)
@@ -103,12 +102,11 @@ fun HomeScreen(
 
     Column {
         val listState = rememberLazyGridState()
-
-        var itemMoreThan6 by mutableStateOf(false)
+        var itemMoreThan9 by mutableStateOf(false)
 
         val isFirstItemVisible by remember {
             derivedStateOf {
-                listState.firstVisibleItemIndex > 0 && itemMoreThan6
+                listState.firstVisibleItemIndex > 0 && itemMoreThan9
             }
         }
 
@@ -125,6 +123,7 @@ fun HomeScreen(
                 )
             }
         }
+
         if (!landscape) {
             FilterRow {
                 when (it) {
@@ -182,17 +181,16 @@ fun HomeScreen(
                     if (products.isEmpty()) {
                         EmptyProducts()
                     } else {
-
-                        if (products.size >= 6) {
-                            itemMoreThan6 = true
+                        if (products.size >= 10) {
+                            itemMoreThan9 = true
                         }
-
                         LazyVerticalGrid(
                             state = listState,
                             modifier = Modifier
                                 .fillMaxSize()
                                 .padding(top = 8.dp),
-                            columns = GridCells.Adaptive(150.dp)
+                            columns = GridCells.Adaptive(150.dp),
+//                            contentPadding = PaddingValues(bottom = 100.dp)
                         ) {
                             items(products) { product ->
                                 Card(

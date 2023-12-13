@@ -19,7 +19,7 @@ fun FilterRow(
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(horizontal = 16.dp),
-        modifier = modifier.padding(top = 16.dp)
+        modifier = modifier.padding(top = 8.dp)
     ) {
         items(category, key = { it.textCategory }) { category ->
             CategoryItem(
