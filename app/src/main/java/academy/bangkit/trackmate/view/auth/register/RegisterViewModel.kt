@@ -37,4 +37,8 @@ class RegisterViewModel(private val repository: UserRepository) : ViewModel() {
         return RegisterResponse(true, "fail", message, null)
     }
 
+    fun clearErrorMessage() {
+        _registerResponse.value = RegisterResponse(true, "", "", null)
+    }
+
 }

@@ -45,9 +45,14 @@ fun ProductionProcess(productionItem: List<ProductionItem>) {
     Divider()
 }
 
-@Preview(showBackground = true, heightDp = 1150)
+@Preview(showBackground = true, heightDp = 510)
 @Composable
 fun ProductionProcessPreview() {
+    val data = mutableListOf(
+        ProductionItem("", "Title 1", "First Step"),
+        ProductionItem("", "Title 2", "Second Step"),
+        ProductionItem("", "Title 3", "Third Step"),
+    )
     TrackMateTheme {
         Surface {
             Box(
@@ -55,7 +60,7 @@ fun ProductionProcessPreview() {
             ) {
                 LazyColumn {
                     item {
-//                        ProductionProcess()
+                        ProductionProcess(data)
                     }
                 }
             }

@@ -4,6 +4,8 @@ import academy.bangkit.trackmate.R
 import academy.bangkit.trackmate.data.remote.response.User
 import academy.bangkit.trackmate.data.remote.response.UserAccountResponse
 import academy.bangkit.trackmate.navigation.Screen
+import academy.bangkit.trackmate.ui.theme.ButtonPrimary
+import academy.bangkit.trackmate.ui.theme.ButtonWarning
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import academy.bangkit.trackmate.view.Factory
 import academy.bangkit.trackmate.view.LockScreenOrientation
@@ -11,7 +13,6 @@ import academy.bangkit.trackmate.view.component.CircularLoading
 import academy.bangkit.trackmate.view.component.ErrorScreen
 import android.content.pm.ActivityInfo
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -134,7 +135,7 @@ private fun ShowProfile(
                     modifier = Modifier.align(Alignment.Center)
                 ) {
                     Text(
-                        user.fullname,
+                        user.fullName,
                         fontSize = 25.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
@@ -186,17 +187,19 @@ private fun ShowProfile(
                 },
                 confirmButton = {
                     Button(
+                        colors = ButtonPrimary,
                         onClick = {
                             showDialog1 = false
                             viewModel.logout()
                             navController.navigate(Screen.Auth.route)
                         }
                     ) {
-                        Text(stringResource(id = R.string.yes))
+                        Text(stringResource(id = R.string.yes), color = Color.White)
                     }
                 },
                 dismissButton = {
                     Button(
+                        colors = ButtonWarning,
                         onClick = {
                             showDialog1 = false
                         }
@@ -221,7 +224,8 @@ private fun ButtonInUserAccount(
             .fillMaxWidth()
             .padding(start = 32.dp, end = 32.dp, top = 10.dp, bottom = 10.dp)
             .height(38.dp),
-        shape = RoundedCornerShape(15)
+        shape = RoundedCornerShape(15),
+        colors = ButtonPrimary
     ) {
         Column(
             modifier = Modifier.fillMaxHeight(),
@@ -229,10 +233,8 @@ private fun ButtonInUserAccount(
         ) {
             Image(
                 painter = painterResource(id = icon),
-                contentDescription = "",
-                modifier = Modifier
-                    .padding(end = 5.dp)
-                    .clickable { }
+                contentDescription = null,
+                modifier = Modifier.padding(end = 5.dp)
             )
         }
         Column(

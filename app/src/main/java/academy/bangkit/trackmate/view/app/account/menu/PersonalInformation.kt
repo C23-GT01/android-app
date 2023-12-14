@@ -3,6 +3,7 @@ package academy.bangkit.trackmate.view.app.account.menu
 import academy.bangkit.trackmate.R
 import academy.bangkit.trackmate.data.remote.response.User
 import academy.bangkit.trackmate.navigation.Screen
+import academy.bangkit.trackmate.ui.theme.ButtonPrimary
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,10 +21,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.rounded.AccountCircle
+import androidx.compose.material.icons.rounded.Email
+import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -33,8 +35,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -46,7 +50,7 @@ fun PersonalInformationScreen(navController: NavController, user: User) {
 
     val username = user.username
     val email = user.email
-    val fullname = user.fullname
+    val fullName = user.fullName
     val id = user.id
 
     val scrollState = rememberScrollState()
@@ -74,14 +78,18 @@ fun PersonalInformationScreen(navController: NavController, user: User) {
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
-        PersonalInfoRow("ID", id, Icons.Default.Info)
-        PersonalInfoRow("Username", username, Icons.Default.Person)
-        PersonalInfoRow("Fullname", fullname, Icons.Default.AccountCircle)
-        PersonalInfoRow("E-Mail", email, Icons.Default.Email)
+        PersonalInfoRow(stringResource(id = R.string.user_id), id, Icons.Rounded.Info)
+        PersonalInfoRow(stringResource(id = R.string.username), username, Icons.Rounded.Person)
+        PersonalInfoRow(
+            stringResource(id = R.string.full_name),
+            fullName,
+            Icons.Rounded.AccountCircle
+        )
+        PersonalInfoRow(stringResource(id = R.string.email), email, Icons.Rounded.Email)
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         // Edit Button
         Button(
@@ -95,11 +103,16 @@ fun PersonalInformationScreen(navController: NavController, user: User) {
                 .fillMaxWidth()
                 .height(56.dp)
                 .padding(horizontal = 16.dp),
-            shape = RoundedCornerShape(15)
+            shape = RoundedCornerShape(15),
+            colors = ButtonPrimary
         ) {
-            Icon(imageVector = Icons.Default.Person, contentDescription = null)
+            Icon(
+                imageVector = Icons.Default.Person,
+                contentDescription = null,
+                tint = Color.White
+            )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Edit")
+            Text("Edit", color = Color.White)
         }
     }
 }

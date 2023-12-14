@@ -1,5 +1,6 @@
 package academy.bangkit.trackmate.view.component
 
+import academy.bangkit.trackmate.ui.theme.Brown
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 fun CircularLoading() {
     Box(modifier = Modifier.fillMaxSize()) {
         CircularProgressIndicator(
+            color = Brown,
             modifier = Modifier
                 .size(75.dp)
                 .padding(16.dp)
@@ -30,6 +32,7 @@ fun CircularLoading() {
 fun LinearLoading(isLoading: Boolean) {
     if (isLoading) {
         LinearProgressIndicator(
+            color = Brown,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(4.dp)

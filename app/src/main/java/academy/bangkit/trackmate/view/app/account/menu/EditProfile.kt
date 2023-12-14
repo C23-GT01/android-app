@@ -6,14 +6,17 @@ import academy.bangkit.trackmate.data.remote.response.EditProfileResponse
 import academy.bangkit.trackmate.data.remote.response.ImageUploadResponse
 import academy.bangkit.trackmate.data.remote.response.User
 import academy.bangkit.trackmate.navigation.Screen
+import academy.bangkit.trackmate.ui.theme.ButtonPrimary
+import academy.bangkit.trackmate.ui.theme.ButtonWarning
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import academy.bangkit.trackmate.view.Factory
+import academy.bangkit.trackmate.view.LockScreenOrientation
 import academy.bangkit.trackmate.view.app.account.UserAccountViewModel
 import academy.bangkit.trackmate.view.component.LinearLoading
 import academy.bangkit.trackmate.view.showToast
 import academy.bangkit.trackmate.view.toMultipartBodyPart
+import android.content.pm.ActivityInfo
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -36,14 +39,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.rounded.AccountBox
+import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.Cancel
+import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -61,6 +63,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -68,6 +71,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import kotlinx.coroutines.launch
@@ -78,6 +82,9 @@ fun EditProfileScreen(
     navController: NavController,
     viewModel: UserAccountViewModel
 ) {
+
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
@@ -89,7 +96,7 @@ fun EditProfileScreen(
 
     val response: EditProfileResponse
 
-    var fullname by remember { mutableStateOf(user.fullname) }
+    var fullName by remember { mutableStateOf(user.fullName) }
     var username by remember { mutableStateOf(user.username) }
     var email by remember { mutableStateOf(user.email) }
     var newProfilePicture: String? = null //dari backend
@@ -98,15 +105,14 @@ fun EditProfileScreen(
         val newProfileImage = newPPResponse as ImageUploadResponse
         if (!newProfileImage.error) {
             newProfilePicture = newProfileImage.data?.fileLocation
-            Log.d("New PP", newProfilePicture ?: "masih kosong")
         } else {
             selectedImage = null
-            showToast(context, "Gagal upload image")
+            showToast(context, stringResource(id = R.string.upload_failed))
         }
     }
     var isDataChanged by remember { mutableStateOf(false) }
     isDataChanged =
-        (fullname != user.fullname || username != user.username || email != user.email || selectedImage != null) && !isLoading
+        (fullName != user.fullName || username != user.username || email != user.email || selectedImage != null) && !isLoading
 
     if (nullableResponse != null) {
         response = nullableResponse as EditProfileResponse
@@ -117,8 +123,7 @@ fun EditProfileScreen(
                 popUpTo(Screen.App.Home.route)
             }
         } else {
-            //todo Kalo gagal tampilkan pesan
-            showToast(LocalContext.current, "Gagal mengedit profil")
+            showToast(LocalContext.current, stringResource(id = R.string.failed_to_edit))
         }
     }
 
@@ -161,8 +166,6 @@ fun EditProfileScreen(
             Box(
                 modifier = Modifier
                     .size(200.dp)
-                    .clip(MaterialTheme.shapes.medium)
-                    .clickable { /* Handle image selection */ }
                     .padding(16.dp)
                     .constrainAs(profile) {
                         top.linkTo(topImg.bottom)
@@ -184,19 +187,21 @@ fun EditProfileScreen(
                     contentDescription = null,
                     modifier = Modifier
                         .fillMaxSize()
-                        .clip(CircleShape)
-                        .clickable { /* Handle image selection */ },
+                        .clip(CircleShape),
                     contentScale = ContentScale.Crop
                 )
 
-                // Icon kamera
                 Box(
                     modifier = Modifier
                         .padding(8.dp)
                         .align(Alignment.BottomEnd)
                         .clickable {
-                            Log.d("CLick", "Icon Camera")
-                            openImagePicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                            openImagePicker
+                                .launch(
+                                    PickVisualMediaRequest(
+                                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                                    )
+                                )
                         }
                 ) {
                     Image(
@@ -214,12 +219,12 @@ fun EditProfileScreen(
         Spacer(modifier = Modifier.height(8.dp))
 
         OutlinedTextField(
-            value = fullname,
-            onValueChange = { fullname = it },
-            label = { Text("Nama Lengkap") },
+            value = fullName,
+            onValueChange = { fullName = it },
+            label = { Text(stringResource(id = R.string.full_name)) },
             leadingIcon = {
                 Icon(
-                    imageVector = Icons.Default.AccountBox,
+                    imageVector = Icons.Rounded.AccountBox,
                     contentDescription = null
                 )
             },
@@ -233,14 +238,13 @@ fun EditProfileScreen(
                 .padding(16.dp)
         )
 
-
         OutlinedTextField(
             value = username,
             onValueChange = { username = it },
-            label = { Text("Username") },
+            label = { Text(stringResource(id = R.string.username)) },
             leadingIcon = {
                 Icon(
-                    imageVector = Icons.Default.AccountCircle,
+                    imageVector = Icons.Rounded.AccountCircle,
                     contentDescription = null
                 )
             },
@@ -252,10 +256,10 @@ fun EditProfileScreen(
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text("Email") },
+            label = { Text(stringResource(id = R.string.email)) },
             leadingIcon = {
                 Icon(
-                    imageVector = Icons.Default.AccountCircle,
+                    imageVector = Icons.Rounded.Email,
                     contentDescription = null
                 )
             },
@@ -268,12 +272,7 @@ fun EditProfileScreen(
 
         Row {
             Button(
-                colors = ButtonColors(
-                    containerColor = Color.Red,
-                    contentColor = Color.White,
-                    disabledContainerColor = Color.DarkGray,
-                    disabledContentColor = Color.White
-                ),
+                colors = ButtonWarning,
                 onClick = {
                     navController.navigate(Screen.App.Account.route) {
                         popUpTo(Screen.App.Home.route)
@@ -285,23 +284,19 @@ fun EditProfileScreen(
             ) {
                 Icon(imageVector = Icons.Rounded.Cancel, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Batal")
+                Text(stringResource(id = R.string.cancel))
             }
             Button(
+                colors = ButtonPrimary,
                 enabled = isDataChanged,
                 onClick = {
                     if (selectedImage != null) {
                         viewModel.editProfile(
-                            EditProfileRequest(
-                                username,
-                                email,
-                                newProfilePicture,
-                                fullname
-                            )
+                            EditProfileRequest(username, email, newProfilePicture, fullName)
                         )
                     } else {
                         viewModel.editProfile(
-                            EditProfileRequest(username, email, user.image, fullname)
+                            EditProfileRequest(username, email, user.image, fullName)
                         )
                     }
                 },
@@ -309,22 +304,39 @@ fun EditProfileScreen(
                     .height(56.dp)
                     .padding(horizontal = 16.dp), shape = RoundedCornerShape(15)
             ) {
-                Icon(imageVector = Icons.Rounded.Save, contentDescription = null)
+                Icon(
+                    imageVector = Icons.Rounded.Save,
+                    contentDescription = null,
+                    tint = if (isDataChanged) Color.White else Color.DarkGray
+                )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Simpan")
+                Text(
+                    stringResource(id = R.string.save),
+                    color = if (isDataChanged) Color.White else Color.DarkGray
+                )
             }
         }
     }
 }
 
-@Preview(showBackground = true, heightDp = 600)
+@Preview(showBackground = true, heightDp = 670)
 @Composable
 fun EditProfilePreview() {
     viewModel<UserAccountViewModel>(factory = Factory())
     TrackMateTheme {
         Surface {
-//            val viewModel = viewModel<UserAccountViewModel>(factory = Factory())
-//            EditProfileScreen(navController = rememberNavController(), viewModel = viewModel)
+            val viewModel = viewModel<UserAccountViewModel>(factory = Factory())
+            EditProfileScreen(
+                user = User(
+                    null,
+                    "1234",
+                    "Abdullah Fikri",
+                    "abdullahfikrihandi@gmail.com",
+                    "fikrihandy"
+                ),
+                navController = rememberNavController(),
+                viewModel = viewModel
+            )
         }
     }
 }

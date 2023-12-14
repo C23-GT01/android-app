@@ -2,8 +2,9 @@ package academy.bangkit.trackmate.view.auth.components
 
 import academy.bangkit.trackmate.R
 import academy.bangkit.trackmate.ui.theme.BackgroundColor
+import academy.bangkit.trackmate.ui.theme.Brown
 import academy.bangkit.trackmate.ui.theme.Primary
-import academy.bangkit.trackmate.ui.theme.Secondary
+import academy.bangkit.trackmate.ui.theme.SecondaryBrown
 import academy.bangkit.trackmate.ui.theme.TextColor
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -190,7 +191,7 @@ fun ButtonComponent(value: String, action: () -> Unit) {
                 .fillMaxWidth()
                 .heightIn(48.dp)
                 .background(
-                    brush = Brush.horizontalGradient(listOf(Secondary, Primary)),
+                    brush = Brush.horizontalGradient(listOf(SecondaryBrown, Brown)),
                     shape = RoundedCornerShape(50.dp)
                 ),
             contentAlignment = Alignment.Center
@@ -280,13 +281,11 @@ fun OutlinedTextFieldBackground(
 }
 
 @Composable
-fun ErrorMessage(isError: Boolean, errorMessage: String) {
-    if (isError) {
-        Text(
-            text = errorMessage,
-            textAlign = TextAlign.Center,
-            style = TextStyle(Color.Red),
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
+fun ErrorMessage(errorMessage: String) {
+    Text(
+        text = errorMessage,
+        textAlign = TextAlign.Center,
+        style = TextStyle(Color.Red),
+        modifier = Modifier.fillMaxWidth()
+    )
 }

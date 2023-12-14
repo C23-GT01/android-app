@@ -73,7 +73,6 @@ fun RegisterScreen(
             errorMessage = response.message
         } else {
             successRegister = true
-//            navController.navigateUp()
         }
     }
 
@@ -92,7 +91,7 @@ fun RegisterScreen(
         ) {
             NormalTextComponent(value = stringResource(id = R.string.app_name))
             HeadingTextComponent(value = stringResource(id = R.string.create_account))
-            Spacer(modifier = Modifier.height(38.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             TextFieldComponent(
                 labelValue = stringResource(id = R.string.full_name),
                 painterResource = painterResource(R.drawable.baseline_person_outline_24),
@@ -117,12 +116,12 @@ fun RegisterScreen(
                 onTextValueChanged = { password = it }
             )
             Spacer(modifier = Modifier.height(10.dp))
-            ErrorMessage(isError, errorMessage)
+            ErrorMessage(errorMessage)
             Spacer(modifier = Modifier.height(10.dp))
             ButtonComponent(
                 value = stringResource(id = R.string.register),
                 action = {
-                    Log.d("Register", "Your Data = $fullname, $username, $email, $password")
+                    viewModel.clearErrorMessage()
                     viewModel.register(username, email, password, fullname)
                 }
             )
@@ -131,6 +130,7 @@ fun RegisterScreen(
             ClickableLoginTextComponent(
                 onTextSelected =
                 {
+                    viewModel.clearErrorMessage()
                     navController.navigateUp()
                 })
         }

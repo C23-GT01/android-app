@@ -87,7 +87,7 @@ fun LoginScreen(
         ) {
             NormalTextComponent(value = stringResource(id = R.string.app_name))
             HeadingTextComponent(value = stringResource(id = R.string.login))
-            Spacer(modifier = Modifier.height(38.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             TextFieldComponent(
                 labelValue = stringResource(id = R.string.username),
                 painterResource = painterResource(id = R.drawable.baseline_person_outline_24),
@@ -114,15 +114,15 @@ fun LoginScreen(
             }
 
             Spacer(modifier = Modifier.height(15.dp))
-            ErrorMessage(isError, errorMessage)
+            ErrorMessage(errorMessage)
 
             Spacer(modifier = Modifier.height(15.dp))
             ButtonComponent(
                 value = stringResource(id = R.string.login),
                 action = {
+                    viewModel.clearErrorMessage()
                     if (username.isEmpty() or password.isEmpty()) {
-                        isError = true
-                        errorMessage = "Username & Password wajib diisi"
+                        viewModel.handleLoginError("Username & Password wajib diisi")
                     } else {
                         viewModel.login(username, password)
                     }
@@ -149,6 +149,7 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
             ClickableLoginTextComponent(tryingToLogin = false, onTextSelected = {
+                viewModel.clearErrorMessage()
                 navController.navigate(Screen.Auth.Register.route)
             })
         }

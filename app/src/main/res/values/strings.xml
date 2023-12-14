@@ -15,6 +15,7 @@
     <string name="login">Login</string>
     <string name="guest">Login Sebagai Tamu</string>
     <string name="forgot_your_password">Lupa Password?</string>
+    <string name="user_id">ID user</string>
 
     <!--    Product Category -->
     <string name="category_all">Semua</string>
@@ -47,6 +48,11 @@
     <string name="logout_confirmation">Logout sekarang?</string>
     <string name="yes">Ya</string>
     <string name="no">Tidak</string>
+    <string name="cancel">Batal</string>
+    <string name="save">Simpan</string>
+    <string name="failed_to_edit">Gagal mengedit profil</string>
+    <string name="upload_failed">Gagal upload image</string>
+
 
     <!--    If Login as Guest Account -->
     <string name="guest_account">Anda login sebagai Guest</string>

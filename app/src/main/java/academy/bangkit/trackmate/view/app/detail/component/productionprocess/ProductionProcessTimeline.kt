@@ -1,6 +1,6 @@
 package academy.bangkit.trackmate.view.app.detail.component.productionprocess
 
-import academy.bangkit.trackmate.ui.theme.Purple80
+import academy.bangkit.trackmate.ui.theme.Brown
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -27,25 +27,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
-enum class TimelineNodePosition {
-    FIRST,
-    MIDDLE,
-    LAST
-}
-
-data class CircleParameters(
-    val radius: Dp,
-    val backgroundColor: Color
-)
-
-data class LineParameters(
-    val strokeWidth: Dp,
-)
-
 @Composable
 fun TimelineNode(
-    lineParameters: LineParameters? = null, //LineParameters(4.dp)
-    circleParameters: CircleParameters = CircleParameters(5.dp, Purple80),
+    lineParameters: LineParameters? = null,
+    circleParameters: CircleParameters = CircleParameters(5.dp, Brown),
     position: TimelineNodePosition,
     contentStartOffset: Dp = 16.dp,
     spacerBetweenNodes: Dp = 32.dp,
@@ -63,7 +48,7 @@ fun TimelineNode(
                 )
                 lineParameters?.let {
                     drawLine(
-                        brush = Brush.horizontalGradient(listOf(Purple80, Color.Gray)),
+                        brush = Brush.horizontalGradient(listOf(Brown, Color.Gray)),
                         start = Offset(x = circleRadiusInPx, y = circleRadiusInPx * 2),
                         end = Offset(x = circleRadiusInPx, y = this.size.height),
                         strokeWidth = lineParameters.strokeWidth.toPx()
@@ -76,11 +61,7 @@ fun TimelineNode(
             Modifier
                 .padding(
                     start = contentStartOffset,
-                    bottom = if (position != TimelineNodePosition.LAST) {
-                        spacerBetweenNodes
-                    } else {
-                        0.dp
-                    }
+                    bottom = if (position != TimelineNodePosition.LAST) spacerBetweenNodes else 0.dp
                 )
         )
     }
@@ -119,3 +100,18 @@ fun CardItem(title: String, desc: String, imageUrl: String, modifier: Modifier) 
         }
     }
 }
+
+enum class TimelineNodePosition {
+    FIRST,
+    MIDDLE,
+    LAST
+}
+
+data class CircleParameters(
+    val radius: Dp,
+    val backgroundColor: Color
+)
+
+data class LineParameters(
+    val strokeWidth: Dp,
+)

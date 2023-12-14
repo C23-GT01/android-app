@@ -37,7 +37,11 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
         }
     }
 
-    private fun handleLoginError(message: String) {
+    fun handleLoginError(message: String) {
         _loginResponse.value = LoginResponse(true, "fail", message, null)
+    }
+
+    fun clearErrorMessage() {
+        _loginResponse.value = LoginResponse(true, "", "", null)
     }
 }
