@@ -109,7 +109,10 @@ fun LoginScreen(
                 sendWhatsAppMessage(
                     context,
                     "6289692703057",
-                    "Reset password TrackMate\n" + "Nama = \n" + "Email = \n" + "Catatan lain = "
+                    "Reset password TrackMate\n"
+                            + "Nama = \n"
+                            + "Email = \n"
+                            + "Catatan lain = "
                 )
             }
 
@@ -122,7 +125,7 @@ fun LoginScreen(
                 action = {
                     viewModel.clearErrorMessage()
                     if (username.isEmpty() or password.isEmpty()) {
-                        viewModel.handleLoginError("Username & Password wajib diisi")
+                        viewModel.handleLoginError(context.getString(R.string.username_password_null))
                     } else {
                         viewModel.login(username, password)
                     }
@@ -148,12 +151,14 @@ fun LoginScreen(
             )
 
             Spacer(modifier = Modifier.height(20.dp))
-            ClickableLoginTextComponent(tryingToLogin = false, onTextSelected = {
-                viewModel.clearErrorMessage()
-                navController.navigate(Screen.Auth.Register.route)
-            })
+            ClickableLoginTextComponent(
+                tryingToLogin = false,
+                onTextSelected = {
+                    viewModel.clearErrorMessage()
+                    navController.navigate(Screen.Auth.Register.route)
+                }
+            )
         }
-//    }
     }
 }
 

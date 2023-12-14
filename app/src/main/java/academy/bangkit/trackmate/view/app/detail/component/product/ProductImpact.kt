@@ -43,11 +43,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 
 @Composable
-fun ProductImpactAndOverview(productImpact: List<ImpactItem>, contribution: List<Byte>) {
+fun ProductImpactAndOverview(productImpact: List<ImpactItem?>, contribution: List<Byte>) {
 
     val context = LocalContext.current
+    val filteredList: List<ImpactItem> = productImpact.filterNotNull()
 
-    if (productImpact.isNotEmpty()) {
+    if (filteredList.isNotEmpty()) {
         Title(title = stringResource(id = R.string.product_impact))
 
         Row(
@@ -56,7 +57,7 @@ fun ProductImpactAndOverview(productImpact: List<ImpactItem>, contribution: List
                 .horizontalScroll(rememberScrollState())
                 .padding(start = 16.dp, top = 16.dp),
         ) {
-            productImpact.forEach { item ->
+            filteredList.forEach { item ->
                 Card(
                     modifier = Modifier
                         .width(190.dp)
@@ -80,7 +81,11 @@ fun ProductImpactAndOverview(productImpact: List<ImpactItem>, contribution: List
                             )
                             Text(
                                 text = item.description,
-                                modifier = Modifier.padding(top = 4.dp, bottom = 4.dp, start = 6.dp)
+                                modifier = Modifier.padding(
+                                    top = 4.dp,
+                                    bottom = 4.dp,
+                                    start = 6.dp
+                                )
                             )
                         }
                     }
@@ -146,10 +151,7 @@ fun ProductImpactAndOverview(productImpact: List<ImpactItem>, contribution: List
                     )
 
                     else -> {
-                        ProductImpactOverview(
-                            Icons.Rounded.Close,
-                            "-"
-                        )
+                        ProductImpactOverview(Icons.Rounded.Close, "-")
                     }
                 }
             Row(
@@ -157,7 +159,7 @@ fun ProductImpactAndOverview(productImpact: List<ImpactItem>, contribution: List
             ) {
                 Icon(
                     productImpactOverview.icons,
-                    "Content desc",
+                    null,
                     Modifier,
                     Color.DarkGray
                 )
@@ -169,10 +171,9 @@ fun ProductImpactAndOverview(productImpact: List<ImpactItem>, contribution: List
         }
         Divider()
     }
-
 }
 
-@Preview(showBackground = true, heightDp = 480)
+@Preview(showBackground = true, heightDp = 420)
 @Composable
 fun ProductWellBeingPreview() {
     TrackMateTheme {

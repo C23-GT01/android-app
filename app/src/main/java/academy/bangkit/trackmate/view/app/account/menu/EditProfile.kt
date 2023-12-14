@@ -127,9 +127,6 @@ fun EditProfileScreen(
                 popUpTo(Screen.App.Home.route)
             }
         }
-//        else {
-//            errorMessage = response.message
-//        }
     }
 
     val openImagePicker = rememberLauncherForActivityResult(
@@ -142,7 +139,7 @@ fun EditProfileScreen(
                 if (multipartBody != null) {
                     viewModel.uploadImage(multipartBody)
                 } else {
-                    Log.d("Gagal","gatot")
+                    Log.d("Gagal", "gatot")
                 }
             }
         }
@@ -315,13 +312,9 @@ fun EditProfileScreen(
                 Icon(
                     imageVector = Icons.Rounded.Save,
                     contentDescription = null,
-//                    tint = if (isDataChanged) Color.White else Color.DarkGray
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    stringResource(id = R.string.save),
-//                    color = if (isDataChanged) Color.White else Color.DarkGray
-                )
+                Text(stringResource(id = R.string.save))
             }
         }
     }

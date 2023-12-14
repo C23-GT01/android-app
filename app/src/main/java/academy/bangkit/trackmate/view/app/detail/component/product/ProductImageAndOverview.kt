@@ -47,7 +47,7 @@ fun ProductImageAndOverview(
     Image(
         painter = rememberAsyncImagePainter(
             model = imageUrl,
-            placeholder = painterResource(id = R.drawable.headband) // for preview only
+            placeholder = painterResource(id = R.drawable.placeholder_landscape) // for preview only
         ),
         contentDescription = title,
         contentScale = ContentScale.Fit,

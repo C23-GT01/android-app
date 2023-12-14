@@ -56,7 +56,7 @@ fun ProductDetailScreen(
             if (!detailResponse.error && detailResponse.data != null) {
                 ShowProduct(detailResponse.data.product, navController)
             } else {
-                ErrorScreen(detailResponse.status) { viewModel.getProductDetail(id) }
+                ErrorScreen(detailResponse.message) { viewModel.getProductDetail(id) }
             }
         }
     }
@@ -81,7 +81,9 @@ private fun ShowProduct(product: ProductItem, navController: NavController) {
             if (product.productions.isNotEmpty()) {
                 ProductionProcess(product.productions)
             }
+
             ProductImpactAndOverview(product.impacts, product.contributions)
+
             ProductBy(
                 companyName = product.productBy.name,
                 logoUrl = product.productBy.logo,

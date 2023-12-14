@@ -9,13 +9,12 @@ val Pink80 = Color(0xFFEFB8C8)
 val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
-val TextColor = Color(0xFF1D1617)
-val Primary = Color(0xFF92A3FD)
 
-//val Secondary = Color(0xFF9DCEFF)
+val TextColor = Color(0xFF1D1617)
 val BackgroundColor = Color(0xFFF7F8F8)
 
 //Custom
+val TextMoveScreen = Color(0xFF92A3FD)
 val Brown = Color(0xFF886345)
 val SecondaryBrown = Color(0xFFC5A489)
 

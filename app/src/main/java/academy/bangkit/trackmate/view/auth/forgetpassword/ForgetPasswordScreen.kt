@@ -45,7 +45,7 @@ fun ForgetPasswordScreen(navController: NavController) {
     }
 }
 
-@Preview
+@Preview(showBackground = true, heightDp = 100)
 @Composable
 fun ForgetPasswordScreenPrev() {
     ForgetPasswordScreen(navController = rememberNavController())

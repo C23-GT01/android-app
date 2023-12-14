@@ -2,6 +2,7 @@ package academy.bangkit.trackmate.view.auth.register
 
 import academy.bangkit.trackmate.R
 import academy.bangkit.trackmate.data.remote.response.RegisterResponse
+import academy.bangkit.trackmate.ui.theme.ButtonPrimary
 import academy.bangkit.trackmate.view.Factory
 import academy.bangkit.trackmate.view.LockScreenOrientation
 import academy.bangkit.trackmate.view.auth.components.ButtonComponent
@@ -128,11 +129,11 @@ fun RegisterScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
             ClickableLoginTextComponent(
-                onTextSelected =
-                {
+                onTextSelected = {
                     viewModel.clearErrorMessage()
                     navController.navigateUp()
-                })
+                }
+            )
         }
     }
 }
@@ -152,14 +153,17 @@ private fun SuccessDialog(action: () -> Unit) {
                     Modifier.align(Alignment.Center)
                 ) {
                     Text(
-                        text = "Berhasil Mendaftar",
+                        text = stringResource(id = R.string.register_success),
                         modifier = Modifier
                             .padding(bottom = 8.dp)
+                            .align(Alignment.CenterHorizontally)
                             .wrapContentSize(Alignment.Center),
                         textAlign = TextAlign.Center,
                     )
-                    Button(onClick = { action() }) {
-                        Text(text = "Login Sekarang")
+                    Button(
+                        colors = ButtonPrimary,
+                        onClick = { action() }) {
+                        Text(text = stringResource(id = R.string.login_now))
                     }
                 }
             }
@@ -167,7 +171,7 @@ private fun SuccessDialog(action: () -> Unit) {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, heightDp = 580)
 @Composable
 fun RegisterScreenPrev() {
     val viewModel = viewModel<RegisterViewModel>(factory = Factory())
@@ -178,6 +182,6 @@ fun RegisterScreenPrev() {
 @Composable
 fun SuccessDialogPrev() {
     SuccessDialog {
-        Log.d("Dialog", "CLicked")
+        Log.d("Dialog", "Button Clicked")
     }
 }

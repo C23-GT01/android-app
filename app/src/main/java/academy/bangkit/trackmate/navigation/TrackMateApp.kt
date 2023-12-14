@@ -17,7 +17,6 @@ import academy.bangkit.trackmate.view.app.detail.umkm.UmkmViewModel
 import academy.bangkit.trackmate.view.app.home.HomeScreen
 import academy.bangkit.trackmate.view.app.home.HomeViewModel
 import academy.bangkit.trackmate.view.app.scanner.ScannerScreen
-import academy.bangkit.trackmate.view.auth.forgetpassword.ForgetPasswordScreen
 import academy.bangkit.trackmate.view.auth.login.LoginScreen
 import academy.bangkit.trackmate.view.auth.login.LoginViewModel
 import academy.bangkit.trackmate.view.auth.register.RegisterScreen
@@ -87,7 +86,9 @@ fun TrackMateApp(viewModel: TrackMateAppViewModel, uri: Uri?) {
                     }
                 },
                 bottomBar = {
-                    BottomBar(navController)
+                    if (uri == null) {
+                        BottomBar(navController)
+                    }
                 }
             ) { innerPadding ->
                 val isLoggedInAsGuest = it.refreshToken == "Guest"
@@ -174,11 +175,6 @@ private fun BottomBar(navController: NavHostController) {
                 onClick = {
                     navController.navigate(item.screen.route) {
                         popUpTo(navController.graph.findStartDestination().id)
-                        //todo: Need navigation test!
-//                        {
-//                            saveState = true
-//                        }
-//                        restoreState = true
                         launchSingleTop = true
                     }
                 }
@@ -217,9 +213,9 @@ fun Host(
                 RegisterScreen(navController = navController, viewModel)
             }
 
-            composable(route = Screen.Auth.ForgetPassword.route) {
-                ForgetPasswordScreen(navController = navController)
-            }
+            //composable(route = Screen.Auth.ForgetPassword.route) {
+            //    ForgetPasswordScreen(navController = navController)
+            //}
         }
 
         //Main App Screen

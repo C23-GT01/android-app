@@ -3,7 +3,7 @@ package academy.bangkit.trackmate.view.auth.components
 import academy.bangkit.trackmate.R
 import academy.bangkit.trackmate.ui.theme.BackgroundColor
 import academy.bangkit.trackmate.ui.theme.Brown
-import academy.bangkit.trackmate.ui.theme.Primary
+import academy.bangkit.trackmate.ui.theme.TextMoveScreen
 import academy.bangkit.trackmate.ui.theme.SecondaryBrown
 import academy.bangkit.trackmate.ui.theme.TextColor
 import androidx.compose.foundation.background
@@ -100,9 +100,9 @@ fun TextFieldComponent(
             label = { Text(text = labelValue) },
             singleLine = true,
             colors = OutlinedTextFieldDefaults.colors(
-                cursorColor = Primary,
+                cursorColor = Brown,
                 focusedBorderColor = Color.White,
-                focusedLabelColor = Primary,
+                focusedLabelColor = Brown,
             ),
             shape = RoundedCornerShape(22.dp),
             keyboardOptions = KeyboardOptions.Default,
@@ -139,9 +139,9 @@ fun PasswordTextFieldComponent(
             label = { Text(text = labelValue) },
             singleLine = true,
             colors = OutlinedTextFieldDefaults.colors(
-                cursorColor = Primary,
+                cursorColor = Brown,
                 focusedBorderColor = Color.White,
-                focusedLabelColor = Primary,
+                focusedLabelColor = Brown,
             ),
             shape = RoundedCornerShape(22.dp),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -214,7 +214,7 @@ fun ClickableLoginTextComponent(tryingToLogin: Boolean = true, onTextSelected: (
 
     val annotatedString = buildAnnotatedString {
         append(initialText)
-        withStyle(style = SpanStyle(color = Primary)) {
+        withStyle(style = SpanStyle(color = TextMoveScreen)) {
             pushStringAnnotation(tag = loginText, annotation = loginText)
             append(loginText)
         }
@@ -262,20 +262,16 @@ fun OutlinedTextFieldBackground(
     color: Color,
     content: @Composable () -> Unit
 ) {
-    // This box just wraps the background and the OutlinedTextField
     Box {
-        // This box works as background
         Box(
             modifier = Modifier
                 .matchParentSize()
-                .padding(top = 8.dp) // adding some space to the label
+                .padding(top = 8.dp)
                 .background(
                     color,
-                    // rounded corner to match with the OutlinedTextField
                     shape = RoundedCornerShape(22.dp)
                 )
         )
-        // OutlineTextField will be the content...
         content()
     }
 }

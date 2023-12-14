@@ -13,9 +13,12 @@
     <string name="go_to_login">Sudah mempunyai Akun?</string>
     <string name="go_to_register">Belum mempunyai Akun?</string>
     <string name="login">Login</string>
+    <string name="login_now">Login Sekarang</string>
+    <string name="register_success">Berhasil Mendaftar</string>
     <string name="guest">Login Sebagai Tamu</string>
     <string name="forgot_your_password">Lupa Password?</string>
     <string name="user_id">ID user</string>
+    <string name="username_password_null">Username dan Password wajib diisi</string>
 
     <!--    Product Category -->
     <string name="category_all">Semua</string>

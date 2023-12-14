@@ -14,7 +14,10 @@ data class DetailResponse(
     val error: Boolean,
 
     @field:SerializedName("status")
-    val status: String
+    val status: String,
+
+    @field:SerializedName("message")
+    val message: String
 )
 
 data class Data(
@@ -41,7 +44,7 @@ data class ProductItem(
     val price: Int,
 
     @field:SerializedName("impact")
-    val impacts: List<ImpactItem>,
+    val impacts: List<ImpactItem?>,
 
     @field:SerializedName("name")
     val name: String,

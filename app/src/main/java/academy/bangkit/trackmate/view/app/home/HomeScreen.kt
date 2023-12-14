@@ -1,6 +1,7 @@
 package academy.bangkit.trackmate.view.app.home
 
 import academy.bangkit.trackmate.R
+import academy.bangkit.trackmate.data.remote.response.ProductItem
 import academy.bangkit.trackmate.data.remote.response.ProductsResponse
 import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
@@ -26,6 +27,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
@@ -68,7 +70,7 @@ fun HomeScreen(
 
         val productId = uri.lastPathSegment
         if (!productId.isNullOrEmpty()) {
-            navController.navigate(Screen.App.Detail.createRoute(productId)){
+            navController.navigate(Screen.App.Detail.createRoute(productId)) {
                 popUpTo(Screen.App.route)
             }
         }
@@ -195,62 +197,69 @@ fun HomeScreen(
                         if (products.size >= 10) {
                             itemMoreThan9 = true
                         }
-                        LazyVerticalGrid(
-                            state = listState,
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(top = 8.dp),
-                            columns = GridCells.Adaptive(150.dp),
-//                            contentPadding = PaddingValues(bottom = 100.dp)
-                        ) {
-                            items(products) { product ->
-                                Card(
-                                    modifier = Modifier
-                                        .height(200.dp)
-                                        .padding(4.dp)
-                                        .clickable {
-                                            Log.d("Click", "Item ${product.id} ")
-                                            navController.navigate(
-                                                Screen.App.Detail.createRoute(
-                                                    product.id
-                                                )
-                                            )
-                                        }
-                                ) {
-                                    AsyncImage(
-                                        contentScale = ContentScale.Crop,
-                                        model = product.images[0],
-                                        contentDescription = "Translated description of what the image contains",
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(130.dp)
-                                            .background(Color.DarkGray)
-                                    )
-                                    Column {
-                                        Text(
-                                            text = product.name,
-                                            fontWeight = FontWeight.ExtraBold,
-                                            fontSize = 16.sp,
-                                            maxLines = 1,
-                                            overflow = TextOverflow.Ellipsis,
-                                            modifier = Modifier.padding(
-                                                horizontal = 8.dp,
-                                                vertical = 2.dp
-                                            )
-                                        )
-                                        Text(
-                                            text = formatToRupiah(product.price),
-                                            modifier = Modifier.padding(horizontal = 8.dp)
-                                        )
-                                    }
-                                }
-                            }
-                        }
+                        ShowProducts(listState, products, navController)
                     }
                 } else {
                     ErrorScreen(
                         message = productsResponse.message,
                         action = { reloadData(searchKeyword, viewModel, title, context) }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ShowProducts(
+    listState: LazyGridState,
+    products: List<ProductItem>,
+    navController: NavController
+) {
+    LazyVerticalGrid(
+        state = listState,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 8.dp),
+        columns = GridCells.Adaptive(150.dp)
+    ) {
+        items(products) { product ->
+            Card(
+                modifier = Modifier
+                    .height(200.dp)
+                    .padding(4.dp)
+                    .clickable {
+                        navController.navigate(
+                            Screen.App.Detail.createRoute(
+                                product.id
+                            )
+                        )
+                    }
+            ) {
+                AsyncImage(
+                    contentScale = ContentScale.Crop,
+                    model = product.images[0],
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(130.dp)
+                        .background(Color.DarkGray)
+                )
+                Column {
+                    Text(
+                        text = product.name,
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 16.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.padding(
+                            horizontal = 8.dp,
+                            vertical = 2.dp
+                        )
+                    )
+                    Text(
+                        text = if (product.price == 0) "-" else formatToRupiah(product.price),
+                        modifier = Modifier.padding(horizontal = 8.dp)
                     )
                 }
             }
@@ -287,9 +296,9 @@ private fun reloadData(
     }
 }
 
-@Preview
+@Preview(showBackground = true, heightDp = 270)
 @Composable
-fun HomeScreenPreview() {
+fun SearchAndFilterPrev() {
     TrackMateTheme {
         Surface {
             val viewModel = viewModel<HomeViewModel>(factory = Factory())
