@@ -129,8 +129,7 @@ fun ReviewItemCard(review: ReviewItem) {
                 onClick = { /* No action */ },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp)
-                , shape = RoundedCornerShape(15)
+                    .padding(8.dp), shape = RoundedCornerShape(15)
             ) {
                 Text(
                     text = "Lihat Produk",

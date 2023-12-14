@@ -81,7 +81,7 @@ interface ApiService {
     @PUT("users")
     suspend fun editProfile(
         @Body request: EditProfileRequest
-    ): EditProfileResponse
+    ): Response<EditProfileResponse>
 
     @Multipart
     @POST("upload/images")

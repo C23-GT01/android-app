@@ -16,7 +16,6 @@ import academy.bangkit.trackmate.data.remote.response.RenewTokenResponse
 import academy.bangkit.trackmate.data.remote.response.UserAccountResponse
 import academy.bangkit.trackmate.data.remote.retrofit.ApiConfig
 import academy.bangkit.trackmate.view.parseErrorMessage
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -106,8 +105,7 @@ class UserRepository private constructor(
     }
 
     suspend fun editProfile(accessToken: String, request: EditProfileRequest): EditProfileResponse {
-        Log.d("EditProfil", "Repository hitted")
-        return ApiConfig.getApiService(accessToken).editProfile(request)
+        return handleApiRequest { ApiConfig.getApiService(accessToken).editProfile(request) }
     }
 
     suspend fun uploadImage(accessToken: String, file: MultipartBody.Part): ImageUploadResponse {

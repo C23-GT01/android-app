@@ -20,5 +20,5 @@ val Brown = Color(0xFF886345)
 val SecondaryBrown = Color(0xFFC5A489)
 
 //ButtonColor
-val ButtonPrimary = ButtonColors(Brown, SecondaryBrown, Color.Gray, Color.DarkGray)
+val ButtonPrimary = ButtonColors(Brown, Color.White, Color.Gray, Color.DarkGray)
 val ButtonWarning = ButtonColors(Color.Red, Color.White, Color.DarkGray, Color.White)

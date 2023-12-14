@@ -5,13 +5,13 @@ import academy.bangkit.trackmate.data.remote.response.EditProfileResponse
 import academy.bangkit.trackmate.data.remote.response.ImageUploadResponse
 import academy.bangkit.trackmate.data.remote.response.UserAccountResponse
 import academy.bangkit.trackmate.data.repository.UserRepository
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
+import java.net.UnknownHostException
 
 class UserAccountViewModel(private val repository: UserRepository) : ViewModel() {
 
@@ -21,11 +21,14 @@ class UserAccountViewModel(private val repository: UserRepository) : ViewModel()
     private val _userEdit = MutableLiveData<EditProfileResponse>()
     val userEdit: LiveData<EditProfileResponse> = _userEdit
 
-    private val _newProfilePicture = MutableLiveData<ImageUploadResponse>()
-    val newProfilePicture: LiveData<ImageUploadResponse> = _newProfilePicture
+    private val _newProfilePicture = MutableLiveData<ImageUploadResponse?>()
+    val newProfilePicture: LiveData<ImageUploadResponse?> = _newProfilePicture
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
+
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> get() = _errorMessage
 
     fun logout() {
         viewModelScope.launch {
@@ -55,7 +58,7 @@ class UserAccountViewModel(private val repository: UserRepository) : ViewModel()
                 val accessToken = repository.getAccessToken()
                 _user.value = repository.getUserProfile(accessToken)
             } catch (e: Exception) {
-                if (e.message == "Token maximum age exceeded") {
+                if (e.message == "Token maximum age exceeded") { //Renew Access Token
                     val refreshToken = repository.getRefreshToken()
                     val renew = repository.renewAccessToken(refreshToken)
                     if (!renew.error && renew.data != null) {
@@ -63,7 +66,7 @@ class UserAccountViewModel(private val repository: UserRepository) : ViewModel()
                         repository.saveNewAccessToken(newAccessToken)
                         _user.value = repository.getUserProfile(newAccessToken)
                     } else {
-                        Log.d("Gagal", "Gagal Update Token LOGOUT AJALAH")
+                        //Gagal Update Token LOGOUT!!
                         repository.clearUserData()
                     }
                 } else {
@@ -80,13 +83,11 @@ class UserAccountViewModel(private val repository: UserRepository) : ViewModel()
             _isLoading.value = true
             try {
                 val accessToken = repository.getAccessToken()
-                val editProfile = repository.editProfile(
-                    accessToken,
-                    profile
-                )
+                val editProfile = repository.editProfile(accessToken, profile)
                 _userEdit.value = editProfile
+                _errorMessage.value = ""
             } catch (e: Exception) {
-                Log.d("Gagal", "Edit Profile")
+                _errorMessage.value = e.message ?: "Terjadi masalah"
             } finally {
                 _isLoading.value = false
             }
@@ -100,7 +101,12 @@ class UserAccountViewModel(private val repository: UserRepository) : ViewModel()
                 val accessToken = repository.getAccessToken()
                 val response = repository.uploadImage(accessToken, file)
                 _newProfilePicture.value = response
+                _errorMessage.value = ""
+            } catch (e: UnknownHostException) {
+                _errorMessage.value = "Terjadi masalah dengan koneksi jaringan"
+                _newProfilePicture.value = ImageUploadResponse(null, true, "fail")
             } catch (e: Exception) {
+                _errorMessage.value = e.message ?: "Terjadi masalah"
                 _newProfilePicture.value = ImageUploadResponse(null, true, "fail")
             } finally {
                 _isLoading.value = false
@@ -110,5 +116,10 @@ class UserAccountViewModel(private val repository: UserRepository) : ViewModel()
 
     private fun userError(message: String): UserAccountResponse {
         return UserAccountResponse(true, null, message, "fail")
+    }
+
+    fun handleEditError(message: String) {
+        _newProfilePicture.value = null
+        _userEdit.value = EditProfileResponse(true, message, "fail")
     }
 }

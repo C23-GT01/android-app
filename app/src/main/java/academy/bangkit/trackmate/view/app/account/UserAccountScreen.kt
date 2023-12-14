@@ -194,7 +194,7 @@ private fun ShowProfile(
                             navController.navigate(Screen.Auth.route)
                         }
                     ) {
-                        Text(stringResource(id = R.string.yes), color = Color.White)
+                        Text(stringResource(id = R.string.yes))
                     }
                 },
                 dismissButton = {

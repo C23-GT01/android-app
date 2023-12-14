@@ -245,7 +245,7 @@ fun Host(
             }
 
             composable(route = Screen.App.Account.MyReview.route) {
-                MyReviewsScreen()
+                MyReviewsScreen() // still unused
             }
 
             composable(route = Screen.App.Account.EditProfile.route) {

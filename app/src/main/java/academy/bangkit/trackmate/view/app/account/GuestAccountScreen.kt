@@ -2,6 +2,7 @@ package academy.bangkit.trackmate.view.app.account
 
 import academy.bangkit.trackmate.R
 import academy.bangkit.trackmate.navigation.Screen
+import academy.bangkit.trackmate.ui.theme.ButtonPrimary
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import academy.bangkit.trackmate.view.Factory
 import academy.bangkit.trackmate.view.app.detail.component.Title
@@ -59,10 +60,13 @@ fun GuestAccountScreen(
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             Spacer(modifier = Modifier.height(20.dp))
-            Button(onClick = {
+            Button(
+                onClick = {
                 viewModel.clearLocalData()
                 navController.navigate(Screen.Auth.route)
-            }) {
+            },
+                colors = ButtonPrimary
+            ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Rounded.Logout,
                     contentDescription = stringResource(id = R.string.logout),

@@ -12,11 +12,12 @@ import academy.bangkit.trackmate.ui.theme.TrackMateTheme
 import academy.bangkit.trackmate.view.Factory
 import academy.bangkit.trackmate.view.LockScreenOrientation
 import academy.bangkit.trackmate.view.app.account.UserAccountViewModel
+import academy.bangkit.trackmate.view.auth.components.ErrorMessage
 import academy.bangkit.trackmate.view.component.LinearLoading
-import academy.bangkit.trackmate.view.showToast
 import academy.bangkit.trackmate.view.toMultipartBodyPart
 import android.content.pm.ActivityInfo
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -99,6 +100,9 @@ fun EditProfileScreen(
     var fullName by remember { mutableStateOf(user.fullName) }
     var username by remember { mutableStateOf(user.username) }
     var email by remember { mutableStateOf(user.email) }
+//    var errorMessage by remember { mutableStateOf("") }
+    val errorMessage by viewModel.errorMessage.observeAsState()
+
     var newProfilePicture: String? = null //dari backend
 
     if (newPPResponse != null && !isLoading) {
@@ -107,7 +111,7 @@ fun EditProfileScreen(
             newProfilePicture = newProfileImage.data?.fileLocation
         } else {
             selectedImage = null
-            showToast(context, stringResource(id = R.string.upload_failed))
+            viewModel.handleEditError(stringResource(R.string.upload_failed))
         }
     }
     var isDataChanged by remember { mutableStateOf(false) }
@@ -122,9 +126,10 @@ fun EditProfileScreen(
             navController.navigate(Screen.App.Account.route) {
                 popUpTo(Screen.App.Home.route)
             }
-        } else {
-            showToast(LocalContext.current, stringResource(id = R.string.failed_to_edit))
         }
+//        else {
+//            errorMessage = response.message
+//        }
     }
 
     val openImagePicker = rememberLauncherForActivityResult(
@@ -136,6 +141,8 @@ fun EditProfileScreen(
             selectedImage?.let {
                 if (multipartBody != null) {
                     viewModel.uploadImage(multipartBody)
+                } else {
+                    Log.d("Gagal","gatot")
                 }
             }
         }
@@ -195,6 +202,8 @@ fun EditProfileScreen(
                     modifier = Modifier
                         .padding(8.dp)
                         .align(Alignment.BottomEnd)
+                        .clip(CircleShape)
+                        .background(Color.White)
                         .clickable {
                             openImagePicker
                                 .launch(
@@ -208,15 +217,14 @@ fun EditProfileScreen(
                         painter = painterResource(id = R.drawable.ic_photo_camera_24), // Mengambil gambar dari drawable
                         contentDescription = null,
                         modifier = Modifier
-                            .size(50.dp)
+                            .size(40.dp)
                             .padding(8.dp)
                     )
                 }
             }
         }
 
-
-        Spacer(modifier = Modifier.height(8.dp))
+        ErrorMessage(errorMessage ?: "")
 
         OutlinedTextField(
             value = fullName,
@@ -307,12 +315,12 @@ fun EditProfileScreen(
                 Icon(
                     imageVector = Icons.Rounded.Save,
                     contentDescription = null,
-                    tint = if (isDataChanged) Color.White else Color.DarkGray
+//                    tint = if (isDataChanged) Color.White else Color.DarkGray
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
                     stringResource(id = R.string.save),
-                    color = if (isDataChanged) Color.White else Color.DarkGray
+//                    color = if (isDataChanged) Color.White else Color.DarkGray
                 )
             }
         }
