@@ -103,7 +103,7 @@ private fun ShowUMKM(
         Divider()
         if (!umkm.contact.isNullOrEmpty()) {
             val umkmContact = umkm.contact[0]
-            UmkmContact(umkmContact.email, umkmContact.phone.phoneNumber)
+            UmkmContact(umkmContact.email, umkmContact.phone)
         }
     }
 }

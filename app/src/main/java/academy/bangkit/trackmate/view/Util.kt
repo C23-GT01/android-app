@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -70,7 +71,7 @@ fun sendWhatsAppMessage(context: Context, phoneNumber: String, message: String) 
     if (installed) {
         context.startActivity(
             Intent(Intent.ACTION_VIEW)
-                .setData(Uri.parse("https://api.whatsapp.com/send?phone=$phoneNumber&text=$message"))
+                .setData(Uri.parse("https://api.whatsapp.com/send?phone=${addCountryCode(phoneNumber)}&text=$message"))
         )
     } else {
         Toast.makeText(context, "WhatsApp tidak ditemukan", Toast.LENGTH_SHORT).show()
@@ -78,13 +79,28 @@ fun sendWhatsAppMessage(context: Context, phoneNumber: String, message: String) 
 }
 
 private fun isWAInstalled(context: Context): Boolean {
-    val packageManager = context.packageManager
+    val packageName = "com.whatsapp"
     return try {
-        packageManager.getPackageInfo("com.whatsapp", PackageManager.GET_ACTIVITIES)
+        context.packageManager.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
         true
     } catch (e: PackageManager.NameNotFoundException) {
         false
     }
+}
+
+fun openDialerWithPhoneNumber(context: Context, phoneNumber: String) {
+    val dialPhoneIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
+    context.startActivity(dialPhoneIntent)
+}
+
+fun addCountryCode(phoneNumber: String): String {
+    Log.d("Nomor Awal", phoneNumber)
+    if (phoneNumber.isNotEmpty() && phoneNumber[0] == '0') {
+        val countryCode = "62"
+        Log.d("Nomor Akhir", countryCode + phoneNumber.substring(1))
+        return countryCode + phoneNumber.substring(1)
+    }
+    return phoneNumber
 }
 
 fun parseErrorMessage(errorBody: String?): String {

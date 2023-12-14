@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TrackMate</string>
 
-    <!--    todo: Auth -->
+    <!--    Auth -->
     <string name="create_account">Buat Akun</string>
     <string name="full_name">Nama Lengkap</string>
     <string name="email">Email</string>
@@ -24,11 +24,13 @@
     <string name="category_food">Makanan</string>
     <string name="category_unknown">Produk UMKM</string>
 
-    <!--    Detail Product Screen -->
+    <!--    Detail Product & UMKM Screen -->
     <string name="product_material">Bahan Baku</string>
     <string name="production_process">Proses Produksi</string>
     <string name="product_impact">Impact Produk</string>
     <string name="product_impact_overview">Dengan membeli produk ini Anda telah mendukung…</string>
+    <string name="contact_umkm">Hubungi kami</string>
+
 
     <!--    Screen Title -->
     <string name="screen_product_detail">Detail Produk</string>
@@ -41,7 +43,7 @@
     <string name="scanner">Scan QR Code</string>
     <string name="account">Akun</string>
 
-    <!--    todo: User Account Screen -->
+    <!--    User Account Screen -->
     <string name="logout">Logout</string>
     <string name="profile_edit">Edit Profil</string>
     <string name="my_data">Data Saya</string>
