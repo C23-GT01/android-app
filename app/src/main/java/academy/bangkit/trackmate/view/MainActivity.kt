@@ -3,6 +3,8 @@ package academy.bangkit.trackmate.view
 import academy.bangkit.trackmate.navigation.TrackMateApp
 import academy.bangkit.trackmate.navigation.TrackMateAppViewModel
 import academy.bangkit.trackmate.ui.theme.TrackMateTheme
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,6 +17,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        var uri: Uri? = null
+        if (intent.action == Intent.ACTION_VIEW) {
+            uri = intent.data
+        }
+
         setContent {
             TrackMateTheme(darkTheme = false) {
                 // A surface container using the 'background' color from the theme
@@ -23,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val viewModel = viewModel<TrackMateAppViewModel>(factory = Factory())
-                    TrackMateApp(viewModel)
+                    TrackMateApp(viewModel, uri)
                 }
             }
         }

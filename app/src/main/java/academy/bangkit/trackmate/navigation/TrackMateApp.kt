@@ -1,7 +1,10 @@
 package academy.bangkit.trackmate.navigation
 
+import academy.bangkit.trackmate.R
+import academy.bangkit.trackmate.data.remote.response.User
 import academy.bangkit.trackmate.view.Factory
 import academy.bangkit.trackmate.view.app.account.GuestAccountScreen
+import academy.bangkit.trackmate.view.app.account.UserAccount
 import academy.bangkit.trackmate.view.app.account.UserAccountScreen
 import academy.bangkit.trackmate.view.app.account.UserAccountViewModel
 import academy.bangkit.trackmate.view.app.account.menu.EditProfileScreen
@@ -19,7 +22,8 @@ import academy.bangkit.trackmate.view.auth.login.LoginScreen
 import academy.bangkit.trackmate.view.auth.login.LoginViewModel
 import academy.bangkit.trackmate.view.auth.register.RegisterScreen
 import academy.bangkit.trackmate.view.auth.register.RegisterViewModel
-import android.util.Log
+import academy.bangkit.trackmate.view.showToast
+import android.net.Uri
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -40,6 +44,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -52,27 +57,22 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import academy.bangkit.trackmate.R
-import academy.bangkit.trackmate.data.remote.response.User
-import academy.bangkit.trackmate.view.app.account.UserAccount
 
 @Composable
-fun TrackMateApp(viewModel: TrackMateAppViewModel) {
+fun TrackMateApp(viewModel: TrackMateAppViewModel, uri: Uri?) {
 
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
     viewModel.getSession().observeAsState().value?.let {
-        Log.d("Get Session", "Access Token = ${it.accessToken}")
-        Log.d("Get Session", "Refresh Token = ${it.refreshToken}")
-        Log.d("Get Session", "Is Login = ${it.isLogin}")
         if (!it.isLogin) {
-            // TODO: kalo user belom login arahkan ke authentication screen
+            if (uri != null) {
+                showToast(LocalContext.current, "Login terlebih dahulu untuk melihat produk.")
+            }
             Host(false, navController, Screen.Auth.route)
 
         } else {
-            // TODO: kalo user udah login arahkan ke aplikasi utama langsung
             Scaffold(
                 topBar = {
                     val disableTopBar = listOf(
@@ -91,7 +91,17 @@ fun TrackMateApp(viewModel: TrackMateAppViewModel) {
                 }
             ) { innerPadding ->
                 val isLoggedInAsGuest = it.refreshToken == "Guest"
-                Host(isLoggedInAsGuest, navController, Screen.App.route, innerPadding)
+                if (uri != null) {
+                    Host(
+                        isLoggedInAsGuest,
+                        navController,
+                        Screen.App.route,
+                        innerPadding,
+                        uri
+                    )
+                } else {
+                    Host(isLoggedInAsGuest, navController, Screen.App.route, innerPadding)
+                }
             }
         }
     }
@@ -183,7 +193,8 @@ fun Host(
     isLoggedInAsGuest: Boolean,
     navController: NavHostController,
     startDestination: String,
-    innerPadding: PaddingValues = PaddingValues(0.dp)
+    innerPadding: PaddingValues = PaddingValues(0.dp),
+    uri: Uri? = null
 ) {
     val factory = Factory()
     NavHost(
@@ -218,7 +229,7 @@ fun Host(
         ) {
             composable(route = Screen.App.Home.route) {
                 val viewModel = viewModel<HomeViewModel>(factory = factory)
-                HomeScreen(navController, viewModel)
+                HomeScreen(navController, viewModel, uri)
             }
 
             composable(route = Screen.App.Scanner.route) {

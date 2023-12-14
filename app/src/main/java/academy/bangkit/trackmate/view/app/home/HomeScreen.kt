@@ -15,6 +15,7 @@ import academy.bangkit.trackmate.view.component.ErrorScreen
 import academy.bangkit.trackmate.view.formatToRupiah
 import academy.bangkit.trackmate.view.isLandscape
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -60,8 +61,18 @@ import coil.compose.AsyncImage
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: HomeViewModel
+    viewModel: HomeViewModel,
+    uri: Uri? = null,
 ) {
+    if (uri != null) {
+
+        val productId = uri.lastPathSegment
+        if (!productId.isNullOrEmpty()) {
+            navController.navigate(Screen.App.Detail.createRoute(productId)){
+                popUpTo(Screen.App.route)
+            }
+        }
+    }
 
     val context = LocalContext.current
 
