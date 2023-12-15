@@ -11,6 +11,7 @@ import academy.bangkit.trackmate.data.remote.response.ImageUploadResponse
 import academy.bangkit.trackmate.data.remote.response.ProductsResponse
 import academy.bangkit.trackmate.data.remote.response.LoginResponse
 import academy.bangkit.trackmate.data.remote.response.LogoutResponse
+import academy.bangkit.trackmate.data.remote.response.RecommendationResponse
 import academy.bangkit.trackmate.data.remote.response.RegisterResponse
 import academy.bangkit.trackmate.data.remote.response.UMKMResponse
 import academy.bangkit.trackmate.data.remote.response.RenewTokenResponse
@@ -88,4 +89,7 @@ interface ApiService {
     suspend fun uploadImages(
         @Part file: MultipartBody.Part,
     ): ImageUploadResponse
+
+    @GET("recomendation")
+    suspend fun getProductsRecommendation(): RecommendationResponse
 }

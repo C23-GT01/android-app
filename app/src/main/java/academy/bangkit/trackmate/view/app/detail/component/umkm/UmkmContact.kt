@@ -50,7 +50,7 @@ fun UmkmContact(email: String, phone: Phone) {
         ) {
             Icon(
                 imageVector = Icons.Rounded.Call,
-                contentDescription = "Phone Icon",
+                contentDescription = null,
                 modifier = Modifier.size(20.dp),
                 tint = Color.Black
             )
@@ -79,7 +79,7 @@ fun UmkmContact(email: String, phone: Phone) {
         ) {
             Icon(
                 imageVector = Icons.Rounded.Email,
-                contentDescription = "Email Icon",
+                contentDescription = stringResource(id = R.string.email),
                 modifier = Modifier.size(20.dp),
                 tint = Color.Black
             )

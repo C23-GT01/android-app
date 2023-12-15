@@ -1,10 +1,10 @@
 package academy.bangkit.trackmate.view.app.detail.component.umkm
 
+import academy.bangkit.trackmate.R
 import academy.bangkit.trackmate.data.remote.response.ProductItem
 import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.view.app.detail.component.Title
 import academy.bangkit.trackmate.view.formatToRupiah
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -28,6 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -67,7 +68,11 @@ fun ProductCard(product: ProductItem, modifier: Modifier = Modifier) {
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = formatToRupiah(product.price),
+                text = if (product.price == 0) {
+                    stringResource(R.string.none)
+                } else {
+                    formatToRupiah(product.price)
+                },
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -80,8 +85,8 @@ fun ProductCard(product: ProductItem, modifier: Modifier = Modifier) {
 @Composable
 fun UmkmProduct(products: List<ProductItem>? = null, navController: NavController) {
 
-    if (products != null){
-        Title(title = "Product")
+    if (products != null) {
+        Title(title = stringResource(id = R.string.products))
         LazyRow(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(10.dp)
@@ -92,7 +97,6 @@ fun UmkmProduct(products: List<ProductItem>? = null, navController: NavControlle
                     modifier = Modifier
                         .padding(end = 16.dp)
                         .clickable {
-                            Log.d("Clicked Product Card", product.id)
                             navController.navigate(Screen.App.Detail.createRoute(product.id))
                         }
                 )

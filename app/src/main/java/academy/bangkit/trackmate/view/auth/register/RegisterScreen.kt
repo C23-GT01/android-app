@@ -14,7 +14,6 @@ import academy.bangkit.trackmate.view.auth.components.PasswordTextFieldComponent
 import academy.bangkit.trackmate.view.auth.components.TextFieldComponent
 import academy.bangkit.trackmate.view.component.LinearLoading
 import android.content.pm.ActivityInfo
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -181,7 +180,5 @@ fun RegisterScreenPrev() {
 @Preview(showBackground = true)
 @Composable
 fun SuccessDialogPrev() {
-    SuccessDialog {
-        Log.d("Dialog", "Button Clicked")
-    }
+    SuccessDialog {}
 }

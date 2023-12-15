@@ -114,14 +114,14 @@ fun UmkmDetailPrev() {
     TrackMateTheme {
         Surface {
             val umkm = Umkm(
-                owner = "Owner",
-                image = "possit",
-                createdAt = "mus",
+                owner = "",
+                image = "",
+                createdAt = "2023",
                 impact = listOf(),
                 contact = listOf(),
-                name = "Evan Atkins",
-                logo = "appareat",
-                description = "porro",
+                name = "Nama UMKM",
+                logo = "",
+                description = "Deskripsi UMKM",
                 location = Location(
                     lng = 4.5,
                     lat = 6.7,
@@ -129,10 +129,10 @@ fun UmkmDetailPrev() {
                 ),
                 id = "tritani",
                 history = History(
-                    image = "adhuc",
-                    text = "iriure"
+                    image = "",
+                    text = "Deskripsi Sejarah"
                 ),
-                updatedAt = "et"
+                updatedAt = "2023"
             )
             ShowUMKM(umkm, listOf(), rememberNavController())
         }

@@ -1,5 +1,6 @@
 package academy.bangkit.trackmate.view.app.detail.product
 
+import academy.bangkit.trackmate.R
 import academy.bangkit.trackmate.data.remote.response.DetailResponse
 import academy.bangkit.trackmate.data.remote.response.ImpactItem
 import academy.bangkit.trackmate.data.remote.response.Location
@@ -28,6 +29,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -72,8 +74,12 @@ private fun ShowProduct(product: ProductItem, navController: NavController) {
             ProductImageAndOverview(
                 title = product.name,
                 imageUrl = product.images[0],
-                price = formatToRupiah(product.price),
-                productOverview = product.description
+                productOverview = product.description,
+                price = if (product.price == 0) {
+                    stringResource(R.string.none)
+                } else {
+                    formatToRupiah(product.price)
+                }
             )
             if (product.resources.isNotEmpty()) {
                 ProductMaterialDetail(product.resources)

@@ -130,7 +130,7 @@ private fun TopBar(navController: NavHostController) {
             IconButton(onClick = { navController.navigateUp() }) {
                 Icon(
                     imageVector = Icons.Rounded.ArrowBackIosNew,
-                    contentDescription = ""
+                    contentDescription = stringResource(id = R.string.arrow_back)
                 )
             }
         }

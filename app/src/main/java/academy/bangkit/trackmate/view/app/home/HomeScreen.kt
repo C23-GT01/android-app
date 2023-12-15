@@ -49,6 +49,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -84,6 +85,7 @@ fun HomeScreen(
 
     val savedResponse = savedState?.getLiveData<ProductsResponse>("response")
     val response by viewModel.products.observeAsState(savedResponse)
+    val recommendation by viewModel.productsRecommendation.observeAsState()
 
     val isLoading by viewModel.isLoading.observeAsState(initial = false)
 
@@ -126,6 +128,9 @@ fun HomeScreen(
         AnimatedVisibility(visible = !isFirstItemVisible) {
             Column {
                 Banner(
+                    navController = navController,
+                    recommendation = recommendation,
+                    getRecommendation = { viewModel.getAllRecommendation() },
                     imageVisible = !landscape,
                     onSearch = {
                         viewModel.getAllProducts(keyword = it)
@@ -258,7 +263,11 @@ private fun ShowProducts(
                         )
                     )
                     Text(
-                        text = if (product.price == 0) "-" else formatToRupiah(product.price),
+                        text = if (product.price == 0) {
+                            stringResource(R.string.none)
+                        } else {
+                            formatToRupiah(product.price)
+                        },
                         modifier = Modifier.padding(horizontal = 8.dp)
                     )
                 }

@@ -31,9 +31,11 @@
     <string name="product_material">Bahan Baku</string>
     <string name="production_process">Proses Produksi</string>
     <string name="product_impact">Impact Produk</string>
+    <string name="umkm_impact">Impact UMKM</string>
     <string name="product_impact_overview">Dengan membeli produk ini Anda telah mendukung…</string>
     <string name="contact_umkm">Hubungi kami</string>
-
+    <string name="history_umkm">Sejarah</string>
+    <string name="products">Produk</string>
 
     <!--    Screen Title -->
     <string name="screen_product_detail">Detail Produk</string>
@@ -58,7 +60,6 @@
     <string name="failed_to_edit">Gagal mengedit profil</string>
     <string name="upload_failed">Gagal upload image</string>
 
-
     <!--    If Login as Guest Account -->
     <string name="guest_account">Anda login sebagai Guest</string>
     <string name="guest_account_message">Buat akun dan login untuk mendapatkan lebih banyak fitur di aplikasi TrackMate</string>
@@ -70,6 +71,9 @@
     <string name="scan_canceled">Scan dibatalkan</string>
     <string name="unknown_error">Terjadi Kesalahan</string>
     <string name="error_message">Error: %1$s</string>
+    <string name="arrow_back">Kembali</string>
+    <string name="none">-</string>
+    <string name="product_recommended">Rekomendasi untuk Anda 🔥</string>
 
     <!--    Product Impact Overview -->
     <string name="minimalisasi_jejak_carbon">Minimalisasi Jejak Karbon</string>

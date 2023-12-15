@@ -2,6 +2,7 @@ package academy.bangkit.trackmate.data.repository
 
 import academy.bangkit.trackmate.data.remote.response.DetailResponse
 import academy.bangkit.trackmate.data.remote.response.ProductsResponse
+import academy.bangkit.trackmate.data.remote.response.RecommendationResponse
 import academy.bangkit.trackmate.data.remote.retrofit.ApiConfig
 
 class ProductRepository {
@@ -17,5 +18,9 @@ class ProductRepository {
         } else {
             ApiConfig.getApiService().getAllProducts()
         }
+    }
+
+    suspend fun getProductsRecommendation(): RecommendationResponse {
+        return ApiConfig.getApiService().getProductsRecommendation()
     }
 }
