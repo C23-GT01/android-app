@@ -3,6 +3,7 @@ package academy.bangkit.trackmate.view.app.scanner
 import academy.bangkit.trackmate.R
 import academy.bangkit.trackmate.navigation.Screen
 import academy.bangkit.trackmate.view.showToast
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -30,13 +31,21 @@ fun ScannerScreen(navController: NavController) {
 
     LaunchedEffect(qrCodeToString) {
         if (qrCodeToString != null) {
-
-            // TODO: sebelum navigasi ke detail screen lakukan validasi
-
-            navController.navigate(Screen.App.Detail.createRoute(qrCodeToString as String)) {
-                popUpTo(Screen.App.Scanner.route) {
-                    inclusive = true
+            try {
+                val webUrl = qrCodeToString as String
+                val prefix = "web-app-five-beta.vercel.app/product/"
+                if (webUrl.startsWith(prefix)) {
+                    val productId = webUrl.removePrefix(prefix)
+                    navController.navigate(Screen.App.Detail.createRoute(productId)) {
+                        popUpTo(Screen.App.Scanner.route) {
+                            inclusive = true
+                        }
+                    }
+                } else {
+                    scannerError(context, navController)
                 }
+            } catch (e: Exception) {
+                scannerError(context, navController)
             }
         } else {
             val options = GmsBarcodeScannerOptions.Builder()
@@ -71,4 +80,12 @@ fun ScannerScreen(navController: NavController) {
                 }
         }
     }
+}
+
+private fun scannerError(
+    context: Context,
+    navController: NavController
+) {
+    showToast(context, "QR code tidak diketahui")
+    navController.navigateUp()
 }

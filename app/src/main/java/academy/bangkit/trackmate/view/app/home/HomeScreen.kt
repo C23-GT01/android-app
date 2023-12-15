@@ -133,9 +133,11 @@ fun HomeScreen(
                     getRecommendation = { viewModel.getAllRecommendation() },
                     imageVisible = !landscape,
                     onSearch = {
-                        viewModel.getAllProducts(keyword = it)
-                        title = "Hasil pencarian: \"$it\""
-                        searchKeyword = it
+                        if (it.isNotEmpty()) {
+                            viewModel.getAllProducts(keyword = it)
+                            title = "Hasil pencarian: \"$it\""
+                            searchKeyword = it
+                        }
                     },
                     onClickScanner = { navController.navigate(Screen.App.Scanner.route) }
                 )
