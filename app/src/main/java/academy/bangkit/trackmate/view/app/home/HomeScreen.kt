@@ -117,7 +117,7 @@ fun HomeScreen(
 
     Column {
         val listState = rememberLazyGridState()
-        var itemMoreThan9 by mutableStateOf(false)
+        var itemMoreThan9 by remember { mutableStateOf(false) }
 
         val isFirstItemVisible by remember {
             derivedStateOf {
@@ -238,7 +238,7 @@ private fun ShowProducts(
                     .clickable {
                         navController.navigate(
                             Screen.App.Detail.createRoute(
-                                product.id
+                                product.slug
                             )
                         )
                     }

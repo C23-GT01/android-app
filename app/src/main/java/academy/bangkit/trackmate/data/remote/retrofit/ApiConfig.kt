@@ -3,6 +3,7 @@ package academy.bangkit.trackmate.data.remote.retrofit
 import academy.bangkit.trackmate.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -10,7 +11,7 @@ class ApiConfig {
     companion object {
         fun getApiService(token: String? = null): ApiService {
 
-            // val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+             val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
             val authInterceptor = Interceptor { chain ->
                 val req = chain.request()
@@ -24,7 +25,7 @@ class ApiConfig {
                 chain.proceed(requestHeaders)
             }
             val client = OkHttpClient.Builder()
-                //.addInterceptor(loggingInterceptor)
+                .addInterceptor(loggingInterceptor)
                 .addInterceptor(authInterceptor)
                 .build()
             val retrofit = Retrofit.Builder()

@@ -28,12 +28,12 @@ import retrofit2.http.Part
 import retrofit2.http.Path
 
 interface ApiService {
-    @GET("products/{productId}")
+    @GET("product/{productId}")
     suspend fun getDetailProduct(
         @Path("productId") detail: String,
     ): DetailResponse
 
-    @GET("products")
+    @GET("product")
     suspend fun getAllProducts(): ProductsResponse
 
     @GET("products/category/{categoryId}")

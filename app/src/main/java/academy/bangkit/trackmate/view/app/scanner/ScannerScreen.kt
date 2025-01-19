@@ -33,7 +33,7 @@ fun ScannerScreen(navController: NavController) {
         if (qrCodeToString != null) {
             try {
                 val webUrl = qrCodeToString as String
-                val prefix = "web-app-five-beta.vercel.app/product/"
+                val prefix = "https://sidukas.vercel.app/product/"
                 if (webUrl.startsWith(prefix)) {
                     val productId = webUrl.removePrefix(prefix)
                     navController.navigate(Screen.App.Detail.createRoute(productId)) {

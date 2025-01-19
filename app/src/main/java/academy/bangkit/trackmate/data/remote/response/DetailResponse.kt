@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 data class DetailResponse(
 
     @field:SerializedName("data")
-    val data: Data?,
+    val data: ProductItem?,
 
     @field:SerializedName("error")
     val error: Boolean,
@@ -20,63 +20,61 @@ data class DetailResponse(
     val message: String
 )
 
-data class Data(
-
-    @field:SerializedName("product")
-    val product: ProductItem
-)
-
 data class ProductItem(
-
     @field:SerializedName("id")
     val id: String,
 
-    @field:SerializedName("image")
+    @field:SerializedName("slug")
+    val slug: String,
+
+    @field:SerializedName("images")
     val images: List<String>,
 
-    @field:SerializedName("contribution")
-    val contributions: List<Byte>,
-
-    @field:SerializedName("production")
-    val productions: List<ProductionItem>,
+    @field:SerializedName("name")
+    val name: String,
 
     @field:SerializedName("price")
     val price: Int,
 
-    @field:SerializedName("impact")
-    val impacts: List<ImpactItem?>,
-
-    @field:SerializedName("name")
-    val name: String,
-
     @field:SerializedName("description")
     val description: String,
 
-    @field:SerializedName("resources")
-    val resources: List<ProductMaterial>,
-
     @field:SerializedName("umkm")
-    val productBy: UMKMInDetail,
+    val umkm: UMKMInDetail,
+
+    @SerializedName("production")
+    val production: List<ProductionItem>?,
+
+    @SerializedName("resource")
+    val resource: List<ProductMaterial>?,
+
+    @SerializedName("impact")
+    val impact: List<ImpactItem?>,
+
+    @SerializedName("contribution")
+    val contribution: List<Byte>,
 
     @field:SerializedName("category")
-    val category: Int
+    val category: ProductCategory,
+
+    @field:SerializedName("updatedAt")
+    val updatedAt: String
 )
 
 data class UMKMInDetail(
-
-    @field:SerializedName("id")
-    val id: String,
-
-    @field:SerializedName("logo")
-    val logo: String,
-
-    @field:SerializedName("employe")
-    val employeeCount: Int?,
-
-    @field:SerializedName("name")
+    @SerializedName("name")
     val name: String,
 
-    @field:SerializedName("location")
+    @SerializedName("slug")
+    val slug: String,
+
+    @SerializedName("logo")
+    val logo: String,
+
+    @SerializedName("employe")
+    val employe: Int,
+
+    @SerializedName("location")
     val location: Location
 )
 
@@ -137,4 +135,13 @@ data class ProductMaterial(
 
     @field:SerializedName("umkm")
     val productBy: String? = null
+)
+
+data class ProductCategory(
+
+    @field:SerializedName("name")
+    val name: String,
+
+    @field:SerializedName("slug")
+    val slug: String
 )
